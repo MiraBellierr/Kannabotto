@@ -24,7 +24,7 @@ module.exports = {
 		if (member.user.id === '275989071774351360') return message.channel.send('Seems like I can\'t ban my owner!');
 		if (member.user.id === client.user.id) return message.channel.send('Seems like I can\'t ban myself');
 		if (member.user.id === message.author.id) return message.channel.send('Seems like you can\'t ban yourself');
-		if (member.roles.highest.position > message.member.highest.position) return message.channel.send('Please make sure your role is higher than the person you want to ban.');
+		if (member.roles.highest.position > message.member.roles.highest.position) return message.channel.send('Please make sure your role is higher than the person you want to ban.');
 
 		if (!logsetting[message.guild.id]) {
 			logsetting[message.guild.id] = {
