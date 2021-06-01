@@ -1,0 +1,27 @@
+{
+	"junk": {
+		"symbol": "junk 🦴",
+		"max": 5,
+		"min": 1
+	},
+	"common": {
+		"symbol": "tuna <:tuna2:844204159317835816>",
+		"max": 25,
+		"min": 10
+	},
+	"uncommon": {
+		"symbol": "goldfish <:goldfish2:844204195678388285>",
+		"max": 50,
+		"min": 18
+	},
+	"rare": {
+		"symbol": "squid 🦑",
+		"max": 75,
+		"min": 30
+	}, 
+  "legendary": {
+    "symbol": "whale 🐋", 
+    "max": 100,
+    "min": 50
+  } 
+}

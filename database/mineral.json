@@ -1,0 +1,27 @@
+{
+	"iron": {
+		"symbol": "iron <:iron:845597360532357120>",
+		"max": 5,
+		"min": 1
+	},
+	"copper": {
+		"symbol": "copper <:copper:845602173748248617>",
+		"max": 25,
+		"min": 10
+	},
+	"gold": {
+		"symbol": "gold <:gold:845601566568480778>",
+		"max": 50,
+		"min": 18
+	},
+	"bauxite": {
+		"symbol": "bauxite <:bauxite:845605148797435904>",
+		"max": 75,
+		"min": 30
+	}, 
+  	"manganese": {
+    	"symbol": "manganese <:manganese:845606216377827338>", 
+    	"max": 100,
+    	"min": 50
+   	} 
+}
