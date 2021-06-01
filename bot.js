@@ -17,7 +17,7 @@ const PrivilegedIntents = {
 	GUILD_MEMBERS: 'GUILD_MEMBERS',
 };
 const client = new Client({
-	disableEveryone: true,
+	disableMentions: 'everyone',
 	ws: {
 		intents: [
 			'GUILDS',

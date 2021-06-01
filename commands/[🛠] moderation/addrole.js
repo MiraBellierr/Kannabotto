@@ -17,11 +17,11 @@ module.exports = {
 		if (!rMember) return message.channel.send('The user can\'t be found.');
 
 		const role = args.slice(1).join(' ');
-		if(!role) return message.channel.send('Please specify a role!');
+		if (!role) return message.channel.send('Please specify a role!');
 		const gRole = message.guild.roles.cache.get(role) || message.mentions.roles.first() || message.guild.roles.cache.find(r => r.name.toLowerCase().includes(role));
-		if(!gRole) return message.channel.send('Couldn\'t find that role.');
+		if (!gRole) return message.channel.send('Couldn\'t find that role.');
 
-		if(rMember.roles.cache.has(gRole.id)) return message.channel.send('This user already have that role.');
+		if (rMember.roles.cache.has(gRole.id)) return message.channel.send('This user already have that role.');
 		await (rMember.roles.add(gRole.id));
 
 		await message.channel.send(`Successfully gave **${rMember.user.username}** the **${gRole.name}** role!`);

@@ -18,14 +18,6 @@ module.exports = {
 		if (!message.member.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('Sorry, you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
 		if (!message.guild.me.hasPermission('MANAGE_ROLES', { checkAdmin: true, checkOwner: true })) return message.channel.send('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
 
-		if(!logsetting[message.guild.id]) {
-			logsetting[message.guild.id] = {
-				checker: 1,
-			};
-		}
-		if(!log[message.guild.id]) return;
-		const values = logsetting[message.guild.id].checker;
-
 		const tomute = getMember(message, args[0]);
 
 		if (!tomute) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
@@ -33,7 +25,16 @@ module.exports = {
 		if (tomute.user.id === message.author.id) return message.channel.send('You can\'t mute yourself!');
 		let muterole = message.guild.roles.cache.find(r => r.name === 'muted');
 
-		if(!muterole) {
+		if (!logsetting[message.guild.id]) {
+			logsetting[message.guild.id] = {
+				checker: 1,
+			};
+		}
+		if (!log[message.guild.id]) return;
+		const values = logsetting[message.guild.id].checker;
+
+
+		if (!muterole) {
 			try{
 				muterole = await message.guild.roles.create({
 					data: {
@@ -55,14 +56,14 @@ module.exports = {
 		}
 
 		const mutetime = args[1];
-		if(!args[1]) return message.channel.send('You didn\'t specify a duration!');
+		if (!args[1]) return message.channel.send('You didn\'t specify a duration!');
 		const splitArgs = mutetime.split('');
 		if (isNaN(splitArgs[0])) return message.channel.send('please specify the correct duration. For example, 10m, 1h');
 
 
 		const reason = args.slice(2).join(' ');
 		let res;
-		if(!reason) {
+		if (!reason) {
 			res = 'No reason given';
 		}
 		else {
@@ -88,9 +89,9 @@ module.exports = {
 		setTimeout(function() {
 			tomute.roles.remove(muterole.id);
 
-			if(values === undefined) return;
-			if(values === 0) return;
-			if(values === 1) {
+			if (values === undefined) return;
+			if (values === 0) return;
+			if (values === 1) {
 				if (!log) return;
 
 				const logChannel = message.guild.channels.cache.get(`${log[message.guild.id].channel}`);
@@ -111,9 +112,9 @@ module.exports = {
 			}
 		}, timeOut);
 
-		if(values === undefined) return;
-		if(values === 0) return;
-		if(values === 1) {
+		if (values === undefined) return;
+		if (values === 0) return;
+		if (values === 1) {
 			if (!log) return;
 
 			const logChannel = message.guild.channels.cache.get(`${log[message.guild.id].channel}`);

@@ -158,7 +158,7 @@ module.exports = {
 					giveawayEnded: '🎉 **GIVEAWAY ENDED** 🎉',
 					timeRemaining: 'Time remaining: **{duration}**!',
 					inviteToParticipate: 'React with 🎉 to participate!',
-					winMessage: 'Congratulations, {winners}! You won 🎉 `{prize}`! 🎉',
+					winMessage: 'Congratulations, {winners}! You won 🎉 {prize}! 🎉',
 					embedFooter: 'Giveaways',
 					noWinner: 'Giveaway cancelled, no valid participations.',
 					hostedBy: 'Hosted by: {user}',

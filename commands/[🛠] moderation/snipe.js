@@ -7,7 +7,7 @@ module.exports = {
 	category: '[🛠] moderation',
 	example: `${bot_prefix}snipe`,
 	run: (client, message, args) => {
-
+		if (!message.member.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) return message.channel.send('You don\'t have a `MANAGE_MESSAGES` permission to use this command');
 
 		String.prototype.embedify = function() {
 			return new Discord.MessageEmbed().setColor('RANDOM').setDescription(this);
@@ -15,9 +15,9 @@ module.exports = {
 
 		const snipe = client.snipeMap.get(message.channel.id);
 
-		if(!snipe) return message.channel.send('There\'s nothing to snipe!');
+		if (!snipe) return message.channel.send('There\'s nothing to snipe!');
 
-		if(args[0] == 'image') {
+		if (args[0] == 'image') {
 			if(!args[1]) return message.channel.send('Please provide a message to retrieve the image from!'.embedify());
 			const image = snipe[args[1] - 1];
 			if(!image[1]) return message.channel.send('That message does not have an attached (deleted) image!'.embedify());

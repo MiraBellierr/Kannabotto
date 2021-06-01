@@ -14,14 +14,6 @@ module.exports = {
 		if (!message.guild.me.hasPermission('BAN_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('i don\'t have ban permission for me to unban this user').then(m => m.delete({ timeout: 5000 }));
 		if (!message.member.permissions.has('BAN_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('You don\'t have ban permission to use this command.').then(m => m.delete({ timeout: 5000 }));
 
-		if(!logsetting[message.guild.id]) {
-			logsetting[message.guild.id] = {
-				checker: 1,
-			};
-		}
-		if(!log[message.guild.id]) return;
-		const values = logsetting[message.guild.id].checker;
-
 		const unbanned = message.mentions.users.first() || client.users.cache.get(args[0]);
 		const reason = args.slice(1).join(' ');
 
@@ -35,9 +27,17 @@ module.exports = {
 
 		if (!ban.get(member.id)) return message.channel.send('This user is not banned.');
 
+		if (!logsetting[message.guild.id]) {
+			logsetting[message.guild.id] = {
+				checker: 1,
+			};
+		}
+		if (!log[message.guild.id]) return;
+		const values = logsetting[message.guild.id].checker;
+
 
 		let res;
-		if(!reason) {
+		if (!reason) {
 			res = 'No reason given';
 		}
 		else {
@@ -47,9 +47,9 @@ module.exports = {
 		message.guild.members.unban(member);
 		message.channel.send(`**${member.tag}** has been unbanned by **${message.author.username}** for a reason **${res}**`);
 
-		if(values === undefined) return;
-		if(values === 0) return;
-		if(values === 1) {
+		if (values === undefined) return;
+		if (values === 0) return;
+		if (values === 1) {
 			if (!log) return;
 
 			const logChannel = message.guild.channels.cache.get(`${log[message.guild.id].channel}`);
