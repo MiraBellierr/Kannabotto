@@ -32,7 +32,6 @@ module.exports = {
 				checker: 1,
 			};
 		}
-		if (!log[message.guild.id]) return;
 		const values = logsetting[message.guild.id].checker;
 
 
@@ -51,7 +50,7 @@ module.exports = {
 		if (values === 0) return;
 		if (values === 1) {
 			if (!log) return;
-
+			if (!log[message.guild.id]) return;
 			const logChannel = message.guild.channels.cache.get(`${log[message.guild.id].channel}`);
 			if(!logChannel) return;
 
