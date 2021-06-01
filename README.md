@@ -1,10 +1,9 @@
-__**Jasmine**__
+﻿<img width="120" height="120" align="left" style="float: left; margin: 0 10px 0 0;" alt="Meo" src="https://www.jasminebot.xyz/favicon.jpg">
 
-◈𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 ◈◈𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 ◈◈𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 ◈
-
+## __**Jasmine**__
 Jasmine is a Discord bot written in Javascript developed by Mirabellier just for fun. Containing over 100+ commands from different categories.
 
-◈𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 ◈◈𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 ◈◈𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 𝅒 𝅓 ◈
+### commands
 
 **⭒ :sparkles: utility**: `giveaways`, `urban`, `weather`, `youtube` and more..
 
@@ -36,7 +35,7 @@ Jasmine is a Discord bot written in Javascript developed by Mirabellier just for
 
 **Note:** To enable boss spawn, do `J.redirect <#channel>`
 
-◦◦,\`°.✽✦✽.◦.✽✦✽.°\`,◦◦
+### Links
 
 **[My Server](https://discord.gg/s875Hry)**
 
@@ -46,4 +45,4 @@ Jasmine is a Discord bot written in Javascript developed by Mirabellier just for
 
 **[Donation](https://www.patreon.com/jasminebot)**
 
-◦◦,\`°.✽✦✽.◦.✽✦✽.°\`,◦◦
+
