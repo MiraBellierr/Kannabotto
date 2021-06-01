@@ -1,0 +1,62 @@
+const images = require('../../database/images.json');
+const { bot_prefix } = require('../../config.json');
+const prefixes = require('../../database/prefix.json');
+const Discord = require('discord.js');
+const { PaginateContent } = require('../../Pagination');
+const Models = require('../../create-model.js');
+
+module.exports = {
+	name: 'images',
+	aliases: ['image'],
+	description: 'Shows your image collection',
+	category: '[👹] rpg',
+	example: `${bot_prefix}images`,
+	run: async (client, message) => {
+		const user = message.author.id;
+
+		const Player = Models.Player();
+
+		const player = await Player.findOne({ where: { userId: user } });
+
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!player) return message.channel.send(result);
+		if (!images[message.author.id]) {
+			images[message.author.id] = [
+				{
+					name: 'Default',
+					image: player.get('image'),
+					count: 1,
+				},
+			];
+		}
+		const pages = [];
+		for (let i = 0; i < images[message.author.id].length; i++) {
+			if (player.get('image') === images[message.author.id][i].image) {
+				const content = `${images[message.author.id][i].name} (**Current equipped image**)`;
+				pages.push(content);
+			}
+			else {
+				const content = images[message.author.id][i].name;
+				pages.push(content);
+			}
+		}
+		// eslint-disable-next-line prefer-const
+		let k, j, temparray, chunk = 10, page = [];
+		for (k = 0, j = pages.length; k < j; k += chunk) {
+			temparray = pages.slice(k, k + chunk);
+			page.push(temparray);
+		}
+
+
+		const paginatePage = [];
+		for (let i = 0; i < page.length; i++) {
+			const img = page[i].map((x) => `**•** ${x}`).join('\n');
+			paginatePage.push(new Discord.MessageEmbed().setAuthor('Your image collection', message.author.displayAvatarURL({ dynamic: true })).setDescription(img).setFooter(`Pages ${i + 1}/${page.length}`));
+		}
+		const paginated = new PaginateContent.DiscordJS(client, message, paginatePage);
+		await paginated.init();
+	},
+};

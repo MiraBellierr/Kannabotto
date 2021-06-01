@@ -1,0 +1,47 @@
+const { bot_prefix } = require('../../config.json');
+
+module.exports = {
+	name: 'purge',
+	aliases: ['clear', 'nuke'],
+	category: '[🛠] moderation',
+	description: 'Clears the chat',
+	example: `${bot_prefix}purge <number of messages>`,
+	usage: '<number of messages>',
+	run: async (client, message, args) => {
+		if (message.deletable) {
+			await message.delete();
+		}
+
+		// Member doesn't have permissions
+		if (!message.member.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
+			return message.reply('You don\'t have `MANAGE_MASSAGES` permission').then(m => m.delete({ timeout: 5000 }));
+		}
+
+		// Check if args[0] is a number
+		if (isNaN(args[0]) || parseInt(args[0]) <= 0) {
+			return message.reply('Yeah.... That\'s not a number? I also can\'t delete 0 messages btw.').then(m => m.delete({ timeout: 5000 }));
+		}
+
+		// Maybe the bot can't delete messages
+		if (!message.guild.me.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
+			return message.reply('Sorry... I can\'t delete messages. Make sure to check my `MANAGE_MESSAGES` permission').then(m => m.delete({ timeout: 5000 }));
+		}
+
+		let deleteAmount;
+
+		if (parseInt(args[0]) > 100) {
+			deleteAmount = 100;
+		}
+		else {
+			deleteAmount = parseInt(args[0]);
+		}
+
+		message.channel.bulkDelete(deleteAmount, true)
+			.then(async deleted => {
+				const m = await message.channel.send(`I deleted \`${deleted.size}\` messages.`);
+				setTimeout(function() {
+					m.delete();
+				}, 1000);
+			}).catch(err => message.reply(`Something went wrong... ${err}, Please join support server.`));
+	},
+};
