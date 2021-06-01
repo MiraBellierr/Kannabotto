@@ -19,19 +19,17 @@ module.exports = {
 		const member = getMember(message, args[0]);
 
 		if (!member) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}ban <mention | id | username> [reason]\`.`);
-		if (member.user.id === message.guild.owner.user.id) return message.channel.send('This user is the server owner.');
 		if (!member.bannable) return message.channel.send('Seems like I can\'t ban this user. Please make sure my role is higher than any members');
 		if (member.user.id === '275989071774351360') return message.channel.send('Seems like I can\'t ban my owner!');
 		if (member.user.id === client.user.id) return message.channel.send('Seems like I can\'t ban myself');
 		if (member.user.id === message.author.id) return message.channel.send('Seems like you can\'t ban yourself');
-		if (member.roles.highest.position > message.member.roles.highest.position) return message.channel.send('Please make sure your role is higher than the person you want to ban.');
+		if (member.roles.highest.position > message.member.roles.highest.position && message.guild.owner.user.id !== message.author.id) return message.channel.send('Please make sure your role is higher than the person you want to ban.');
 
 		if (!logsetting[message.guild.id]) {
 			logsetting[message.guild.id] = {
 				checker: 1,
 			};
 		}
-		if (!log[message.guild.id]) return;
 		const values = logsetting[message.guild.id].checker;
 
 
@@ -52,7 +50,7 @@ module.exports = {
 		if (values === 0) return;
 		if (values === 1) {
 			if (!log) return;
-
+			if (!log[message.guild.id]) return;
 			const logChannel = message.guild.channels.cache.get(`${log[message.guild.id].channel}`);
 			if(!logChannel) return;
 
