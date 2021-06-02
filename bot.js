@@ -70,6 +70,7 @@ const dbeu = require('discord-botlist-api');
 const dbapi = new dbeu.Client();
 const paradisebots = require('./post/paradisebots');
 const disforge = require('./post/disforge');
+const discordextremelist = require('./post/discordextremelist');
 
 dbapi.on('ready', () => {
 	console.log('[LOG] DiscordBotList stats posted!');
@@ -91,6 +92,7 @@ setInterval(function() {
 	topgg(client);
 	paradisebots(client);
 	disforge(client);
+	discordextremelist(client);
 }, 1.8e+6);
 
 const Topgg = require('@top-gg/sdk');
