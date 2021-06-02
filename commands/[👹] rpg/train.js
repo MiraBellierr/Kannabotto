@@ -65,7 +65,8 @@ module.exports = {
 
 			}
 
-			if (player.get('totalXp') < player.get('xp')) {
+			const player1 = await Player.findOne({ where: { userId: user } });
+			if (player1.get('totalXp') < player1.get('xp')) {
 				await Player.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: user } });
 				await Player.update({ level: player.get('level') + 1 }, { where: { userId: user } });
 				await Player.update({ health: player.get('health') + 1 }, { where: { userId: user } });
