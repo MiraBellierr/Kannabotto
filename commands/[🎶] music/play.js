@@ -1,8 +1,6 @@
 const { play } = require('../../include/play');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
-const count = require('../../database/voiceCount.json');
-const fs = require('fs');
 const yts = require('yt-search');
 const Discord = require('discord.js');
 
@@ -14,9 +12,6 @@ module.exports = {
 	example: `${bot_prefix}play <YouTube URL>`,
 	usage: '<YouTube URL>',
 	run: async (client, message, args) => {
-		if (!count.connect) {
-			count.connect = 0;
-		}
 		if (message.deletable) {
 			message.delete();
 		}
@@ -82,10 +77,7 @@ module.exports = {
 
 			try {
 				queueConstruct.connection = await channel.join();
-				count.connect += 1;
-				fs.writeFile('./database/voiceCount.json', JSON.stringify(count, null, 2), (err) => {
-					if (err) console.log(err);
-				});
+
 				play(queueConstruct.songs[0], message);
 				m.delete();
 			}
@@ -93,10 +85,6 @@ module.exports = {
 				console.error(`Could not join voice channel: ${error}`);
 				message.client.queue.delete(message.guild.id);
 				await channel.leave();
-				count.connect -= 1;
-				fs.writeFile('./database/voiceCount.json', JSON.stringify(count, null, 2), (err) => {
-					if (err) console.log(err);
-				});
 				return message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
 			}
 		});

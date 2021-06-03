@@ -1,21 +1,12 @@
 const ytdlDiscord = require('discord-ytdl-core');
-const count = require('../database/voiceCount.json');
-const fs = require('fs');
 const Discord = require('discord.js');
 
 module.exports = {
 	async play(song, message) {
-		if (!count.connect) {
-			count.connect = 0;
-		}
 		const queue = message.client.queue.get(message.guild.id);
 
 		if (!song) {
 			queue.channel.leave();
-			count.connect -= 1;
-			fs.writeFile('./database/voiceCount.json', JSON.stringify(count, null, 2), (err) => {
-				if (err) console.log(err);
-			});
 			message.client.queue.delete(message.guild.id);
 			return queue.textChannel.send(new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('RANDOM')).catch(console.error);
 		}

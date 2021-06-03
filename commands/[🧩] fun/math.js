@@ -13,7 +13,7 @@ module.exports = {
 
 		if (!args[0]) return message.channel.send(`**${message.author.username}**, Please enter an expressions!`);
 		const limitedEvaluate = math.evaluate;
-		math.require({
+		math.import({
 			createUnit: function() { throw new Error('Function createUnit is disabled'); },
 			parse: function() { throw new Error('Function parse is disabled'); },
 			simplify: function() { throw new Error('Function simplify is disabled'); },
