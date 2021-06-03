@@ -135,7 +135,7 @@ module.exports = {
 						});
 						if (input.first().content.toLowerCase() === phrase.toLowerCase()) {
 							await Achievement.update({ legendaryFish: achievement.get('legendaryFish') + 1 }, { where: { userId: user } });
-							await Inventory.update({ legendaryFish: achievement.get('legendaryFish') + 1 }, { where: { userId: user } });
+							await Inventory.update({ legendaryFish: inventory.get('legendaryFish') + 1 }, { where: { userId: user } });
 						}
 						else {
 							if (breakRate === 1) {

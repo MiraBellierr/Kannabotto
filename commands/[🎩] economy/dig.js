@@ -91,7 +91,7 @@ module.exports = {
 			if (inventory.get('pickaxe') === 0) return message.channel.send(`**${message.author.username}**, You don't have a **pickaxe**!`);
 
 
-			const timeOut = 40000;
+			const timeOut = 0;
 
 			const lastDig = await cooldown.get('dig');
 			if (lastDig !== null && timeOut - (Date.now() - lastDig) > 0) {
@@ -101,7 +101,7 @@ module.exports = {
 			else {
 				await Cooldown.update({ dig: Date.now() }, { where: { userId: user } });
 				if (successRate === 1) {
-					const mineralID = Math.floor(Math.random() * 10) + 1;
+					const mineralID = 11;
 					let rarity;
 					if (mineralID < 5) {
 						rarity = 'iron';
@@ -134,7 +134,7 @@ module.exports = {
 						});
 						if (input.first().content.toLowerCase() === phrase.toLowerCase()) {
 							await Achievement.update({ manganese: achievement.get('manganese') + 1 }, { where: { userId: user } });
-							await Inventory.update({ manganese: achievement.get('manganese') + 1 }, { where: { userId: user } });
+							await Inventory.update({ manganese: inventory.get('manganese') + 1 }, { where: { userId: user } });
 						}
 						else {
 							if (breakRate === 1) {
