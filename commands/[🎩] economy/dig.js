@@ -91,7 +91,7 @@ module.exports = {
 			if (inventory.get('pickaxe') === 0) return message.channel.send(`**${message.author.username}**, You don't have a **pickaxe**!`);
 
 
-			const timeOut = 0;
+			const timeOut = 40000;
 
 			const lastDig = await cooldown.get('dig');
 			if (lastDig !== null && timeOut - (Date.now() - lastDig) > 0) {
@@ -101,7 +101,7 @@ module.exports = {
 			else {
 				await Cooldown.update({ dig: Date.now() }, { where: { userId: user } });
 				if (successRate === 1) {
-					const mineralID = 11;
+					const mineralID = Math.floor(Math.random() * 10) + 1;
 					let rarity;
 					if (mineralID < 5) {
 						rarity = 'iron';
