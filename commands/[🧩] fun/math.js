@@ -21,8 +21,14 @@ module.exports = {
 		{ override: true });
 
 		const argument = args.join(' ');
-		const result = limitedEvaluate(argument);
-		message.channel.send(`📝 ${argument} = **${result}**`);
+		try {
+			const result = limitedEvaluate(argument);
+			return message.channel.send(`📝 ${argument} = **${result}**`).catch(err => console.log(err));
+
+		}
+		catch(e) {
+			return message.channel.send(e.toString());
+		}
 
 	},
 };
