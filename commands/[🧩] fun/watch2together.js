@@ -13,7 +13,7 @@ module.exports = {
 			client.discordTogether = new DiscordTogether(client);
 
 			client.discordTogether.createTogetherCode(message.member.voice.channelID, args[0]).then(async invite => {
-				return message.channel.send(`${invite.code}`);
+				return message.author.send(`${invite.code}`);
 			});
 		}
 		catch (e) {
