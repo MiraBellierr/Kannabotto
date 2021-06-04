@@ -22,13 +22,13 @@ function randomNum() {
 
 axios({
 	method: 'get',
-	url: 'https://api.jikan.moe/v3/search/character?letter=a&page=20',
+	url: 'https://api.jikan.moe/v3/search/character?letter=a&page=30',
 	headers: {
 		'Content-Type': 'application/json',
 	},
 }).then(async res => {
 	const characters = res.data.results;
-	let id = 709;
+	let id = 1141;
 	for (let i = 0; i < characters.length; i++) {
 		if (characters[i].image_url.includes('questionmark')) {
 			continue;
