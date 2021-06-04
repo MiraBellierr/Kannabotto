@@ -1,3 +1,4 @@
 node_modules
 config.json
-database/database.sqlite
+database
+images
