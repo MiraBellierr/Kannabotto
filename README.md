@@ -1,5 +1,5 @@
 [![Discord](https://img.shields.io/discord/684084513403699314?color=blue&logo=discord&logoColor=white&style=plastic)](https://discord.gg/s875Hry)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Mirabellierr/Jasmine?color=blue&style=plastic&logo=github)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/MiraBellierr/Jasmine?logo=github&style=plastic)
 ![CodeFactor](https://img.shields.io/codefactor/grade/github/MiraBellierr/Jasmine?logo=github&style=plastic&color=blue)
 ![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=blue&up_message=online&url=https%3A%2F%2Fwww.jasminebot.xyz&style=plastic)
 
