@@ -27,14 +27,14 @@ module.exports = {
 	name: 'trade',
 	description: 'trade image with other player',
 	category: '[👹] rpg',
-	example: `${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"`,
-	usage: '<mentions> "<image you want to trade>" "<image you want to trade with>"',
+	example: `${bot_prefix}trade <mentions> "<your image>" "<other person image>"`,
+	usage: '<mentions> "<your image>" "<other person image>"',
 	run: async (client, message, args) => {
 		const user = message.author.id;
-		if (args.length < 1) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"\``);
+		if (args.length < 1) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 		const otherUser = getMember(message, args[0]);
-		if (!otherUser) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"\``);
-		if (otherUser.user.id === message.author.id) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"\``);
+		if (!otherUser) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
+		if (otherUser.user.id === message.author.id) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
 		const Player = Models.Player();
 
@@ -66,38 +66,21 @@ module.exports = {
 			];
 		}
 		const input = args.slice(1, args.length).join(' ').split('"');
-		if (input[0] !== '') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"\``);
-		if (input[2] !== ' ') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"\``);
-		if (input[4] !== '') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"\``);
+		if (input[0] !== '') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
+		if (input[2] !== ' ') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
+		if (input[4] !== '') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
 		const image1 = input[1];
 		const image2 = input[3];
 		if (image1 === image2) return message.channel.send('Cannot trade with the same image');
 
-		if (image1 === 'default' || image2 === 'default') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<image you want to trade>" "<image you want to trade with>"\``);
+		if (image1 === 'default' || image2 === 'default') return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
-		let check1 = 0;
-		for (let i = 0; i < images[message.author.id].length; i++) {
-			if (image1.toLowerCase() === images[message.author.id][i].name.toLowerCase()) {
-				check1 = 1;
-				if (images[message.author.id][i].image === player.get('image')) {
-					return message.channel.send(`**${message.author.username}**, You are currently equipped this image.`);
-				}
-			}
-		}
-		if (check1 === 0) return message.channel.send(`**${message.author.username}**, You don't have this image or the image doesn't exist.`);
+		const authorImage = images[message.author.id].find(x => x.name.toLowerCase() === image1.toLowerCase());
+		if (!authorImage) return message.channel.send('You don\'t have this image or this image does not exist.');
 
-		let check2 = 0;
-		for (let i = 0; i < images[otherUser.user.id].length; i++) {
-			if (image2.toLowerCase() === images[otherUser.user.id][i].name.toLowerCase()) {
-				check2 = 1;
-				if (images[otherUser.user.id][i].image === mentionedPlayer.get('image')) {
-					return message.channel.send(`**${message.author.username}**, The person you mentioned are currently equipped that image.`);
-				}
-			}
-		}
-		if (check2 === 0) return message.channel.send(`**${message.author.username}**, the person you mentioned doesn't have that image or the image doesn't exist.`);
-
+		const targetImage = images[otherUser.user.id].find(x => x.name.toLowerCase() === image2.toLowerCase());
+		if (!targetImage) return message.channel.send('The person you want to trade image doesn\'t have that image or that image doesn\'t exist');
 		const prompt = new Discord.MessageEmbed()
 			.setTitle(`${message.author.username} wants to trade ${image1} with ${image2}!`)
 			.setDescription('React with ✅ to accept the trade\nReact with ❎ to deny the trade')
@@ -105,30 +88,23 @@ module.exports = {
 		const m = await message.channel.send(prompt);
 		const reacted = await promptMessage(m, otherUser.user, 300000, emojis);
 		if (reacted === '✅') {
-			const character1 = [];
-			const character2 = [];
-			for (let i = 0; i < characters.length; i++) {
-				if (characters[i].name.toLowerCase() === image1.toLowerCase()) {
-					character1.push(characters[i]);
-				}
-				if (characters[i].name.toLowerCase() === image2.toLowerCase()) {
-					character2.push(characters[i]);
-				}
-			}
-			for (let i = 0; i < images[message.author.id].length; i++) {
-				if (image1.toLowerCase() === images[message.author.id][i].name.toLowerCase()) {
-					images[message.author.id][i].name = character1[0].name;
-					images[message.author.id][i].image = character1[0].image;
-				}
+			const characters1 = characters.find(x => x.name.toLowerCase() === authorImage.name.toLowerCase());
+			const newCharacter1 = {
+				name: characters1.name,
+				image: characters1.image,
+				count: 1,
+			};
+			const characters2 = characters.find(x => x.name.toLowerCase() === targetImage.name.toLowerCase());
+			const newCharacter2 = {
+				name: characters2.name,
+				image: characters2.image,
+				count: 1,
+			};
+			images[message.author.id] = removeA(images[message.author.id], authorImage);
+			images[message.author.id].push(newCharacter2);
+			images[otherUser.user.id] = removeA(images[otherUser.user.id], targetImage);
+			images[otherUser.user.id].push(newCharacter1);
 
-			}
-			for (let i = 0; i < images[otherUser.user.id].length; i++) {
-				if (image2.toLowerCase() === images[otherUser.user.id][i].name.toLowerCase()) {
-					images[otherUser.user.id][i].name = character2[0].name;
-					images[otherUser.user.id][i].image = character2[0].image;
-				}
-
-			}
 			fs.writeFile('./database/images.json', JSON.stringify(images, null, 2), (err) => {
 				if (err) return console.log(err);
 				return message.channel.send('Trade has been made.');
@@ -139,3 +115,15 @@ module.exports = {
 		}
 	},
 };
+
+function removeA(arr) {
+	const a = arguments;
+	let what, L = a.length, ax;
+	while (L > 1 && arr.length) {
+		what = a[--L];
+		while ((ax = arr.indexOf(what)) !== -1) {
+			arr.splice(ax, 1);
+		}
+	}
+	return arr;
+}
