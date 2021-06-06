@@ -81,6 +81,14 @@ module.exports = {
 
 			const player1 = await Player.findOne({ where: { userId: user } });
 			if (player1.get('totalXp') < player1.get('xp')) {
+				await Player.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: message.author.id } });
+				await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
+				await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
+				await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
+				await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
+				await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
+				await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
+				await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
 				message.channel.send(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
 			}
 		});

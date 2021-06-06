@@ -17,7 +17,6 @@ const { TOKEN, bot_prefix } = require('./config.json');
 const fs = require('fs');
 const timeoutxp = new Set();
 const prefixes = require('./database/prefix.json');
-const Models = require('./create-model');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('database', 'user', 'password', {
 	host: 'localhost',
@@ -355,24 +354,6 @@ client.on('message', message => {
 		}
 		else {
 			return;
-		}
-	}
-});
-
-client.on('message', async message => {
-	const Player = Models.Player();
-	const player = await Player.findOne({ where: { userId: message.author.id } });
-	if (!player) return;
-	if (player.get('start') !== 0) {
-		if (player.get('totalXp') < player.get('xp')) {
-			await Player.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: message.author.id } });
-			await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
 		}
 	}
 });
