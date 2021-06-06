@@ -854,11 +854,9 @@ module.exports = {
 				}
 				const bagEnemy = await Bag.findOne({ where: { userId: enemy } });
 				const playerEnemy = await Player.findOne({ where: { userId: enemy } });
-				if (enemy === user || playerEnemy.get('start') === 0) enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
-				if (enemy === user || playerEnemy.get('start') === 0) enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
-				if (enemy === user || playerEnemy.get('start') === 0) enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
-				if (enemy === user || playerEnemy.get('start') === 0) enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
-				if (enemy === user || playerEnemy.get('start') === 0) enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
+				while (enemy === user || playerEnemy.get('start') === 0) {
+					enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
+				}
 
 				let playerHealth = player.get('health') * 100;
 				let playerHealth2 = player.get('health') * 100;

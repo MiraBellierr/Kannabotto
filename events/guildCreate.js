@@ -19,9 +19,6 @@ module.exports = (client, guild) => {
 	const logChannel = client.channels.cache.get('707243604283752459');
 
 	client.guilds.fetch(guild.id).then(g => {
-		g.owner.fetch().then(owner => {
-			logChannel.send(`The bot has been added to **${g.name}** with **${g.memberCount}** members. The owner is **${owner.user.tag}**`);
-
-		});
+		logChannel.send(`The bot has been added to **${g.name}** with **${g.memberCount}** members.`);
 	});
 };
