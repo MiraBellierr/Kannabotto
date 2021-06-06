@@ -37,7 +37,7 @@ module.exports = {
 		if (member.user.id === '275989071774351360') return message.channel.send('Seems like I can\'t kick my owner!');
 		if (member.user.id === message.author.id) return message.channel.send('Seems like you can\'t kick yourself');
 		if (member.user.id === client.user.id) return message.channel.send('Seems like I can\'t kick myself');
-		if (member.roles.highest.position > message.member.highest.position && message.guild.owner.user.id !== message.author.id) return message.channel.send('Please make sure your role is higher than the person you want to kick.');
+		if (member.roles.highest.position > message.member.roles.highest.position && message.guild.owner.user.id !== message.author.id) return message.channel.send('Please make sure your role is higher than the person you want to kick.');
 
 		if (!logsetting[message.guild.id]) {
 			logsetting[message.guild.id] = {
