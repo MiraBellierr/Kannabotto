@@ -56,6 +56,6 @@ module.exports = {
 				setTimeout(function() {
 					m.delete();
 				}, 1000);
-			}).catch(err => message.reply(`Something went wrong... ${err}, Please join support server.`));
+			}).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 	},
 };

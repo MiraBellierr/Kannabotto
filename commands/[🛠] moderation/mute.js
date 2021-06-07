@@ -64,7 +64,7 @@ module.exports = {
 				});
 			}
 			catch(e) {
-				console.log(e.stack);
+				console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`);
 			}
 		}
 
@@ -93,14 +93,14 @@ module.exports = {
 		const muteTime = await moderation[tomute.user.id].mute;
 		if ((muteTime !== null && timeOut - (Date.now() - muteTime) > 0) || tomute.roles.cache.has(muterole.id)) return message.channel.send('This user has already been muted.');
 		moderation[tomute.user.id].mute = Date.now();
-		await (tomute.roles.add(muterole.id));
+		await (tomute.roles.add(muterole.id)).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 		message.channel.send(`**${tomute.user.username}** has been muted for ${ms(ms(mutetime))} by ${message.author.username} for a reason ${res}`);
 		fs.writeFile('./database/moderation.json', JSON.stringify(moderation, null, 2), (err) => {
 			if (err) return message.channel.send(`An error occurred: \`${err}\``);
 		});
 
 		setTimeout(function() {
-			tomute.roles.remove(muterole.id);
+			tomute.roles.remove(muterole.id).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 
 			if (values === undefined) return;
 			if (values === 0) return;

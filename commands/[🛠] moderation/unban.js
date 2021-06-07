@@ -57,7 +57,7 @@ module.exports = {
 			res = reason;
 		}
 
-		message.guild.members.unban(member);
+		message.guild.members.unban(member).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 		message.channel.send(`**${member.tag}** has been unbanned by **${message.author.username}** for a reason **${res}**`);
 
 		if (values === undefined) return;

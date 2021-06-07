@@ -54,7 +54,7 @@ module.exports = {
 			res = reason;
 		}
 
-		await toMute.roles.remove(role.id);
+		await toMute.roles.remove(role.id).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 		message.channel.send(`${toMute.user.tag} has been unmuted for a reason ${res}!`);
 
 		if (values === undefined) return;

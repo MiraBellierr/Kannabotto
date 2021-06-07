@@ -57,7 +57,7 @@ module.exports = {
 			res = reason;
 		}
 
-		await member.kick(reason).catch(() => message.channel.send('Sorry, I\'m unable to kick this person. Please make sure I have a kick permission and my role is higher than the person you want to kick'));
+		await member.kick(reason).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 
 		message.channel.send(`Successfully kicked **${member.user.username}** for a reason **${res}**, by **${message.author.username}**.`);
 

@@ -36,7 +36,7 @@ module.exports = {
 		if (!gRole) return message.channel.send('Couldn\'t find that role.');
 
 		if (!rMember.roles.cache.has(gRole.id)) return message.channel.send(`**${gRole.name}** can't be found on this user`);
-		await (rMember.roles.remove(gRole.id));
+		await (rMember.roles.remove(gRole.id)).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 
 		await message.channel.send(`Successfully removed **${gRole.name}** role from **${rMember.user.username}**.`);
 

@@ -36,7 +36,7 @@ module.exports = {
 		if (!gRole) return message.channel.send('Couldn\'t find that role.');
 
 		if (rMember.roles.cache.has(gRole.id)) return message.channel.send('This user already have that role.');
-		await (rMember.roles.add(gRole.id));
+		await (rMember.roles.add(gRole.id)).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 
 		await message.channel.send(`Successfully gave **${rMember.user.username}** the **${gRole.name}** role!`);
 

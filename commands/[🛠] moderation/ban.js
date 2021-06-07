@@ -57,7 +57,7 @@ module.exports = {
 			res = reason;
 		}
 
-		await member.ban({ reason: reason, days: 7 }).catch(() => { return message.channel.send('Sorry, I\'m unable to ban this person. please make sure I have a ban permission and my role is higher than the person you want to ban.'); });
+		await member.ban({ reason: reason, days: 7 }).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 		message.channel.send(`Successfully banned **${member.user.username}** for a reason **${res}**, by **${message.author.username}**.`);
 
 		if (values === undefined) return;
