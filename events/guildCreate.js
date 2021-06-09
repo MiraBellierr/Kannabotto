@@ -20,5 +20,6 @@ module.exports = (client, guild) => {
 
 	client.guilds.fetch(guild.id).then(g => {
 		logChannel.send(`The bot has been added to **${g.name}** with **${g.memberCount}** members.`);
+		console.log(`[LOG] The bot has been added to **${g.name}** with **${g.memberCount}** members.`);
 	});
 };

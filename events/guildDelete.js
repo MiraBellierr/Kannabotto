@@ -18,8 +18,6 @@ module.exports = (client, guild) => {
 
 	const logChannel = client.channels.cache.get('707243604283752459');
 
-	client.guilds.fetch(guild.id).then(g => {
-		logChannel.send(`The bot has been removed from **${g.name}** with **${g.memberCount}** members.`);
-	});
-
+	logChannel.send(`The bot has been removed from **${guild.name}** with **${guild.memberCount}** members.`);
+	console.log(`[LOG] The bot has been removed from **${guild.name}** with **${guild.memberCount}** members.`);
 };
