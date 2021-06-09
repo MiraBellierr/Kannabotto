@@ -13,6 +13,7 @@
 // limitations under the License.
 
 const { bot_prefix } = require('../../config.json');
+const characters = require('../../database/characters.json');
 
 module.exports = {
 	name: 'eval',

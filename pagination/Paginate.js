@@ -17,7 +17,7 @@ require('colors');
 
 function Paginate(client, message, pages, options = {
 	time: 1000 * 60 * 3,
-	onEnd: 'removeAll',
+	onEnd: 'delete',
 }, emojis = {
 	backward: '⏪',
 	stop: '🛑',

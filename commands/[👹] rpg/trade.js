@@ -15,13 +15,11 @@
 const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
-const images = require('../../database/images.json');
 const characters = require('../../database/characters.json');
 const Models = require('../../create-model.js');
 const { getMember } = require('../../functions');
 const { promptMessage } = require('../../functions');
 const emojis = ['✅', '❎'];
-const fs = require('fs');
 
 module.exports = {
 	name: 'trade',
@@ -37,7 +35,9 @@ module.exports = {
 		if (otherUser.user.id === message.author.id) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
 		const Player = Models.Player();
-
+		const Images = Models.Images();
+		const imagess = await Images.findOne({ where: { id: 1 } });
+		const images = imagess.dataValues.data;
 		const player = await Player.findOne({ where: { userId: user } });
 		const mentionedPlayer = await Player.findOne({ where: { userId: otherUser.user.id } });
 
@@ -105,10 +105,8 @@ module.exports = {
 			images[otherUser.user.id] = removeA(images[otherUser.user.id], targetImage);
 			images[otherUser.user.id].push(newCharacter1);
 
-			fs.writeFile('./database/images.json', JSON.stringify(images, null, 2), (err) => {
-				if (err) return console.log(err);
-				return message.channel.send('Trade has been made.');
-			});
+			await Images.update({ data: images }, { where: { id: 1 } });
+			return message.channel.send('Trade has been made.');
 		}
 		else if (reacted === '❎') {
 			return message.channel.send('Trade has been canceled');

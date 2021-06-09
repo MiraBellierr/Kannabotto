@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-const images = require('../../database/images.json');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const Discord = require('discord.js');
@@ -29,7 +27,9 @@ module.exports = {
 		const user = message.author.id;
 
 		const Player = Models.Player();
-
+		const Images = Models.Images();
+		const imagess = await Images.findOne({ where: { id: 1 } });
+		const images = imagess.dataValues.data;
 		const player = await Player.findOne({ where: { userId: user } });
 
 		const result = new Discord.MessageEmbed()

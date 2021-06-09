@@ -15,7 +15,6 @@
 const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
-const images = require('../../database/images.json');
 const Models = require('../../create-model.js');
 
 module.exports = {
@@ -28,6 +27,9 @@ module.exports = {
 		const user = message.author.id;
 
 		const Player = Models.Player();
+		const Images = Models.Images();
+		const imagess = await Images.findOne({ where: { id: 1 } });
+		const images = imagess.dataValues.data;
 
 		const player = await Player.findOne({ where: { userId: user } });
 

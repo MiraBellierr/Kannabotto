@@ -50,7 +50,7 @@ module.exports = {
 			.setColor('RANDOM')
 			.setImage(character[0].image)
 			.setTitle(character[0].name)
-			.addField('General', `**• ID:** ${character[0].id}/${characters[characters.length - 1].id}\n**• From:** ${character[0].from}`, true)
+			.addField('General', `**• ID:** ${character[0].id}\n**• From:** ${character[0].from}`, true)
 			.addField('Stats', `**• Health:** ${character[0].health}\n**• Physical Attack:** ${character[0].physical_attack}\n**• Magical Attack:** ${character[0].magical_attack}\n**• Physical Resistance:** ${character[0].physical_resistance}\n**• Magical Resistance:** ${character[0].magical_resistance}\n**• Speed:** ${character[0].speed}`, true);
 
 		message.channel.send(embed);

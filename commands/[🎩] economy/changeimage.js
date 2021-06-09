@@ -11,9 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-const images = require('../../database/images.json');
-const fs = require('fs');
+const Models = require('../../create-model');
 
 module.exports = {
 	name: 'changeimage',
@@ -25,7 +23,9 @@ module.exports = {
 		if (!args.length) return message.channel.send('<id> <link>');
 		const id = args[0];
 		const image = args[1];
-
+		const Images = Models.Images();
+		const imagess = await Images.findOne({ where: { id: 1 } });
+		const images = imagess.dataValues.data;
 		if (!images[id]) {
 			images[id] = [
 				{
@@ -37,9 +37,7 @@ module.exports = {
 		}
 
 		images[id][0].image = image;
-		fs.writeFile('./database/images.json', JSON.stringify(images, null, 2), (err) => {
-			if (err) return console.error;
-			return message.channel.send('Custom image has successfully been set.');
-		});
+		await Images.update({ data: images }, { where: { id: 1 } });
+		return message.channel.send('Custom image has successfully been set.');
 	},
 };

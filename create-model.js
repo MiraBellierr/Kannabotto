@@ -588,4 +588,14 @@ module.exports = {
 
 		return Bag;
 	},
+	Images: function() {
+		const Images = sequelize.define('image', {
+			data: {
+				type: Sequelize.JSON,
+			},
+		});
+		Images.sync();
+
+		return Images;
+	},
 };

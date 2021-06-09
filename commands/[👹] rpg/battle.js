@@ -20,7 +20,6 @@ const prefixes = require('../../database/prefix.json');
 const { getMember, promptMessage } = require('../../functions');
 const randomcharacter = require('../../database/randomCharacter.json');
 const redirect = require('../../database/redirect.json');
-const images = require('../../database/images.json');
 const Models = require('../../create-model.js');
 
 module.exports = {
@@ -39,6 +38,9 @@ module.exports = {
 			const Bag = Models.Bag();
 			const Cooldown = Models.Cooldown();
 			const Player = Models.Player();
+			const Images = Models.Images();
+			const imagess = await Images.findOne({ where: { id: 1 } });
+			const images = imagess.dataValues.data;
 
 			if (!await Inventory.findOne({ where: { userId: user } })) {
 				await Inventory.create({
@@ -248,13 +250,11 @@ module.exports = {
 
 									data.push(image);
 									images[message.author.id] = data;
-									fs.writeFile('./database/images.json', JSON.stringify(images, null, 2), (err) => {
-										if (err) return message.channel.send(`An error occurred \`${err}\``);
-										message.channel.send(`Congratulations, you get **${enemy[0].name}** image`);
-										const embed = new Discord.MessageEmbed()
-											.setImage(enemy[0].image);
-										message.channel.send(embed);
-									});
+									await Images.update({ data: images }, { where: { id: 1 } });
+									message.channel.send(`Congratulations, you get **${enemy[0].name}** image`);
+									const embed = new Discord.MessageEmbed()
+										.setImage(enemy[0].image);
+									message.channel.send(embed);
 								}, 4100);
 								break;
 							}
@@ -468,6 +468,9 @@ module.exports = {
 					}
 					else {
 						const enemy = getMember(message, args.join(' ')).user.id;
+
+						if (enemy === message.author.id) return message.channel.send('Player not found');
+
 						if (!await Bag.findOne({ where: { userId: enemy } })) {
 							await Bag.create({
 								userId: enemy,
