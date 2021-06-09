@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { SuperError } = require('../Error');
 require('colors');
 
 function Paginate(client, message, pages, options = {
 	time: 1000 * 60 * 3,
 	onEnd: 'delete',
 }, emojis = {
-	backward: '⏪',
-	stop: '🛑',
-	forward: '⏩',
+	backward: '852144316230926336',
+	stop: '852144903289831485',
+	forward: '852144304327229460',
 }) {
 
 	this.client = client;
@@ -30,17 +29,17 @@ function Paginate(client, message, pages, options = {
 	this.options = options;
 	this.emojis = emojis;
 
-	if (!this.message) throw new SuperError('Specify the message to be processed on.', 'DeficiencyError');
-	if (!this.pages) throw new SuperError('Specify pages to be shown', 'DeficiencyError');
-	if (!this.options.time) throw new SuperError('Specify a reaction time.', 'TimeError');
+	if (!this.message) throw new TypeError('Specify the message to be processed on.');
+	if (!this.pages) throw new TypeError('Specify pages to be shown');
+	if (!this.options.time) throw new TypeError('Specify a reaction time.');
 	if (
 		!this.emojis.backward ||
         !this.emojis.stop ||
         !this.emojis.forward
-	) throw new SuperError('Specify emojis to skip the page, return to previous page and stop the process.', 'EmojiError');
+	) throw new TypeError('Specify emojis to skip the page, return to previous page and stop the process.');
 
 	this.addPage = function(page) {
-		if (!page) throw new SuperError('Specify the page to be added', 'DeficiencyError');
+		if (!page) throw new TypeError('Specify the page to be added');
 		try {
 			if (Array.isArray(page)) {
 				this.pages = this.pages.concat(page);
@@ -51,13 +50,13 @@ function Paginate(client, message, pages, options = {
 			return { pages: this.pages };
 		}
 		catch(err) {
-			throw new SuperError(err, 'UnknownError');
+			throw new TypeError(err);
 		}
 	};
 
 	this.editEmoji = function(name, value) {
-		if (!name) throw new SuperError('Specify the emoji name to be edited', 'DeficiencyError');
-		if (!value) throw new SuperError('Specify an emoji.', 'DeficiencyError');
+		if (!name) throw new TypeError('Specify the emoji name to be edited');
+		if (!value) throw new TypeError('Specify an emoji.');
 		switch (name) {
 		case 'backward':
 			this.emojis[name] = value;
@@ -69,7 +68,7 @@ function Paginate(client, message, pages, options = {
 			this.emojis[name] = value;
 			break;
 		default:
-			throw new SuperError('Specify a valid emoji name to be edited.', 'DeficiencyError');
+			throw new TypeError('Specify a valid emoji name to be edited.');
 		}
 	};
 
@@ -77,15 +76,22 @@ function Paginate(client, message, pages, options = {
 		let page = 1;
 		const msg = await this.message.channel.send(this.pages[page - 1]);
 
+
 		await msg.react(this.emojis.backward).catch(() => {
-			throw new SuperError('Specify a valid backward emoji', 'EmojiError');
+			throw new TypeError('Specify a valid backward emoji');
 		});
-		await msg.react(this.emojis.stop).catch(() => {
-			throw new SuperError('Specify a valid stop emoji', 'EmojiError');
-		});
-		await msg.react(this.emojis.forward).catch(() => {
-			throw new SuperError('Specify a valid forward emoji', 'EmojiError');
-		});
+
+		setTimeout(async () => {
+			await msg.react(this.emojis.stop).catch(() => {
+				throw new TypeError('Specify a valid stop emoji');
+			});
+		}, 740);
+
+		setTimeout(async () => {
+			await msg.react(this.emojis.forward).catch(() => {
+				throw new TypeError('Specify a valid forward emoji');
+			});
+		}, 740 * 2);
 
 		const backwardFilter = (reaction, user) => reaction.emoji.name === this.emojis.backward && user.id === this.message.author.id;
 		const stopFilter = (reaction, user) => reaction.emoji.name === this.emojis.stop && user.id === this.message.author.id;
@@ -125,12 +131,15 @@ function Paginate(client, message, pages, options = {
 		stop.on('collect', async () => {
 
 			if (this.options.onEnd == 'removeAll') {
-				await msg.delete();
+				await msg.reactions.removeAll();
 			}
 			else if (this.options.onEnd == 'delete') {
+				backward.stop('ENDED');
+				forward.stop('ENDED');
+				stop.stop('ENDED');
 				await msg.delete();
+				return;
 			}
-
 			backward.stop('ENDED');
 			forward.stop('ENDED');
 			stop.stop('ENDED');
@@ -156,15 +165,15 @@ function Paginate(client, message, pages, options = {
 		});
 
 		backward.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new SuperError(reason, 'UnknownError');
+			if (reason != 'time' && reason != 'ENDED') throw new TypeError(reason);
 		});
 
 		stop.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new SuperError(reason, 'UnknownError');
+			if (reason != 'time' && reason != 'ENDED') throw new TypeError(reason);
 		});
 
 		forward.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new SuperError(reason, 'UnknownError');
+			if (reason != 'time' && reason != 'ENDED') throw new TypeError(reason);
 		});
 
 		return {
