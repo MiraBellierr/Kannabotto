@@ -93,9 +93,9 @@ function Paginate(client, message, pages, options = {
 			});
 		}, 740 * 2);
 
-		const backwardFilter = (reaction, user) => reaction.emoji.name === this.emojis.backward && user.id === this.message.author.id;
-		const stopFilter = (reaction, user) => reaction.emoji.name === this.emojis.stop && user.id === this.message.author.id;
-		const forwardFilter = (reaction, user) => reaction.emoji.name === this.emojis.forward && user.id === this.message.author.id;
+		const backwardFilter = (reaction, user) => reaction.emoji.id === this.emojis.backward && user.id === this.message.author.id;
+		const stopFilter = (reaction, user) => reaction.emoji.id === this.emojis.stop && user.id === this.message.author.id;
+		const forwardFilter = (reaction, user) => reaction.emoji.id === this.emojis.forward && user.id === this.message.author.id;
 
 		const backward = msg.createReactionCollector((backwardFilter), {
 			time: this.options.time,
