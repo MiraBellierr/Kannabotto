@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const { Client, Collection, MessageEmbed } = require('discord.js');
-const { TOKEN, bot_prefix } = require('./config.json');
+const { TOKEN, bot_prefix, db } = require('./config.json');
 const fs = require('fs');
 const timeoutxp = new Set();
 const prefixes = require('./database/prefix.json');
@@ -92,7 +92,7 @@ dbapi.on('ready', () => {
 		dbapi.postData(client.guilds.cache.size, client.shard.count);
 	}, 1.8e+6);
 });
-dbapi.login('UJv6SV2mC6mwI3nqe5TKVIVeBt1XX6uizAmn5BfGcbgt2YnOU5pmANXeFAuVR9YBqHZ6nAWGRKZoHzoYpv6H3U', '636748567586930728');
+dbapi.login(db, client.user.id);
 
 setInterval(function() {
 	voidbots(client);
