@@ -26,7 +26,8 @@ module.exports = {
 	usage: '[mention | id | username]',
 	run: async (client, message, args) => {
 
-		const user = await getMember(message, args.join(' ')).user || message.author;
+		const member = await getMember(message, args.join(' '));
+		const user = member.user;
 
 		const Disable = Models.Disable();
 		const Blacklist = Models.Blacklist();

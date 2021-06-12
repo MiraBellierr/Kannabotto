@@ -25,8 +25,8 @@ module.exports = {
 	example: `${bot_prefix}inventory [mention | id | username]`,
 	usage: '[mention | id | username]',
 	run: async (client, message, args) => {
-		let user = await getMember(message, args.join(' ')).user || message.author;
-		if (!user) user = message.author;
+		const member = await getMember(message, args.join(' '));
+		const user = member.user;
 
 		const Disable = Models.Disable();
 		const Blacklist = Models.Blacklist();

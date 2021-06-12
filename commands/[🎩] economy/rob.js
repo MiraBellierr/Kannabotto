@@ -66,7 +66,8 @@ module.exports = {
 
 			if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
 
-			const user = await getMember(message, args.join(' ')).user;
+			const member = await getMember(message, args.join(' '));
+			const user = member.user;
 
 			if (!await Blacklist.findOne({ where: { userId: user.id } })) {
 				await Blacklist.create({

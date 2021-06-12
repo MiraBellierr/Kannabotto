@@ -27,8 +27,8 @@ module.exports = {
 	description: 'Shows user level',
 	usage: '[mention | id | username]',
 	run: async (client, message, args) => {
-		let user = await getMember(message, args.join(' ')).user || message.author;
-		if(!user) user = message.author;
+		const member = await getMember(message, args.join(' '));
+		const user = member.user;
 		if (user.bot) return message.channel.send(`**${message.author.username}, Nice bot!**`);
 
 		if(!bg[user.id]) {
