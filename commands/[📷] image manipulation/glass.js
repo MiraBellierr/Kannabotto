@@ -24,7 +24,7 @@ module.exports = {
 	example: `${bot_prefix}glass [username | attachment]`,
 	usage: '[username | attachment]',
 	run: async (client, message, args) => {
-		let image = message.attachments.first() || getMember(message, args.join(' ')).user.displayAvatarURL({ format: 'jpg', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
+		let image = message.attachments.first() || await getMember(message, args.join(' ')).user.displayAvatarURL({ format: 'jpg', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
 		if (!image) return message.channel.send(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}glass [username | attachment]\`.`);
 		if (image === message.attachments.first()) {
 			image = message.attachments.first().url;

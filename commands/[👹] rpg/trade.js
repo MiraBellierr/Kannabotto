@@ -30,7 +30,7 @@ module.exports = {
 	run: async (client, message, args) => {
 		const user = message.author.id;
 		if (args.length < 1) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
-		const otherUser = getMember(message, args[0]);
+		const otherUser = await getMember(message, args[0]);
 		if (!otherUser) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 		if (otherUser.user.id === message.author.id) return message.channel.send(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 

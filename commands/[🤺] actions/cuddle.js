@@ -23,10 +23,10 @@ module.exports = {
 	category: '[🤺] actions',
 	example: `${bot_prefix}cuddle <mention| id | username>`,
 	usage: '<mention | id | username>',
-	run: (client, message, args) => {
+	run: async (client, message, args) => {
 		const cuddles = ['https://media1.tenor.com/images/8f8ba3baeecdf28f3e0fa7d4ce1a8586/tenor.gif?itemid=12668750', 'https://media1.tenor.com/images/3b205574d0352d4d61687f835276566d/tenor.gif?itemid=12669039', 'https://media1.tenor.com/images/d16a9affe8915e6413b0c1f1d380b2ee/tenor.gif?itemid=12669052', 'https://media1.tenor.com/images/7edded2757934756fdc240019d956cb3/tenor.gif?itemid=16403937', 'https://media1.tenor.com/images/50e1eb3f727a2cf0598eaaf3c1fc46f3/tenor.gif?itemid=12668887', 'https://media1.tenor.com/images/3d62384321435408f50823ae6f5ca033/tenor.gif?itemid=12270770', 'https://media1.tenor.com/images/4179058caa9eef3e7c6b21b8888b9cc9/tenor.gif?itemid=12955956', 'https://media1.tenor.com/images/13be52a4a4a26b0c9e479df6644d6de5/tenor.gif?itemid=12668752', 'https://media1.tenor.com/images/ec938c17b78033bf368cacea844d03af/tenor.gif?itemid=7250422', 'https://media1.tenor.com/images/96d28f5ef7ab317d8cdf6dbafcc6877b/tenor.gif?itemid=16539432'];
 		const cuddleR = cuddles[Math.floor(Math.random() * cuddles.length)];
-		const personcuddle = getMember(message, args.join(' '));
+		const personcuddle = await getMember(message, args.join(' '));
 		const quote = ['Adorable!', 'Cute!'];
 		const quoter = quote[Math.floor(Math.random() * quote.length)];
 

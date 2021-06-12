@@ -26,7 +26,7 @@ module.exports = {
 	example: `${bot_prefix}profile [username | id | mention]`,
 	usage: '[username | id | mention]',
 	run: async (client, message, args) => {
-		const user = getMember(message, args.join(' ')).user.id || message.author.id;
+		const user = await getMember(message, args.join(' ')).user.id || message.author.id;
 
 		const Bag = Models.Bag();
 		const Player = Models.Player();

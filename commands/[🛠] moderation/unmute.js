@@ -29,7 +29,7 @@ module.exports = {
 		if (!message.member.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('Sorry, you don\'t have `KICK_MEMBERS` permission to use this.').then(m => m.delete({ timeout: 5000 }));
 		if (!message.guild.me.hasPermission('MANAGE_ROLES', { checkAdmin: true, checkOwner: true })) return message.channel.send('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
 
-		const toMute = getMember(message, args[0]);
+		const toMute = await getMember(message, args[0]);
 
 		if (!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}unmute <mention | id | username> [reason]\`.`);
 		if (!toMute) return message.channel.send('The user can\'t be found.');

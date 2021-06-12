@@ -30,7 +30,7 @@ module.exports = {
 		if (!message.guild.me.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('I don\'t have `KICK_MEMBERS` permission to kick members.').then(m => m.delete({ timeout: 5000 }));
 		if (!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}kick <mention | id | username> [reason]\`.`);
 
-		const member = getMember(message, args[0]);
+		const member = await getMember(message, args[0]);
 
 		if (!member) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}kick <mention | id | username> [reason]\`.`);
 		if (!member.kickable) return message.channel.send('Seems like I can\'t kick that user or I don\'t have a kick permission');

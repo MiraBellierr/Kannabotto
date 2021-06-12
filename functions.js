@@ -15,8 +15,11 @@
 module.exports = {
 	getMember: async function(message, toFind = '') {
 		toFind = toFind.toLowerCase();
+		let target = false;
 
-		let target = await message.guild.members.fetch(toFind);
+		if (!message.mentions.members) {
+			target = await message.guild.members.fetch(toFind);
+		}
 
 		if (!target && message.mentions.members) {
 			target = message.mentions.members.first();

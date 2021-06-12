@@ -25,7 +25,7 @@ module.exports = {
 	example: `${bot_prefix}inventory [mention | id | username]`,
 	usage: '[mention | id | username]',
 	run: async (client, message, args) => {
-		let user = getMember(message, args.join(' ')).user || message.author;
+		let user = await getMember(message, args.join(' ')).user || message.author;
 		if (!user) user = message.author;
 
 		const Disable = Models.Disable();

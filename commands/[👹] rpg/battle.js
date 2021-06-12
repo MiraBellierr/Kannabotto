@@ -467,7 +467,7 @@ module.exports = {
 						return;
 					}
 					else {
-						const enemy = getMember(message, args.join(' ')).user.id;
+						const enemy = await getMember(message, args.join(' ')).user.id;
 
 						if (enemy === message.author.id) return message.channel.send('Player not found');
 
@@ -477,12 +477,12 @@ module.exports = {
 							});
 						}
 						const bagEnemy = await Bag.findOne({ where: { userId: enemy } });
-						const enemyPlayer = getMember(message, args.join(' '));
+						const enemyPlayer = await getMember(message, args.join(' '));
 						if (!enemy) return message.channel.send(`**${message.author.username}**, I couldn't find that user.`);
 						const playerEnemy = await Player.findOne({ where: { userId: enemy } });
 						if (!playerEnemy) return message.channel.send(`**${message.author.username}**, There is no player with this name in my database. Do \`${prefixes[message.guild.id]}start\` to create a profile.`);
 						const prompt = new Discord.MessageEmbed()
-							.setTitle(`${message.author.username} challenges ${getMember(message, args.join(' ')).user.username} in battle!`)
+							.setTitle(`${message.author.username} challenges ${await getMember(message, args.join(' ')).user.username} in battle!`)
 							.setDescription('React with ✅ to accept the battle\nReact with ❎ to deny the battle')
 							.setTimestamp();
 						const m = await message.channel.send(prompt);

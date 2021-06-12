@@ -30,7 +30,7 @@ module.exports = {
 		if (!message.guild.me.hasPermission('BAN_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('I don\'t have ban permission. Please enable it for me to be able to ban members').then(m => m.delete({ timeout: 5000 }));
 		if(!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}ban <mention | id | username> [reason]\`.`);
 
-		const member = getMember(message, args[0]);
+		const member = await getMember(message, args[0]);
 
 		if (!member) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}ban <mention | id | username> [reason]\`.`);
 		if (!member.bannable) return message.channel.send('Seems like I can\'t ban this user. Please make sure my role is higher than any members');

@@ -25,7 +25,7 @@ module.exports = {
 	usage: '[mention | id | username]',
 	run: async (client, message, args) => {
 		// Get a member from mention, id, or username
-		let person = getMember(message, args.join());
+		let person = await getMember(message, args.join());
 
 		if (!person || message.author.id === person.id) {
 			person = message.guild.members.cache

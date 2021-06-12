@@ -23,7 +23,7 @@ module.exports = {
 	example: `${bot_prefix}avatar [mention]`,
 	description: 'Returns user avatar',
 	usage: '[mention]',
-	run: (client, message, args) => {
+	run: async (client, message, args) => {
 		if (!args[0]) {
 			const embeduser = new MessageEmbed()
 				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
@@ -35,13 +35,13 @@ module.exports = {
 			return message.channel.send(embeduser);
 		}
 
-		const user = getMember(message, args.join(' '));
+		const member = await getMember(message, args.join(' '));
 
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-			.setTitle(`${user.user.username}'s Avatar`)
+			.setTitle(`${member.user.username}'s Avatar`)
 			.setColor('RANDOM')
-			.setImage(user.user.displayAvatarURL({ dynamic: true, size: 4096 }))
+			.setImage(member.user.displayAvatarURL({ dynamic: true, size: 4096 }))
 			.setTimestamp()
 			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
 
