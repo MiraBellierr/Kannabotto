@@ -28,7 +28,7 @@ module.exports = {
 
 
 		if (!args.length) {
-			message.reply('Gimme a question!').then(m => m.delete(1500));
+			message.reply('Gimme a question!');
 		}
 		else {
 			message.channel.send(responses[randomIndex]);
