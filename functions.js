@@ -13,18 +13,18 @@
 // limitations under the License.
 
 module.exports = {
-	getMember: function(message, toFind = '') {
+	getMember: async function(message, toFind = '') {
 		toFind = toFind.toLowerCase();
 
-		let target = message.guild.members.cache.get(toFind);
+		let target = await message.guild.members.fetch(toFind);
 
 		if (!target && message.mentions.members) {
 			target = message.mentions.members.first();
 		}
 		if (!target && toFind) {
-			target = message.guild.members.cache.find(member => {
-				return member.displayName.toLowerCase().includes(toFind) ||
-                    member.user.tag.toLowerCase().includes(toFind);
+			const members = await message.guild.members.fetch();
+			target = members.find(member => {
+				return member.displayName.toLowerCase().includes(toFind) || member.user.tag.toLowerCase().includes(toFind);
 			});
 		}
 

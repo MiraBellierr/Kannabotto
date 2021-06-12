@@ -23,8 +23,8 @@ module.exports = {
 	description: 'Returns user information',
 	example: `${bot_prefix}whois [username | id | mention]`,
 	usage: '[username | id | mention]',
-	run: (client, message, args) => {
-		const member = getMember(message, args.join(' '));
+	run: async (client, message, args) => {
+		const member = await getMember(message, args.join(' '));
 
 		// Member variables
 		const premiumSince = formatDate(member.premiumSince);
