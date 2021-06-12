@@ -13,6 +13,7 @@
 // limitations under the License.
 
 const { bot_prefix } = require('../../config.json');
+// eslint-disable-next-line no-unused-vars
 const characters = require('../../database/characters.json');
 
 module.exports = {
