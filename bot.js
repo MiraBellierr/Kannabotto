@@ -92,7 +92,7 @@ dbapi.on('ready', () => {
 		dbapi.postData(client.guilds.cache.size, client.shard.count);
 	}, 1.8e+6);
 });
-dbapi.login(db, client.user.id);
+dbapi.login(db, '636748567586930728');
 
 setInterval(function() {
 	voidbots(client);
