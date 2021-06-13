@@ -17,8 +17,11 @@ module.exports = {
 		toFind = toFind.toLowerCase();
 		let target = false;
 
-		target = await message.guild.members.fetch(toFind).catch(() => target = message.guild.members.cache.get(toFind));
+		target = await message.guild.members.fetch(toFind);
 
+		if (typeof target.user === 'undefined') {
+			target = message.guild.members.cache.get(toFind);
+		}
 		if (!target && message.mentions.members) {
 			target = message.mentions.members.first();
 		}
@@ -28,8 +31,9 @@ module.exports = {
 			});
 		}
 
-		if (!target) {target = message.member;}
-
+		if (!target) {
+			target = message.member;
+		}
 
 		return await target;
 	},
