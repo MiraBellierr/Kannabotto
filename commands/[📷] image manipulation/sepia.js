@@ -32,10 +32,10 @@ module.exports = {
 			.then(i => {
 				return i
 					.sepia()
-					.write('./images/sepia.png');
+					.write(`./images/${member.user.id}-sepia.png`);
 			});
 
 		const m = await message.channel.send('Please Wait...');
-		message.channel.send({ files: ['./images/sepia.png'] }).then(() => m.delete());
+		message.channel.send({ files: [`./images/${member.user.id}-sepia.png`] }).then(() => m.delete());
 	},
 };

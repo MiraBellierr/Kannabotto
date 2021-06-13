@@ -32,10 +32,10 @@ module.exports = {
 			.then(i => {
 				return i
 					.invert()
-					.write('./images/invert.png');
+					.write(`./images/${member.user.id}-invert.png`);
 			});
 
 		const m = await message.channel.send('Please Wait...');
-		message.channel.send({ files: ['./images/invert.png'] }).then(() => m.delete());
+		message.channel.send({ files: [`./images/${member.user.id}-invert.png`] }).then(() => m.delete());
 	},
 };

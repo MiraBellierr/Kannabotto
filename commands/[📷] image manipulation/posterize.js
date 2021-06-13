@@ -35,10 +35,10 @@ module.exports = {
 			.then(i => {
 				return i
 					.posterize(parseInt(args[0]))
-					.write('./images/posterize.png');
+					.write(`./images/${member.user.id}-posterize.png`);
 			});
 
 		const m = await message.channel.send('Please Wait...');
-		message.channel.send({ files: ['./images/posterize.png'] }).then(() => m.delete());
+		message.channel.send({ files: [`./images/${member.user.id}-posterize.png`] }).then(() => m.delete());
 	},
 };

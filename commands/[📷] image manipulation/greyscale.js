@@ -32,10 +32,10 @@ module.exports = {
 			.then(i => {
 				return i
 					.greyscale()
-					.write('./images/greyscale.png');
+					.write(`./images/${member.user.id}-greyscale.png`);
 			});
 
 		const m = await message.channel.send('Please Wait...');
-		message.channel.send({ files: ['./images/greyscale.png'] }).then(() => m.delete());
+		message.channel.send({ files: [`./images/${member.user.id}-greyscale.png`] }).then(() => m.delete());
 	},
 };
