@@ -45,7 +45,7 @@ module.exports = async (client, message) => {
 	}
 	catch (error) {
 		console.error(error);
-		message.reply(`there was an error trying to execute that command! \n\`${error}\` Report it by using \`${prefixes[message.guild.id]}suggest\`.`);
+		message.reply(`there was an error trying to execute that command! \n\`${error}\` Report it by joining our server: https://www.jasminebot.xyz/support`);
 	}
 
 	const totalBankAdd = Math.floor(Math.random() * 1) + 5;
