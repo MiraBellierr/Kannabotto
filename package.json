@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "ffmpeg-static": "^4.3.0",
     "g-i-s": "^2.1.6",
+    "gaussian-blur": "^0.0.0",
     "get-source": "^2.0.12",
     "jimp": "^0.16.1",
     "mathjs": "^9.4.1",

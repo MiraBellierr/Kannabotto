@@ -25,20 +25,21 @@ module.exports = {
 	usage: '<number> [username | attachment]',
 	run: async (client, message, args) => {
 		const member = await getMember(message, args.slice(1).join(' '));
-		const image = message.attachments.first() || member .user.displayAvatarURL({ format: 'jpg', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
+		const image = message.attachments.first() || member .user.displayAvatarURL({ format: 'png', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
 		if (!args[0]) return message.reply(`please provide a level of the posterization (number). For example, \`${prefixes[message.guild.id]}posterize 5\`.`);
 		if (isNaN(args[0])) return message.reply(`the right syntax is \`${prefixes[message.guild.id]}posterize <number> [username | attachment]\`.`);
 		if (args[0] > 100 || args[0] < 1) return message.reply('you can only choose a number between 1-100');
 		if (!image) return message.reply(`the right syntax is \`${prefixes[message.guild.id]}posterize <number> [username | attachment]\`.`);
 		if (image === undefined) return message.channel.send('Oops sorry, I can\'t manipulate that image');
+		const m = await message.channel.send('Please Wait...');
+
 		await Jimp.read(image)
 			.then(i => {
 				return i
 					.posterize(parseInt(args[0]))
 					.write(`./images/${member.user.id}-posterize.png`);
-			});
+			}).catch(e => message.channel.send(e.message));
 
-		const m = await message.channel.send('Please Wait...');
 		message.channel.send({ files: [`./images/${member.user.id}-posterize.png`] }).then(() => m.delete());
 	},
 };
