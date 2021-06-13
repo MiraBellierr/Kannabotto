@@ -17,22 +17,26 @@ module.exports = {
 		toFind = toFind.toLowerCase();
 		let target = false;
 
-		try {
-			target = await message.guild.members.fetch(toFind);
-		}
-		catch (e) {
-			if (!target && message.mentions.members) {
-				target = message.mentions.members.first();
-			}
-			if (!target && toFind) {
-				const members = await message.guild.members.fetch();
-				target = members.find(member => {
-					return member.displayName.toLowerCase().includes(toFind) || member.user.tag.toLowerCase().includes(toFind);
-				});
-			}
+		const fetch = message.guild.members.fetch(toFind);
 
-			if (!target) {target = message.member;}
+		if (!fetch.user) {
+			target = message.guild.members.cache.get(toFind);
 		}
+		else {
+			target = fetch;
+		}
+
+		if (!target && message.mentions.members) {
+			target = message.mentions.members.first();
+		}
+		if (!target && toFind) {
+			target = message.guild.members.cache.find(member => {
+				return member.displayName.toLowerCase().includes(toFind) || member.user.tag.toLowerCase().includes(toFind);
+			});
+		}
+
+		if (!target) {target = message.member;}
+
 
 		return await target;
 	},
