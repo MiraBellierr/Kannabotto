@@ -25,7 +25,7 @@ module.exports = {
 	usage: '[username | attachment]',
 	run: async (client, message, args) => {
 		const member = await getMember(message, args.join(' '));
-		const image = message.attachments.first() || await member.user.displayAvatarURL({ format: 'jpg', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
+		const image = message.attachments.first() || member.user.displayAvatarURL({ format: 'jpg', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
 		if (!image) return message.reply(`the right syntax is \`${prefixes[message.guild.id]}sepia [username | attachment]\`.`);
 		if (image === undefined) return message.channel.send('Oops sorry, I can\'t manipulate that image');
 		await Jimp.read(image)
