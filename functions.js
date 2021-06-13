@@ -17,14 +17,7 @@ module.exports = {
 		toFind = toFind.toLowerCase();
 		let target = false;
 
-		const fetch = message.guild.members.fetch(toFind);
-
-		if (!fetch.user) {
-			target = message.guild.members.cache.get(toFind);
-		}
-		else {
-			target = fetch;
-		}
+		target = await message.guild.members.fetch(toFind).catch(() => target = message.guild.members.cache.get(toFind));
 
 		if (!target && message.mentions.members) {
 			target = message.mentions.members.first();
