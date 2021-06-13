@@ -19,10 +19,10 @@ module.exports = {
 
 		target = await message.guild.members.fetch(toFind).catch(() => target = message.guild.members.cache.get(toFind));
 
-		if (typeof target === 'undefined') {
+		if (!target) {
 			target = message.guild.members.cache.get(toFind);
 		}
-		else if (typeof target.user === 'undefined') {
+		else if (!target.user) {
 			target = message.guild.members.cache.get(toFind);
 		}
 
