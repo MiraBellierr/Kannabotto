@@ -53,7 +53,7 @@ npm install
 
 Then, you will have to set up a bot on [Discord Developers Portal](https://discordapp.com/developers) and add it on your Discord server.
 
-Then, create `config.json` file, `images` folder and `database` folder.
+Then, create `config.json` file, `images` folder and `database` folder in same directory as `index.js`.
 
 After that, copy the bot token from the bot settings and put it as the `TOKEN` value in `config.json` file. Required parts are `bot_prefix` and `TOKEN`.
 If you wish to try meme generator commands, go to imgflip and create an account, fill your username and password in `img_username` and `img_password`.
