@@ -64,7 +64,6 @@ module.exports = {
 			const rank = index + 1;
 
 			const profile = new Discord.MessageEmbed()
-				.setThumbnail(client.user.avatarURL())
 				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 				.setTitle(`Level ${player.get('level')} ${player.get('name')}`)
 				.setDescription(`**• Rank:** ${rank}\n**• Stars:** ⭐ ${player.get('rank')}\n**• Total Battles:** ${player.get('battle')}\n**• Win rate:** ${isNaN((player.get('won') / player.get('battle')) * 100) ? '0.00%' : `${((player.get('won') / player.get('battle')) * 100).toFixed(2)}%`}`)
