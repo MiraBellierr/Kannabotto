@@ -51,11 +51,14 @@ To run the bot on your machine first install all the required dependencies using
 npm install
 ```
 
-Then you will have to set up a bot on [Discord Developers Portal](https://discordapp.com/developers) and add it on your Discord server.
+Then, you will have to set up a bot on [Discord Developers Portal](https://discordapp.com/developers) and add it on your Discord server.
+
+Then, create `config.json` file, `images` folder and `database` folder.
 
 After that, copy the bot token from the bot settings and put it as the `TOKEN` value in `config.json` file. Required parts are `bot_prefix` and `TOKEN`.
 If you wish to try meme generator commands, go to imgflip and create an account, fill your username and password in `img_username` and `img_password`.
 
+This is `config.json` file should looks like:
 ```json
 {
     "bot_prefix": "",
@@ -78,6 +81,21 @@ If you wish to try meme generator commands, go to imgflip and create an account,
     "topgg": "",
     "voidbots": ""
 }
+```
+
+The database should have the following files:
+![database](https://www.jasminebot.xyz/images/database.png)
+
+make sure every json file filled with `{}` except for `characters.json` and `giveaways.json`, need to be filled with `[]`. for example,
+
+`animal.json` file
+```json
+{}
+```
+
+`giveaways.json` file
+```json
+[]
 ```
 
 ## How does the bot work?
