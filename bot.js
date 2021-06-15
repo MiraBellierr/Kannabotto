@@ -85,6 +85,7 @@ const dbapi = new dbeu.Client();
 const paradisebots = require('./post/paradisebots');
 const disforge = require('./post/disforge');
 const discordextremelist = require('./post/discordextremelist');
+const radarbotdirectory = require('./post/radarbotdirectory');
 
 dbapi.on('ready', () => {
 	console.log('[LOG] DiscordBotList stats posted!');
@@ -107,6 +108,7 @@ setInterval(function() {
 	paradisebots(client);
 	disforge(client);
 	discordextremelist(client);
+	radarbotdirectory(client);
 }, 1.8e+6);
 
 const Topgg = require('@top-gg/sdk');
@@ -253,14 +255,15 @@ client.on('message', async message => {
 		},
 	});
 	Economy.sync();
+
 	if (!await Economy.findOne({ where: { userId: message.author.id } })) {
 		await Economy.create({
 			userId: message.author.id,
 		});
 	}
 	const economy = await Economy.findOne({ where: { userId: message.author.id } });
-
 	const xpAdd = Math.floor(Math.random() * 1) + 1;
+
 	if (timeoutxp.has(message.author.id)) return;
 
 	const Level = sequelize.define('level', {
@@ -281,42 +284,43 @@ client.on('message', async message => {
 		},
 	});
 	Level.sync();
+
 	if (!await Level.findOne({ where: { userId: message.author.id } })) {
 		await Level.create({
 			userId: message.author.id,
 		});
 	}
 	const level = await Level.findOne({ where: { userId: message.author.id } });
-
 	const curxp = level.get('xp');
 	const curlvl = level.get('level');
 	const nxtLvl = level.get('level') * 500;
 	const levelupReward = economy.get('balance') + 1000;
+
 	await Level.update({ xp: curxp + xpAdd }, { where: { userId: message.author.id } });
+
 	if(nxtLvl <= level.get('xp')) {
 		await Level.update({ level: curlvl + 1 }, { where: { userId: message.author.id } });
 		await Economy.update({ balance: levelupReward }, { where: { userId: message.author.id } });
 	}
 
 	timeoutxp.add(message.author.id);
+
 	setTimeout(() => timeoutxp.delete(message.author.id), 20000);
 });
 
-client.on('message', message => {
+client.on('message', async message => {
 
-	if (!prefixes[message.guild.id]) {
-		prefixes[message.guild.id] = bot_prefix;
-	}
 	if (message.author.bot) return;
+
 	const redirectChannel = require('./database/redirect.json');
 	const characters = require('./database/characters.json');
-
 
 	if (!redirectChannel[message.guild.id]) {
 		redirectChannel[message.guild.id] = {
 			channel: 'none',
 		};
 	}
+
 	if (redirectChannel[message.guild.id].channel === 'none') {
 		return;
 	}
@@ -325,9 +329,12 @@ client.on('message', message => {
 		const randomNum = num[Math.floor(Math.random() * num.length)];
 		const randomLevel = Math.floor((Math.random() * 200) + 1);
 		const channel = message.guild.channels.cache.get(redirectChannel[message.guild.id].channel);
+
 		if (!channel) return;
+
 		if (randomNum === 1) {
 			const random_character = require('./database/randomCharacter.json');
+
 			if (!random_character[message.guild.id]) {
 				random_character[message.guild.id] = {
 					id: 'none',
@@ -336,12 +343,19 @@ client.on('message', message => {
 				};
 			}
 			const character = characters[Math.floor(Math.random() * characters.length)];
+
 			random_character[message.guild.id].id = character.id;
 			random_character[message.guild.id].level = randomLevel;
 			random_character[message.guild.id].defeat = false;
+
 			fs.writeFile('./database/randomCharacter.json', JSON.stringify(random_character, null, 2), (err) => {
 				if (err) return channel.send(`An error occured \`${err}\``);
 			});
+
+			if (!prefixes[message.guild.id]) {
+				prefixes[message.guild.id] = bot_prefix;
+			}
+
 			const embed = new MessageEmbed()
 				.setAuthor('A wild boss appears!', message.author.displayAvatarURL({ dynamic: true }))
 				.setColor('RANDOM')

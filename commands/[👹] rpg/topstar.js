@@ -19,13 +19,13 @@ const Models = require('../../create-model.js');
 
 module.exports = {
 	name: 'topstar',
-	aliases: ['ts'],
+	aliases: ['ts', 'topstars'],
 	description: 'Top star leaderboard',
 	category: '[👹] rpg',
 	example: `${bot_prefix}topstar`,
 	run: async (client, message) => {
 
-		message.guild.members.fetch(). then(async members => {
+		message.guild.members.fetch().then(async members => {
 			const user = message.author.id;
 			const m = await message.channel.send('*Loading...*');
 

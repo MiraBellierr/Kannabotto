@@ -21,7 +21,7 @@ module.exports = {
 	name: 'comment',
 	description: 'youtube comment image overlay',
 	category: '[📷] image manipulation',
-	example: `${bot_prefix}youtube <username | id | mentions> <text>`,
+	example: `${bot_prefix}comment <username | id | mentions> <text>`,
 	usage: '[mention | attachment] <text>',
 	run: async (client, message, args) => {
 		if (!args[0]) return message.channel.send(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}comment <username | id | mention> <text>\`.`);
