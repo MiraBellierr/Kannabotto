@@ -19,9 +19,9 @@ const Models = require('../../create-model.js');
 module.exports = {
 	name: 'rich',
 	category: '[🎩] economy',
-	example: `${bot_prefix}rich`,
+	example: `${bot_prefix}rich [global]`,
 	description: 'Let\'s see who has the most coins in your server',
-	run: async (client, message) => {
+	run: async (client, message, args) => {
 		const user = message.author.id;
 
 		const Disable = Models.Disable();
@@ -84,26 +84,47 @@ module.exports = {
 			});
 		}
 
-		message.guild.members.fetch().then(async members => {
+		if (args[0] === 'global') {
 			let board = [];
-			const economyList = await Economy.findAll({ order: [['balance', 'DESC']], limit: 800, attributes: ['userId'] });
+			const economyList = await Economy.findAll({ order: [['balance', 'DESC']], limit: 10, attributes: ['userId'] });
 			const economyListString = economyList.map(p => p.userId);
 			for(let i = 0; i < economyListString.length; i++) {
-				const value = Object.assign({ user: members.get(economyListString[i]) }, await Economy.findOne({ where: { UserId: economyListString[i] } }));
+				const value = Object.assign({ user: await client.users.fetch(economyListString[i]) }, await Economy.findOne({ where: { UserId: economyListString[i] } }));
 				board.push(value);
 			}
 
 			board = board.filter(x => x.user);
-			board = board.sort((a, b) => b.dataValues.balance - a.dataValues.balance).splice(0, 10);
-			const top = board.map((x, i) => `[${i + 1}] ${x.user} - Pocket: <a:JasmineCoins:718067589984551042> **${x.dataValues.balance.toLocaleString()}**`).join('\n');
+			board = board.sort((a, b) => (b.dataValues.balance + b.dataValues.bank) - (a.dataValues.balance + a.dataValues.bank)).splice(0, 10);
+			const top = board.map((x, i) => `[${i + 1}] ${x.user} - Total: <a:JasmineCoins:718067589984551042> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
 			const embed = new MessageEmbed()
 				.setColor('RANDOM')
-				.setDescription(`**🆙 | Top 10 Server Rich**\n\n${top}`);
+				.setDescription(`**🆙 | Top 10 Global Rich**\n\n${top}`);
 
 			m.delete();
 			return message.channel.send(embed);
-		});
+		}
+		else {
 
+			message.guild.members.fetch().then(async members => {
+				let board = [];
+				const economyList = await Economy.findAll({ order: [['balance', 'DESC']], limit: 800, attributes: ['userId'] });
+				const economyListString = economyList.map(p => p.userId);
+				for(let i = 0; i < economyListString.length; i++) {
+					const value = Object.assign({ user: members.get(economyListString[i]) }, await Economy.findOne({ where: { UserId: economyListString[i] } }));
+					board.push(value);
+				}
+
+				board = board.filter(x => x.user);
+				board = board.sort((a, b) => (b.dataValues.balance + b.dataValues.bank) - (a.dataValues.balance + a.dataValues.bank)).splice(0, 10);
+				const top = board.map((x, i) => `[${i + 1}] ${x.user} - Total: <a:JasmineCoins:718067589984551042> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
+				const embed = new MessageEmbed()
+					.setColor('RANDOM')
+					.setDescription(`**🆙 | Top 10 Server Rich**\n\n${top}`);
+
+				m.delete();
+				return message.channel.send(embed);
+			});
+		}
 
 	},
 };
