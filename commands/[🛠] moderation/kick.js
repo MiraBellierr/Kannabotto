@@ -26,8 +26,8 @@ module.exports = {
 	example: `${bot_prefix}kick <mention | id | username> [reason]`,
 	usage: '<mention | id | username> [reason]',
 	run: async (client, message, args) => {
-		if (!message.member.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('Sorry you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
-		if (!message.guild.me.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('I don\'t have `KICK_MEMBERS` permission to kick members.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('Sorry you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
+		if (!message.guild.me.hasPermission('KICK_MEMBERS')) return message.channel.send('I don\'t have `KICK_MEMBERS` permission to kick members.').then(m => m.delete({ timeout: 5000 }));
 		if (!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}kick <mention | id | username> [reason]\`.`);
 
 		const member = await getMember(message, args[0]);

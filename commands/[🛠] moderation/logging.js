@@ -46,7 +46,7 @@ module.exports = {
 		}
 		else if (option.match('set')) {
 			const channel = JSON.parse(fs.readFileSync('./database/logging.json', 'utf8'));
-			if (!message.member.hasPermission('MANAGE_GUILD', { checkAdmin: true, CheckOwner: true })) return message.reply(`**${message.author.username}**, Sorry, You need \`Manage Server\` permission to use this command!`);
+			if (!message.member.hasPermission('MANAGE_GUILD')) return message.reply(`**${message.author.username}**, Sorry, You need \`Manage Server\` permission to use this command!`);
 			const inputmessage = message.mentions.channels.first();
 			if (!inputmessage) return message.channel.send(`**${message.author.username}**, The right syntax is \`${prefix}logging set <channel>\`.`);
 			if (!message.guild.me.permissionsIn(inputmessage).has('SEND_MESSAGES')) return message.channel.send('I do not have a permission to send a message in that channel.');

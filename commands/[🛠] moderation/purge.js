@@ -27,7 +27,7 @@ module.exports = {
 		}
 
 		// Member doesn't have permissions
-		if (!message.member.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
+		if (!message.member.hasPermission('MANAGE_MESSAGES')) {
 			return message.reply('You don\'t have `MANAGE_MASSAGES` permission').then(m => m.delete({ timeout: 5000 }));
 		}
 
@@ -37,7 +37,7 @@ module.exports = {
 		}
 
 		// Maybe the bot can't delete messages
-		if (!message.guild.me.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
+		if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) {
 			return message.reply('Sorry... I can\'t delete messages. Make sure to check my `MANAGE_MESSAGES` permission').then(m => m.delete({ timeout: 5000 }));
 		}
 

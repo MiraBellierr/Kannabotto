@@ -29,13 +29,13 @@ module.exports = {
 	example: `${bot_prefix}mute <mention | id | username> <duration> [reason]`,
 	usage: '<mention | id | username> <duration> [reason]',
 	run: async (client, message, args) => {
-		if (!message.member.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('Sorry, you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
-		if (!message.guild.me.hasPermission('MANAGE_ROLES', { checkAdmin: true, checkOwner: true })) return message.channel.send('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('Sorry, you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
+		if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
 
 		const tomute = await getMember(message, args[0]);
 
 		if (!tomute) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
-		if (tomute.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) return message.channel.send('I cant mute this user');
+		if (tomute.hasPermission('KICK_MEMBERS')) return message.channel.send('I cant mute this user');
 		if (tomute.user.id === message.author.id) return message.channel.send('You can\'t mute yourself!');
 		let muterole = message.guild.roles.cache.find(r => r.name === 'muted');
 
