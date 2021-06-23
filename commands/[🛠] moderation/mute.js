@@ -31,6 +31,7 @@ module.exports = {
 	run: async (client, message, args) => {
 		if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('Sorry, you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
 		if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
+		if (!args.length) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
 
 		const tomute = await getMember(message, args[0]);
 

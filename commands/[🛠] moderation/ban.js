@@ -26,9 +26,9 @@ module.exports = {
 	example: `${bot_prefix}ban <mention> [reason]`,
 	usage: '<mention | id | username> [reason]',
 	run: async (client, message, args) => {
-		if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send('Sorry you don\'t have ban permission to use this command.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send('Sorry you don\'t have ban permission to use this command.').then(m => m.delete({ timeout: 5000 }));
 		if (!message.guild.me.hasPermission('BAN_MEMBERS')) return message.channel.send('I don\'t have ban permission. Please enable it for me to be able to ban members').then(m => m.delete({ timeout: 5000 }));
-		if(!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}ban <mention | id | username> [reason]\`.`);
+		if (!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}ban <mention | id | username> [reason]\`.`);
 
 		const member = await getMember(message, args[0]);
 
