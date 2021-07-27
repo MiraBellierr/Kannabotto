@@ -1,4 +1,4 @@
-[![Discord](https://img.shields.io/discord/684084513403699314?color=blue&logo=discord&logoColor=white&style=plastic)](https://discord.gg/s875Hry)
+[![Discord](https://img.shields.io/discord/864537979339014184?color=blue&label=Kanna%27s%20Kawaii%20Klubhouse&logo=discord&logoColor=white&style=plastic)](https://discord.gg/NcPeGuNEdc)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/MiraBellierr/Jasmine?logo=github&style=plastic)
 ![Contributor](https://img.shields.io/github/contributors/MiraBellierr/Jasmine?color=blue&logo=github&style=plastic)
 ![Issue](https://img.shields.io/github/issues-closed/MiraBellierr/Jasmine?color=blue&logo=github&style=plastic)<br>
