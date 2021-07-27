@@ -36,7 +36,7 @@ Kanna is an Anime RPG and Economy Discord bot ⚔️ developed by Mirabellier fo
 
 ## 🧡 Links
 * **[Discord](https://discord.gg/NcPeGuNEdc)** - My Discord server
-* **[Invite](https://www.kannacoco.me/invite)** - Invite Jasmine to your server
+* **[Invite](https://www.kannacoco.me/invite)** - Invite Kanna to your server
 * **[Donation](https://www.patreon.com/kannacoco)** - help me with funding
 
 ## 💛 Contributing
