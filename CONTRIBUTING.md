@@ -1,6 +1,6 @@
-# Contributing to Jasmine
+# Contributing to Kannabotto
 
-The following is a set of guidelines for contributing to Jasmine repo. The bot is written in **Javascript**
+The following is a set of guidelines for contributing to Kannabotto repo. The bot is written in **Javascript**
 
 ## Table of contents
 
@@ -13,11 +13,11 @@ The following is a set of guidelines for contributing to Jasmine repo. The bot i
 
 ### Reporting bugs and sharing your ideas
 
-If you have an idea or you have found a bug in the bot, you can [open an issue](https://github.com/MiraBellierr/Jasmine/issues) on GitHub. Make sure it's not already on the list.
+If you have an idea or you have found a bug in the bot, you can [open an issue](https://github.com/MiraBellierr/Kannabotto/issues) on GitHub. Make sure it's not already on the list.
 
 ### Contributing code
 
-First create a fork of the [MiraBellierr/Jasmine](https://github.com/MiraBellierr/Jasmine). If you are just getting started please see [How does the bot work](#how-does-the-bot-work). This will give you basic understanding of the code of the bot. To test the bot locally see [Running the bot locally](#running-the-bot-locally).
+First create a fork of the [MiraBellierr/Kannabotto](https://github.com/MiraBellierr/Kannabotto). If you are just getting started please see [How does the bot work](#how-does-the-bot-work). This will give you basic understanding of the code of the bot. To test the bot locally see [Running the bot locally](#running-the-bot-locally).
 When pushing commits and creating pull requests please follow the [Style guides](#style-guides).
 
 Please also use a linter to make sure the code is correctly formatted:
@@ -84,7 +84,7 @@ This is `config.json` file should looks like:
 ```
 
 The database should have the following files:
-![database](https://www.jasminebot.xyz/images/database.png)
+![database](https://www.kannacoco.me/images/database.png)
 
 make sure every json file filled with `{}` except for `characters.json` and `giveaways.json`, need to be filled with `[]`. for example,
 
