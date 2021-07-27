@@ -5,15 +5,15 @@
 ![License](https://img.shields.io/github/license/MiraBellierr/Jasmine?color=blue&logo=apache&style=plastic)
 ![Donation](https://img.shields.io/github/sponsors/MiraBellierr?color=blue&label=Patreon&logo=patreon&style=plastic)
 ![CodeFactor](https://img.shields.io/codefactor/grade/github/MiraBellierr/Jasmine?logo=github&style=plastic&color=blue)
-![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=blue&up_message=online&url=https%3A%2F%2Fwww.jasminebot.xyz&style=plastic)
+![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=blue&up_message=online&url=https%3A%2F%2Fwww.kannacoco.me&style=plastic)
 
-<img width="120" height="120" align="left" style="float: left; margin: 0 10px 0 0;" alt="Meo" src="https://www.jasminebot.xyz/favicon.jpg">
+<img width="120" height="120" align="left" style="float: left; margin: 0 10px 0 0;" alt="kanna" src="https://www.kannacoco.me/favicon.jpg">
 
-# Jasmine
-Jasmine is a Discord bot written in Javascript developed by Mirabellier just for fun. 🍄<br>Containing over 100+ commands from different categories. 🌼
+# Kanna
+Kanna is a Discord bot written in Javascript developed by Mirabellier just for fun. 🍄<br>Containing over 100+ commands from different categories. 🌼
 
 ## ❤️ About
-Jasmine is an Anime RPG and Economy Discord bot ⚔️ developed by Mirabellier for fun. You can invite it to your Discord server by clicking [this link](https://www.jasminebot.xyz/invite)! You can also join our Discord server [✨ Jasmine Headquarters ✨](https://discord.gg/s875Hry) for all questions, suggestions, and assistance! It comes packaged with a variety of fun commands and utility commands that can be useful for your server.
+Kanna is an Anime RPG and Economy Discord bot ⚔️ developed by Mirabellier for fun. You can invite it to your Discord server by clicking [this link](https://www.jasminebot.xyz/invite)! You can also join our Discord server [Kanna's Kawaii Klubhouse](https://discord.gg/NcPeGuNEdc) for all questions, suggestions, and assistance! It comes packaged with a variety of fun commands and utility commands that can be useful for your server.
 
 ## 🧡 Features
 
@@ -32,18 +32,18 @@ Jasmine is an Anime RPG and Economy Discord bot ⚔️ developed by Mirabellier 
 * :person_fencing: **actions**: `hug`, `smile`, `slap`, `kill` and more..
 * :jigsaw: **fun**: `love`, `joke`, `alignment`, `8ball` and more..
 
-**Note:** To enable boss spawn, do `J.redirect <#channel>`
+**Note:** To enable boss spawn, do `k.redirect <#channel>`
 
 ## 🧡 Links
-* **[Discord](https://discord.gg/s875Hry)** - My Discord server
-* **[Invite](https://www.jasminebot.xyz/invite)** - Invite Jasmine to your server
-* **[Donation](https://www.patreon.com/jasminebot)** - help me with funding
+* **[Discord](https://discord.gg/NcPeGuNEdc)** - My Discord server
+* **[Invite](https://www.kannacoco.me/invite)** - Invite Jasmine to your server
+* **[Donation](https://www.patreon.com/kannacoco)** - help me with funding
 
 ## 💛 Contributing
-You may contribute to the Jasmine repo. I would appreciate it if you do so and help me with the development. ✨
+You may contribute to the Kannabotto repo. I would appreciate it if you do so and help me with the development. ✨
 
 ## 💚 License
-Released under the [Apache License 2.0](https://github.com/MiraBellierr/Jasmine/blob/main/LICENSE) license.
+Released under the [Apache License 2.0](https://github.com/MiraBellierr/Kannabotto/blob/main/LICENSE) license.
 
 ## 💙 Credits
 * No one contribute
