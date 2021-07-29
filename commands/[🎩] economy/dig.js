@@ -16,8 +16,8 @@ const minerals = require('../../database/mineral.json');
 const { bot_prefix } = require('../../config.json');
 const Discord = require('discord.js');
 const phrases = ['I found a manganese!', 'What is this!?', 'what is this shiny thing?'];
-const successRates = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
-const breakRates = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0];
+const successRates = 0.55;
+const breakRates = 0.4;
 const Models = require('../../create-model');
 
 
@@ -29,8 +29,8 @@ module.exports = {
 	run: async (client, message) => {
 		import('parse-ms').then(async ms => {
 			const user = message.author.id;
-			const breakRate = breakRates[Math.floor(Math.random() * breakRates.length)];
-			const successRate = successRates[Math.floor(Math.random() * successRates.length)];
+			const breaks = Math.random() < breakRates;
+			const success = Math.random() < successRates;
 
 			const Disable = Models.Disable();
 			const Blacklist = Models.Blacklist();
@@ -114,7 +114,7 @@ module.exports = {
 			}
 			else {
 				await Cooldown.update({ dig: Date.now() }, { where: { userId: user } });
-				if (successRate === 1) {
+				if (success) {
 					const mineralID = Math.floor(Math.random() * 10) + 1;
 					let rarity;
 					if (mineralID < 5) {
@@ -151,7 +151,7 @@ module.exports = {
 							await Inventory.update({ manganese: inventory.get('manganese') + 1 }, { where: { userId: user } });
 						}
 						else {
-							if (breakRate === 1) {
+							if (breaks) {
 								await Inventory.update({ dig: inventory.get('pickaxe') - 1 }, { where: { userId: user } });
 								message.channel.send(`**${message.author.username}**, you failed to get the shiny stone and your **⛏️ pickaxe** has broken..`);
 							}
