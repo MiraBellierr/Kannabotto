@@ -46,4 +46,4 @@ You may contribute to the Kannabotto repo. I would appreciate it if you do so an
 Released under the [Apache License 2.0](https://github.com/MiraBellierr/Kannabotto/blob/main/LICENSE) license.
 
 ## 💙 Credits
-* No one contribute
+* Z3RYX
