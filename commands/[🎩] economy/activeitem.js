@@ -101,7 +101,7 @@ module.exports = {
 				.setColor('RANDOM')
 				.setTitle('Active item:')
 				.setTimestamp()
-				.setDescription(`${(guard === null && guardTime < 1) && (bear === null && bearTime < 1) ? 'You have no active item' : ''}${guard !== null && guardTime > 0 ? `**• <:bearcop:843071040480608307> Guard** - ${guardObj.hours}h${guardObj.minutes}m${guardObj.seconds}s left` : ''}${bear !== null && bearTime > 0 ? `\n**• <a:bearymad:719100025363234817> Bear** -- ${bearObj.minutes}m${bearObj.seconds}s left` : ''}`);
+				.setDescription(`${(guard === null && guardTime < 1) && (bear === null && bearTime < 1) ? 'You have no active item' : ''}${guard !== null && guardTime > 0 ? `**• <:bearguard:868105110289543188> Guard** - ${guardObj.hours}h${guardObj.minutes}m${guardObj.seconds}s left` : ''}${bear !== null && bearTime > 0 ? `\n**• <a:angrybear:868105109853327370> Bear** -- ${bearObj.minutes}m${bearObj.seconds}s left` : ''}`);
 
 			message.channel.send(embed);
 		});

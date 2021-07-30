@@ -33,7 +33,7 @@ module.exports = {
 		}
 		const economy = await Economy.findOne({ where: { userId: id } });
 		await Economy.update({ balance: economy.get('balance') + amount }, { where: { userId: id } });
-		message.channel.send(`Successfully added <a:JasmineCoins:718067589984551042> **${amount.toLocaleString()}** to **${client.users.cache.get(id).tag}**.`);
+		message.channel.send(`Successfully added <a:jasminecoins:868105109748469780> **${amount.toLocaleString()}** to **${client.users.cache.get(id).tag}**.`);
 
 
 	},

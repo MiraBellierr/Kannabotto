@@ -107,7 +107,7 @@ module.exports = {
 			}
 			else {
 				await Cooldown.update({ business: Date.now() }, { where: { userId: user } });
-				const breaks = Math.random() < breakrate;
+				const breakrate = breakrates[Math.floor(Math.random() * breakrates.length)];
 				const gain = Math.floor(Math.random() * 50) + 3;
 				const multiplier = Math.floor((inventory.get('bunny') / 100) * gain);
 				const random = gain + multiplier;
@@ -127,12 +127,12 @@ module.exports = {
 					const sub = Math.floor((Math.random() * 1000) + 1);
 					if (success) {
 						await Economy.update({ balance: economy.get('balance') + random }, { where: { userId: user } });
-						return message.channel.send(`**${message.author.username}**, you gained ${sub} subscribers and got <a:JasmineCoins:718067589984551042> **${random.toLocaleString()}** from the ads.`);
+						return message.channel.send(`**${message.author.username}**, you gained ${sub} subscribers and got <a:jasminecoins:868105109748469780> **${random.toLocaleString()}** from the ads.`);
 					}
-					if (success) {
+					else {
 						if (breaks) {
 							await Inventory.update({ laptop: inventory.get('laptop') - 1 }, { where: { userId: user } });
-							return message.channel.send(`**${message.author.username}**, it seems like your content is not interesting and no one is watching it. You gained nothing and your **<:laptop:843067880882700318> laptop** has broken.`);
+							return message.channel.send(`**${message.author.username}**, it seems like your content is not interesting and no one is watching it. You gained nothing and your **<:laptop:868105109379379221> laptop** has broken.`);
 						}
 						else {
 							return message.channel.send(`**${message.author.username}**, it seems like your content is not interesting and no one is watching it. You gained nothing.`);
@@ -145,12 +145,12 @@ module.exports = {
 					const success = Math.random() < 0.6;
 					if (success) {
 						await Economy.update({ balance: economy.get('balance') + random }, { where: { userId: user } });
-						return message.channel.send(`**${message.author.username}**, you created a website and sold it for <a:JasmineCoins:718067589984551042> **${random.toLocaleString()}**`);
+						return message.channel.send(`**${message.author.username}**, you created a website and sold it for <a:jasminecoins:868105109748469780> **${random.toLocaleString()}**`);
 					}
-					if (success) {
+					else {
 						if (breaks) {
 							await Inventory.update({ laptop: inventory.get('laptop') - 1 }, { where: { userId: user } });
-							return message.channel.send(`**${message.author.username}**, you created a website but no one is willing to buy it, sad and your **<:laptop:843067880882700318> laptop** has broken.`);
+							return message.channel.send(`**${message.author.username}**, you created a website but no one is willing to buy it, sad and your **<:laptop:868105109379379221> laptop** has broken.`);
 						}
 						else {
 							return message.channel.send(`**${message.author.username}**, you created a website but no one is willing to buy it, sad.`);
@@ -164,12 +164,12 @@ module.exports = {
 						const products = ['phone', 'hat', 'T-shirt', 'discord bot', 'blanket'];
 						const product = products[Math.floor(Math.random() * products.length)];
 						await Economy.update({ balance: economy.get('balance') + random }, { where: { userId: user } });
-						return message.channel.send(`**${message.author.username}**, you sold a ${product} on Amazon and earned <a:JasmineCoins:718067589984551042> **${random.toLocaleString()}** from it.`);
+						return message.channel.send(`**${message.author.username}**, you sold a ${product} on Amazon and earned <a:jasminecoins:868105109748469780> **${random.toLocaleString()}** from it.`);
 					}
-					if (success) {
+					else {
 						if (breaks) {
 							await Inventory.update({ laptop: inventory.get('laptop') - 1 }, { where: { userId: user } });
-							return message.channel.send(`**${message.author.username}**, you ended up getting negative reviews from the customers and because of that, you gave them a full refund.. and your **<:laptop:843067880882700318> laptop** has broken.`);
+							return message.channel.send(`**${message.author.username}**, you ended up getting negative reviews from the customers and because of that, you gave them a full refund.. and your **<:laptop:868105109379379221> laptop** has broken.`);
 						}
 						else {
 							return message.channel.send(`**${message.author.username}**, you ended up getting negative reviews from the customers and because of that, you gave them a full refund..`);
@@ -183,12 +183,12 @@ module.exports = {
 						const medias = ['Facebook', 'Discord', 'Twitter', 'Instagram'];
 						const media = medias[Math.floor(Math.random() * medias.length)];
 						await Economy.update({ balance: economy.get('balance') + random }, { where: { userId: user } });
-						return message.channel.send(`**${message.author.username}**, you promoted products on ${media} and earned <a:JasmineCoins:718067589984551042> **${random.toLocaleString()}** from it.`);
+						return message.channel.send(`**${message.author.username}**, you promoted products on ${media} and earned <a:jasminecoins:868105109748469780> **${random.toLocaleString()}** from it.`);
 					}
-					if (success) {
+					else {
 						if (breaks) {
 							await Inventory.update({ laptop: inventory.get('laptop') - 1 }, { where: { userId: user } });
-							return message.channel.send(`**${message.author.username}**, you promoted products but you are not popular enough. You got nothing from it and your **<:laptop:843067880882700318> laptop** has broken.`);
+							return message.channel.send(`**${message.author.username}**, you promoted products but you are not popular enough. You got nothing from it and your **<:laptop:868105109379379221> laptop** has broken.`);
 						}
 						else {
 							return message.channel.send(`**${message.author.username}**, you promoted products but you are not popular enough. You got nothing from it.`);

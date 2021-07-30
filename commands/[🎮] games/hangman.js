@@ -25,7 +25,7 @@ module.exports = {
 	name: 'hangman',
 	category: '[🎮] games',
 	aliases: ['hg'],
-	description: 'Prevent a man from being hanged by guessing words as fast as you can. Win <a:JasmineCoins:718067589984551042> 100 if you can guess the word',
+	description: 'Prevent a man from being hanged by guessing words as fast as you can. Win <a:jasminecoins:868105109748469780> 100 if you can guess the word',
 	example: `${bot_prefix}hangman`,
 	run: async (client, message) => {
 		import('parse-ms').then(async ms => {
@@ -205,7 +205,7 @@ module.exports = {
 						await Economy.update({ balance: economy.get('balance') + 100 }, { where: { userId: user } });
 						await Achievement.update({ hangman: achievement.get('hangman') + 1 }, { where: { userId: user } });
 
-						message.channel.send(`You're correct! It was **${word}**. You won **<a:JasmineCoins:718067589984551042> 100**.`);
+						message.channel.send(`You're correct! It was **${word}**. You won **<a:jasminecoins:868105109748469780> 100**.`);
 						return;
 					}
 					message.channel.send(`You couldn't guess it... Too bad... The answer was **${word}**`);

@@ -174,7 +174,7 @@ module.exports = {
       ${arr1[0]} : ${arr2[2]} : ${arr3[0]}
       **-----------------**
       | : : : **WIN** : : : |
-      **${message.author.username}** used <a:JasmineCoins:718067589984551042> ${amount.toLocaleString()} and won <a:JasmineCoins:718067589984551042> ${random.toLocaleString()}
+      **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and won <a:jasminecoins:868105109748469780> ${random.toLocaleString()}
 		  `), 2500);
 
 					}
@@ -191,7 +191,7 @@ module.exports = {
       ${arr1[0]} : ${arr2[2]} : ${arr3[0]}
       **-----------------**
       | : : : **WIN** : : : |
-      **${message.author.username}** used <a:JasmineCoins:718067589984551042> ${amount.toLocaleString()} and won <a:JasmineCoins:718067589984551042> ${random.toLocaleString()}
+      **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and won <a:jasminecoins:868105109748469780> ${random.toLocaleString()}
 		  `), 2500);
 
 					}
@@ -206,7 +206,7 @@ module.exports = {
       ${arr1[0]} : ${arr2[2]} : ${arr3[0]}
       **-----------------**
       | : : : **LOST** : : : |
-      **${message.author.username}** used <a:JasmineCoins:718067589984551042> ${amount.toLocaleString()} and lost everything.
+      **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and lost everything.
 		  `), 2500);
 
 				}

@@ -100,7 +100,7 @@ module.exports = {
 			if (inventory.get('bear') < 1) return message.channel.send(`**${message.author.username}**, you don't have this item in your inventory`);
 			await Cooldown.update({ bear: Date.now() }, { where: { userId: user } });
 			await Inventory.update({ bear: inventory.get('bear') - 1 }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, you activated **<a:bearymad:719100025363234817> Bear**. Your Xp has been boosted by 50% for 1 hour.`);
+			message.channel.send(`**${message.author.username}**, you activated **<a:angrybear:868105109853327370> Bear**. Your Xp has been boosted by 50% for 1 hour.`);
 		}
 		else if (content === 'guard') {
 			const timeout = 4.32e+7;
@@ -109,13 +109,13 @@ module.exports = {
 			if (inventory.get('guard') < 1) return message.channel.send(`**${message.author.username}**, You don't have this item in your inventory.`);
 			await Cooldown.update({ guard: Date.now() }, { where: { userId: user } });
 			await Inventory.update({ guard: inventory.get('guard') - 1 }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, you activated <:bearcop:843071040480608307> **Guard**. now people can't rob you for 12 hours.`);
+			message.channel.send(`**${message.author.username}**, you activated <:bearguard:868105110289543188> **Guard**. now people can't rob you for 12 hours.`);
 		}
 		else if (content === 'dog') {
 			if (inventory.get('dog') < amount) return message.channel.send(`**${message.author.username}**, You don't have this item in your inventory.`);
 			await Inventory.update({ dog: inventory.get('dog') - amount }, { where: { userId: user } });
 			await Economy.update({ totalBank: economy.get('totalBank') + 1000 * amount }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, you used **${amount}** <:doggo:843068555201216512> **Dog**. Your bank has been expanded by ${(1000 * amount).toLocaleString()}.`);
+			message.channel.send(`**${message.author.username}**, you used **${amount}** <:dog:868105109647810600> **Dog**. Your bank has been expanded by ${(1000 * amount).toLocaleString()}.`);
 		}
 		else if (content === 'bunny') {
 			if (inventory.get('bunny2') < 1) return message.channel.send(`**${message.author.username}**, you don't have this item in your inventory.`);

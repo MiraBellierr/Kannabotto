@@ -50,11 +50,11 @@ module.exports = {
 		embed.setThumbnail(client.user.avatarURL());
 		embed.setDescription('Your Weapons');
 		bag.get('sword') === 0 && bag.get('staff') === 0 && bag.get('shield') === 0 && bag.get('bow') === 0 && bag.get('swordFire') === 0 ? embed.addField('Your bag is empty', `**•** Buy one in \`${prefixes[message.guild.id]}market\``) : '';
-		bag.get('sword') === 1 ? embed.addField('<:sword:843066591628492810> Sword', '**• +10 Physical Attack**') : '';
-		bag.get('staff') === 1 ? embed.addField('<:staff:843066639834021909> Staff', '**• +10 Magical Attack**') : '';
-		bag.get('shield') === 1 ? embed.addField('<:shield:726977268760707142> Shield', '**• +5 Physical Resistance\n• +5 Magical Resistance**') : '';
+		bag.get('sword') === 1 ? embed.addField('<:sword:868105110100779028> Sword', '**• +10 Physical Attack**') : '';
+		bag.get('staff') === 1 ? embed.addField('<:staff:868105110138519582> Staff', '**• +10 Magical Attack**') : '';
+		bag.get('shield') === 1 ? embed.addField('🛡️ Shield', '**• +5 Physical Resistance\n• +5 Magical Resistance**') : '';
 		bag.get('bow') === 1 ? embed.addField('🏹 Bow', '**• +6 Physical Attack\n• +4 physical Resistance\nPassive: Increase 5% speed every turn**') : '';
-		bag.get('swordFire') === 1 ? embed.addField('<a:fireSword:843064948262305812> Fire-Sword', '**• +5 Physical Attack\n• +5 Magical Attack\nPassive: Increase 80% of your overall damage for the first turn**') : '';
+		bag.get('swordFire') === 1 ? embed.addField('<a:firesword:868105110176301086> Fire-Sword', '**• +5 Physical Attack\n• +5 Magical Attack\nPassive: Increase 80% of your overall damage for the first turn**') : '';
 		embed.setTimestamp();
 		embed.setFooter(client.user.username, client.user.avatarURL({ dynamic: true }));
 

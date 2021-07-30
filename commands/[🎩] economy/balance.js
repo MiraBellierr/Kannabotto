@@ -93,8 +93,8 @@ module.exports = {
 			.setAuthor(`${user.username}'s balance`)
 			.setThumbnail(user.displayAvatarURL({ dynamic: true }))
 			.setColor('YELLOW')
-			.setFooter('https://patreon.com/jasminebot', client.user.displayAvatarURL())
-			.setDescription(`**Pocket:** <a:JasmineCoins:718067589984551042> ${economy.get('balance').toLocaleString()}\n**Bank:** <a:JasmineCoins:718067589984551042> ${economy.get('bank').toLocaleString()}/${economy.get('totalBank').toLocaleString()}\n**Total:** <a:JasmineCoins:718067589984551042> ${(economy.get('balance') + economy.get('bank')).toLocaleString()}\n**Multiplier:** ${inventory.get('bunny').toFixed(2)}%`);
+			.setFooter('https://patreon.com/kannacoco', client.user.displayAvatarURL())
+			.setDescription(`**Pocket:** <a:jasminecoins:868105109748469780> ${economy.get('balance').toLocaleString()}\n**Bank:** <a:jasminecoins:868105109748469780> ${economy.get('bank').toLocaleString()}/${economy.get('totalBank').toLocaleString()}\n**Total:** <a:jasminecoins:868105109748469780> ${(economy.get('balance') + economy.get('bank')).toLocaleString()}\n**Multiplier:** ${inventory.get('bunny').toFixed(2)}%`);
 		message.channel.send(moneyEmbed);
 	},
 };

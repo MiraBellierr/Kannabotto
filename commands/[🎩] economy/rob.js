@@ -148,7 +148,7 @@ module.exports = {
 				else {
 					await Cooldown.update({ gotRobbed: Date.now() }, { where: { userId: user.id } });
 
-					if (economy.get('balance') < 200) return message.channel.send(`**${message.author.username}**, You need atleast <a:JasmineCoins:718067589984551042> 200 in your pocket to rob someone`);
+					if (economy.get('balance') < 200) return message.channel.send(`**${message.author.username}**, You need atleast <a:jasminecoins:868105109748469780> 200 in your pocket to rob someone`);
 					const timeOut = 4.32e+7;
 					const lastGuard = await cooldown.get('guard');
 					if (lastGuard !== null && timeOut - (Date.now() - lastGuard) > 0) return message.channel.send(`**${message.author.username}**, there is a guard watching over ${user.username}! You can't rob them.`);
@@ -159,14 +159,14 @@ module.exports = {
 						await Achievement.update({ rob: achievement.get('rob') + random }, { where: { userId: message.author.id } });
 						await Economy.update({ balance: economyVictim.get('balance') - random }, { where: { userId: user.id } });
 						await Economy.update({ balance: economy.get('balance') + random }, { where: { userId: message.author.id } });
-						message.channel.send(`**${message.author.username}**, you robbed ${user.username} and got away with <a:JasmineCoins:718067589984551042> ${random.toLocaleString()}`);
+						message.channel.send(`**${message.author.username}**, you robbed ${user.username} and got away with <a:jasminecoins:868105109748469780> ${random.toLocaleString()}`);
 					}
 					else {
 						const random = Math.floor(0.05 * economy.get('balance'));
 
 						await Economy.update({ balance: economyVictim.get('balance') + random }, { where: { userId: user.id } });
 						await Economy.update({ balance: economy.get('balance') - random }, { where: { userId: message.author.id } });
-						message.channel.send(`**${message.author.username}**, you get caught and you paid ${user.username} <a:JasmineCoins:718067589984551042> ${random.toLocaleString()}`);
+						message.channel.send(`**${message.author.username}**, you get caught and you paid ${user.username} <a:jasminecoins:868105109748469780> ${random.toLocaleString()}`);
 					}
 				}
 			}

@@ -21,7 +21,7 @@ module.exports = {
 	example: `${bot_prefix}invite`,
 	run: async (client, message) => {
 
-		message.channel.send('You can invite me using this link:\nhttps://www.jasminebot.xyz/invite/');
+		message.channel.send('You can invite me using this link:\n<https://discord.com/api/oauth2/authorize?client_id=867048396358549544&permissions=0&scope=bot>');
 
 	},
 };

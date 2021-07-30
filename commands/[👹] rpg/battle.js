@@ -125,7 +125,7 @@ module.exports = {
 						let playerSpeed = player.get('speed');
 						let playerSpeed2 = player.get('speed');
 						let playerDamage2 = playerPa + playerMa;
-						if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') playerDamage2 = Math.floor(((80 / 100) * playerDamage2) + playerDamage2);
+						if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') playerDamage2 = Math.floor(((80 / 100) * playerDamage2) + playerDamage2);
 
 						let enemyHealth = (enemy[0].health + enemyLevel) * 100;
 						let enemyHealth2 = (enemy[0].health + enemyLevel) * 100;
@@ -146,7 +146,7 @@ module.exports = {
 							}
 
 							if (playerSpeed > enemySpeed) {
-								if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+								if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 									if (i === 0) {
 										enemyHealth -= playerDamage2;
 									}
@@ -164,7 +164,7 @@ module.exports = {
 							else {
 
 								if (random2 === 1) {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth -= playerDamage2;
 										}
@@ -288,7 +288,7 @@ module.exports = {
 								playerHealth -= enemyDamage;
 							}
 							else if (enemySpeed > playerSpeed) {
-								if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+								if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 									if (i === 0) {
 										enemyHealth -= playerDamage2;
 									}
@@ -305,7 +305,7 @@ module.exports = {
 									playerHealth -= enemyDamage;
 								}
 								else {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth -= playerDamage2;
 										}
@@ -324,7 +324,7 @@ module.exports = {
 								playerSpeed2 = ((5 / 100) * playerSpeed2) + playerSpeed2;
 							}
 							if (playerSpeed2 > enemySpeed) {
-								if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+								if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 									if (i === 0) {
 										enemyHealth2 -= playerDamage2;
 									}
@@ -342,7 +342,7 @@ module.exports = {
 							else {
 
 								if (random2 === 1) {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth2 -= playerDamage2;
 										}
@@ -369,7 +369,7 @@ module.exports = {
 								playerHealth2 -= enemyDamage;
 							}
 							else if (enemySpeed > playerSpeed2) {
-								if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+								if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 									if (i === 0) {
 										enemyHealth2 -= playerDamage2;
 									}
@@ -386,7 +386,7 @@ module.exports = {
 									playerHealth2 -= enemyDamage;
 								}
 								else {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth2 -= playerDamage2;
 										}
@@ -503,7 +503,7 @@ module.exports = {
 							let playerSpeed = player.get('speed');
 							let playerSpeed2 = player.get('speed');
 							let playerDamage2 = playerPa + playerMa;
-							if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') playerDamage2 = Math.floor(((80 / 100) * playerDamage2) + playerDamage2);
+							if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') playerDamage2 = Math.floor(((80 / 100) * playerDamage2) + playerDamage2);
 
 							let enemyHealth = playerEnemy.get('health') * 100;
 							let enemyHealth2 = playerEnemy.get('health') * 100;
@@ -515,7 +515,7 @@ module.exports = {
 							let enemySpeed = playerEnemy.get('speed');
 							let enemySpeed2 = playerEnemy.get('speed');
 							let enemyDamage2 = enemyPa + enemyMa;
-							if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') enemyDamage2 = Math.floor(((80 / 100) * enemyDamage2) + enemyDamage2);
+							if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') enemyDamage2 = Math.floor(((80 / 100) * enemyDamage2) + enemyDamage2);
 
 							let i, half;
 							const array = [0, 1];
@@ -529,7 +529,7 @@ module.exports = {
 									enemySpeed = ((5 / 100) * enemySpeed) + enemySpeed;
 								}
 								if (playerSpeed > enemySpeed) {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth -= playerDamage2;
 										}
@@ -542,7 +542,7 @@ module.exports = {
 									}
 								}
 								else if (enemySpeed > playerSpeed) {
-									if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											playerHealth -= enemyDamage2;
 										}
@@ -557,7 +557,7 @@ module.exports = {
 								else {
 								// eslint-disable-next-line no-lonely-if
 									if (random === 1) {
-										if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												enemyHealth -= playerDamage2;
 											}
@@ -570,7 +570,7 @@ module.exports = {
 										}
 									}
 									else {
-										if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												playerHealth -= enemyDamage2;
 											}
@@ -607,7 +607,7 @@ module.exports = {
 									break;
 								}
 								if (playerSpeed > enemySpeed) {
-									if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											playerHealth -= enemyDamage2;
 										}
@@ -620,7 +620,7 @@ module.exports = {
 									}
 								}
 								else if (enemySpeed > playerSpeed) {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth -= playerDamage2;
 										}
@@ -635,7 +635,7 @@ module.exports = {
 								else {
 								// eslint-disable-next-line no-lonely-if
 									if (random2 === 1) {
-										if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												playerHealth -= enemyDamage2;
 											}
@@ -648,7 +648,7 @@ module.exports = {
 										}
 									}
 									else {
-										if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												enemyHealth -= playerDamage2;
 											}
@@ -670,7 +670,7 @@ module.exports = {
 									enemySpeed2 = ((5 / 100) * enemySpeed2) + enemySpeed2;
 								}
 								if (playerSpeed2 > enemySpeed2) {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth2 -= playerDamage2;
 										}
@@ -683,7 +683,7 @@ module.exports = {
 									}
 								}
 								else if (enemySpeed2 > playerSpeed2) {
-									if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											playerHealth2 -= enemyDamage2;
 										}
@@ -698,7 +698,7 @@ module.exports = {
 								else {
 								// eslint-disable-next-line no-lonely-if
 									if (random === 1) {
-										if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												enemyHealth2 -= playerDamage2;
 											}
@@ -711,7 +711,7 @@ module.exports = {
 										}
 									}
 									else {
-										if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												playerHealth2 -= enemyDamage2;
 											}
@@ -732,7 +732,7 @@ module.exports = {
 									break;
 								}
 								if (playerSpeed2 > enemySpeed2) {
-									if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											playerHealth2 -= enemyDamage2;
 										}
@@ -745,7 +745,7 @@ module.exports = {
 									}
 								}
 								else if (enemySpeed2 > playerSpeed2) {
-									if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+									if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 										if (i === 0) {
 											enemyHealth2 -= playerDamage2;
 										}
@@ -760,7 +760,7 @@ module.exports = {
 								else {
 								// eslint-disable-next-line no-lonely-if
 									if (random2 === 1) {
-										if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												playerHealth2 -= enemyDamage2;
 											}
@@ -773,7 +773,7 @@ module.exports = {
 										}
 									}
 									else {
-										if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+										if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 											if (i === 0) {
 												enemyHealth2 -= playerDamage2;
 											}
@@ -875,7 +875,7 @@ module.exports = {
 				let playerSpeed = player.get('speed');
 				let playerSpeed2 = player.get('speed');
 				let playerDamage2 = playerPa + playerMa;
-				if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') playerDamage2 = Math.floor(((80 / 100) * playerDamage2) + playerDamage2);
+				if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') playerDamage2 = Math.floor(((80 / 100) * playerDamage2) + playerDamage2);
 
 				let enemyHealth = playerEnemy.get('health') * 100;
 				let enemyHealth2 = playerEnemy.get('health') * 100;
@@ -887,7 +887,7 @@ module.exports = {
 				let enemySpeed = playerEnemy.get('speed');
 				let enemySpeed2 = playerEnemy.get('speed');
 				let enemyDamage2 = enemyPa + enemyMa;
-				if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') enemyDamage2 = Math.floor(((80 / 100) * enemyDamage2) + enemyDamage2);
+				if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') enemyDamage2 = Math.floor(((80 / 100) * enemyDamage2) + enemyDamage2);
 
 				let i;
 				let xpAdd = 100;
@@ -905,7 +905,7 @@ module.exports = {
 						enemySpeed = ((5 / 100) * enemySpeed) + enemySpeed;
 					}
 					if (playerSpeed > enemySpeed) {
-						if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								enemyHealth -= playerDamage2;
 							}
@@ -918,7 +918,7 @@ module.exports = {
 						}
 					}
 					else if (enemySpeed > playerSpeed) {
-						if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								playerHealth -= enemyDamage2;
 							}
@@ -933,7 +933,7 @@ module.exports = {
 					else {
 					// eslint-disable-next-line no-lonely-if
 						if (random3 === 1) {
-							if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									enemyHealth -= playerDamage2;
 								}
@@ -946,7 +946,7 @@ module.exports = {
 							}
 						}
 						else {
-							if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									playerHealth -= enemyDamage2;
 								}
@@ -1039,7 +1039,7 @@ module.exports = {
 						break;
 					}
 					if (playerSpeed > enemySpeed) {
-						if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								playerHealth -= enemyDamage2;
 							}
@@ -1052,7 +1052,7 @@ module.exports = {
 						}
 					}
 					else if (enemySpeed > playerSpeed) {
-						if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								enemyHealth -= playerDamage2;
 							}
@@ -1067,7 +1067,7 @@ module.exports = {
 					else {
 					// eslint-disable-next-line no-lonely-if
 						if (random4 === 1) {
-							if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									playerHealth -= enemyDamage2;
 								}
@@ -1080,7 +1080,7 @@ module.exports = {
 							}
 						}
 						else {
-							if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									enemyHealth -= playerDamage2;
 								}
@@ -1102,7 +1102,7 @@ module.exports = {
 						enemySpeed2 = ((5 / 100) * enemySpeed2) + enemySpeed2;
 					}
 					if (playerSpeed2 > enemySpeed2) {
-						if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								enemyHealth2 -= playerDamage2;
 							}
@@ -1115,7 +1115,7 @@ module.exports = {
 						}
 					}
 					else if (enemySpeed2 > playerSpeed2) {
-						if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								playerHealth2 -= enemyDamage2;
 							}
@@ -1130,7 +1130,7 @@ module.exports = {
 					else {
 					// eslint-disable-next-line no-lonely-if
 						if (random3 === 1) {
-							if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									enemyHealth2 -= playerDamage2;
 								}
@@ -1143,7 +1143,7 @@ module.exports = {
 							}
 						}
 						else {
-							if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									playerHealth2 -= enemyDamage2;
 								}
@@ -1164,7 +1164,7 @@ module.exports = {
 						break;
 					}
 					if (playerSpeed2 > enemySpeed2) {
-						if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								playerHealth2 -= enemyDamage2;
 							}
@@ -1177,7 +1177,7 @@ module.exports = {
 						}
 					}
 					else if (enemySpeed2 > playerSpeed2) {
-						if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+						if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 							if (i === 0) {
 								enemyHealth2 -= playerDamage2;
 							}
@@ -1192,7 +1192,7 @@ module.exports = {
 					else {
 					// eslint-disable-next-line no-lonely-if
 						if (random4 === 1) {
-							if (bagEnemy.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bagEnemy.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									playerHealth2 -= enemyDamage2;
 								}
@@ -1205,7 +1205,7 @@ module.exports = {
 							}
 						}
 						else {
-							if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+							if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 								if (i === 0) {
 									enemyHealth2 -= playerDamage2;
 								}

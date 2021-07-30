@@ -95,13 +95,13 @@ module.exports = {
 			if (curSpace > economy.get('balance')) {
 				await Economy.update({ bank: economy.get('bank') + economy.get('balance') }, { where: { userId: user } });
 				await Economy.update({ balance: 0 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, You have deposited <a:JasmineCoins:718067589984551042> ${curbal.toLocaleString()} into your bank`);
+				message.channel.send(`**${message.author.username}**, You have deposited <a:jasminecoins:868105109748469780> ${curbal.toLocaleString()} into your bank`);
 
 			}
 			else {
 				await Economy.update({ bank: economy.get('bank') + curSpace }, { where: { userId: user } });
 				await Economy.update({ balance: economy.get('balance') - curSpace }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, You have deposited <a:JasmineCoins:718067589984551042> ${curSpace.toLocaleString()} into your bank`);
+				message.channel.send(`**${message.author.username}**, You have deposited <a:jasminecoins:868105109748469780> ${curSpace.toLocaleString()} into your bank`);
 			}
 		}
 		else if (isNaN(args[0])) {
@@ -116,7 +116,7 @@ module.exports = {
 			const money = parseInt(args[0]);
 			await Economy.update({ bank: economy.get('bank') + money }, { where: { userId: user } });
 			await Economy.update({ balance: economy.get('balance') - money }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have deposited <a:JasmineCoins:718067589984551042> ${money.toLocaleString()} into your bank`);
+			message.channel.send(`**${message.author.username}**, You have deposited <a:jasminecoins:868105109748469780> ${money.toLocaleString()} into your bank`);
 		}
 	},
 };

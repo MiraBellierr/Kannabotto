@@ -116,11 +116,11 @@ module.exports = {
 				if (content === botChoice) {
 					await Achievement.update({ coinflip: achievement.get('coinflip') + 1 }, { where: { userId: user } });
 					await Economy.update({ balance: economy.get('balance') + parseInt(args[1]) }, { where: { userId: user } });
-					setTimeout(() => m.edit(`*Flipping coin...* its **${botChoice}**! You won <a:JasmineCoins:718067589984551042> ${(args[1]).toLocaleString()}`), 3000);
+					setTimeout(() => m.edit(`*Flipping coin...* its **${botChoice}**! You won <a:jasminecoins:868105109748469780> ${(args[1]).toLocaleString()}`), 3000);
 				}
 				else {
 					await Economy.update({ balance: economy.get('balance') - parseInt(args[1]) }, { where: { userId: user } });
-					setTimeout(() => m.edit(`*Flipping coin...* its **${botChoice}**! You lost <a:JasmineCoins:718067589984551042> ${(args[1]).toLocaleString()}`), 3000);
+					setTimeout(() => m.edit(`*Flipping coin...* its **${botChoice}**! You lost <a:jasminecoins:868105109748469780> ${(args[1]).toLocaleString()}`), 3000);
 				}
 			}
 		});

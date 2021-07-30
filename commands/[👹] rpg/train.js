@@ -75,7 +75,7 @@ module.exports = {
 				const curxp = player.get('xp');
 				await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 
-				message.channel.send(`🛡 | **${message.author.username}**, You spent <a:JasmineCoins:718067589984551042> 20 to train ${player.get('name')} and ${player.get('name')} gained **${xpAdd}** xp.`);
+				message.channel.send(`🛡 | **${message.author.username}**, You spent <a:jasminecoins:868105109748469780> 20 to train ${player.get('name')} and ${player.get('name')} gained **${xpAdd}** xp.`);
 
 			}
 

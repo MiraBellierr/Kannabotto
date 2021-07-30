@@ -122,7 +122,7 @@ module.exports = {
 				await Cooldown.update({ roulette: Date.now() }, { where: { userId: user } });
 
 				colour = colour.toLowerCase();
-				const msg = await message.channel.send(`You bet on ${colour} with <a:JasmineCoins:718067589984551042> ${money}. Please wait 10 seconds...`);
+				const msg = await message.channel.send(`You bet on ${colour} with <a:jasminecoins:868105109748469780> ${money}. Please wait 10 seconds...`);
 				if (colour == 'b' || colour.includes('black')) colour = 0;
 				else if (colour == 'r' || colour.includes('red')) colour = 1;
 				else if (colour == 'g' || colour.includes('green')) colour = 2;
@@ -137,7 +137,7 @@ module.exports = {
 						const curBal1 = economy.get('balance');
 						await Economy.update({ balance: curBal1 + money }, { where: { userid: user } });
 						msg.delete();
-						message.channel.send(`**${message.author.username}**, 💚 **JACKPOT** You won <a:JasmineCoins:718067589984551042> ${money.toLocaleString()} 💚 | The Number was **${random}**`);
+						message.channel.send(`**${message.author.username}**, 💚 **JACKPOT** You won <a:jasminecoins:868105109748469780> ${money.toLocaleString()} 💚 | The Number was **${random}**`);
 					}
 					else if (isOdd(random) && colour == 1) {
 						money = money * 1;
@@ -145,7 +145,7 @@ module.exports = {
 						const curBal2 = economy.get('balance');
 						await Economy.update({ balance: curBal2 + money }, { where: { userId: user } });
 						msg.delete();
-						message.channel.send(`**${message.author.username}**, 🔴 You won <a:JasmineCoins:718067589984551042> ${money.toLocaleString()} 🔴 | The Number was **${random}**`);
+						message.channel.send(`**${message.author.username}**, 🔴 You won <a:jasminecoins:868105109748469780> ${money.toLocaleString()} 🔴 | The Number was **${random}**`);
 					}
 					else if (!isOdd(random) && colour == 0 && random > 0) {
 						money = money * 1;
@@ -153,13 +153,13 @@ module.exports = {
 						const curBal3 = economy.get('balance');
 						await Economy.update({ balance: curBal3 + money }, { where: { userId: user } });
 						msg.delete();
-						message.channel.send(`**${message.author.username}**, ⚫ You won <a:JasmineCoins:718067589984551042> ${money.toLocaleString()} ⚫| The Number was **${random}**`);
+						message.channel.send(`**${message.author.username}**, ⚫ You won <a:jasminecoins:868105109748469780> ${money.toLocaleString()} ⚫| The Number was **${random}**`);
 					}
 					else {
 						const curBal4 = economy.get('balance');
 						await Economy.update({ balance: curBal4 - money }, { where: { userId: user } });
 						msg.delete();
-						message.channel.send(`**${message.author.username}**, You sadly lost <a:JasmineCoins:718067589984551042> ${money.toLocaleString()} | The Number was **${random}**`);
+						message.channel.send(`**${message.author.username}**, You sadly lost <a:jasminecoins:868105109748469780> ${money.toLocaleString()} | The Number was **${random}**`);
 					}
 				}, 10000);
 			}

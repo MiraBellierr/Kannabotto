@@ -16,7 +16,7 @@ module.exports = (client, guild) => {
 
 	client.user.setPresence({ activity: { name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for an info about me!`, type: 'WATCHING' }, status: 'idle' });
 
-	const logChannel = client.channels.cache.get('707243604283752459');
+	const logChannel = client.channels.cache.get('865525377458634762');
 
 	client.guilds.fetch(guild.id).then(g => {
 		logChannel.send(`The bot has been added to **${g.name}** with **${g.memberCount}** members.`);

@@ -18,9 +18,9 @@ function Paginate(client, message, pages, options = {
 	time: 1000 * 60 * 3,
 	onEnd: 'delete',
 }, emojis = {
-	backward: '852144316230926336',
-	stop: '852144903289831485',
-	forward: '852144304327229460',
+	backward: '869052152331509781',
+	stop: '869052152260214794',
+	forward: '869052152012746783',
 }) {
 
 	this.client = client;
