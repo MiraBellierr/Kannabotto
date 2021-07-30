@@ -14,7 +14,7 @@
 
 const { bot_prefix } = require('../../config.json');
 const Discord = require('discord.js');
-const chances = [0, 0, 1, 1, 1, 1, 1];
+const chance = 0.7; // 70% chance (before it was ~71.43%)
 const Models = require('../../create-model');
 
 module.exports = {
@@ -105,8 +105,8 @@ module.exports = {
 			else {
 				await Cooldown.update({ beg: Date.now() }, { where: { userId: user } });
 				await Achievement.update({ beg: achievement.get('beg') + 1 }, { where: { userId: user } });
-				const chance = chances[Math.floor(Math.random() * chances.length)];
-				if (chance === 1) {
+				const success = Math.random() < chance;
+				if (success) {
 					const random = Math.floor(Math.random() * 50) + 3;
 					const multiplier = Math.floor((inventory.get('bunny') / 100) * random);
 					const gain = random + multiplier;

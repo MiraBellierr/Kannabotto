@@ -325,14 +325,13 @@ client.on('message', async message => {
 		return;
 	}
 	else {
-		const num = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		const randomNum = num[Math.floor(Math.random() * num.length)];
+		const spawnSuccess = Math.random() < 0.03; // 3% chance to spawn a boss in this guild
 		const randomLevel = Math.floor((Math.random() * 200) + 1);
 		const channel = message.guild.channels.cache.get(redirectChannel[message.guild.id].channel);
 
 		if (!channel) return;
 
-		if (randomNum === 1) {
+		if (spawnSuccess) {
 			const random_character = require('./database/randomCharacter.json');
 
 			if (!random_character[message.guild.id]) {

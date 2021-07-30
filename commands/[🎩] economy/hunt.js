@@ -16,8 +16,8 @@ const animals = require('../../database/animal.json');
 const { bot_prefix } = require('../../config.json');
 const Discord = require('discord.js');
 const phrases = ['Wow, a dragon!', 'OMG, a dragon!', 'Oh no, a dragon'];
-const successRates = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
-const breakRates = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0];
+const successRates = 0.55;
+const breakRates = 0.4;
 const Models = require('../../create-model.js');
 
 module.exports = {
@@ -28,8 +28,8 @@ module.exports = {
 	run: async (client, message) => {
 		import('parse-ms').then(async ms => {
 			const user = message.author.id;
-			const breakRate = breakRates[Math.floor(Math.random() * breakRates.length)];
-			const successRate = successRates[Math.floor(Math.random() * successRates.length)];
+			const breaks = Math.random() < breakRates;
+			const success = Math.random() < successRates;
 
 			const Disable = Models.Disable();
 			const Blacklist = Models.Blacklist();
@@ -113,7 +113,7 @@ module.exports = {
 			else {
 				await Cooldown.update({ hunt: Date.now() }, { where: { userId: user } });
 
-				if (successRate === 1) {
+				if (success) {
 					const animalID = Math.floor(Math.random() * 10) + 1;
 					let rarity;
 					if (animalID < 5) {
@@ -150,7 +150,7 @@ module.exports = {
 							await Inventory.update({ legendaryHunt: inventory.get('legendaryHunt') + 1 }, { where: { userId: user } });
 						}
 						else {
-							if (breakRate === 1) {
+							if (breaks) {
 								await Inventory.update({ huntingRifle: inventory.get('huntingRifle') - 1 }, { where: { userId: user } });
 								message.channel.send(`**${message.author.username}**, A dragon got away and your ** hunting-rifle** has broken..`);
 							}

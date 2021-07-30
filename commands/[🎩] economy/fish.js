@@ -16,8 +16,8 @@ const fishes = require('../../database/fish.json');
 const { bot_prefix } = require('../../config.json');
 const Discord = require('discord.js');
 const phrases = ['Wow, a whale!', 'OMG, a whale!', 'Oh no, a whale'];
-const successRates = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
-const breakRates = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0];
+const successRates = 0.55;
+const breakRates = 0.4;
 const Models = require('../../create-model.js');
 
 
@@ -30,8 +30,8 @@ module.exports = {
 	run: async (client, message) => {
 		import('parse-ms').then(async ms => {
 			const user = message.author.id;
-			const breakRate = breakRates[Math.floor(Math.random() * breakRates.length)];
-			const successRate = successRates[Math.floor(Math.random() * successRates.length)];
+			const breaks = Math.random() < breakRates;
+			const success = Math.random() < successRates;
 
 			const Disable = Models.Disable();
 			const Blacklist = Models.Blacklist();
@@ -115,7 +115,7 @@ module.exports = {
 			}
 			else {
 				await Cooldown.update({ fish: Date.now() }, { where: { userId: user } });
-				if (successRate === 1) {
+				if (success) {
 					const fishID = Math.floor(Math.random() * 10) + 1;
 					let rarity;
 					if (fishID < 5) {
@@ -152,7 +152,7 @@ module.exports = {
 							await Inventory.update({ legendaryFish: inventory.get('legendaryFish') + 1 }, { where: { userId: user } });
 						}
 						else {
-							if (breakRate === 1) {
+							if (breaks) {
 								await Inventory.update({ fishingRod: inventory.get('fishingRod') - 1 }, { where: { userId: user } });
 								message.channel.send(`**${message.author.username}**, A whale got away and your **🎣 fishing-rod** has broken..`);
 							}

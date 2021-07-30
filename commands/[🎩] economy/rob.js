@@ -123,9 +123,9 @@ module.exports = {
 			}
 			const achievement = await Achievement.findOne({ where: { userId: message.author.id } });
 
-			const answers = ['success', 'failed', 'success', 'failed', 'failed'];
+			const successChance = 0.4;
 
-			const answer = answers[Math.floor(Math.random() * answers.length)];
+			const success = Math.random() < successChance;
 
 			const author = await cooldown.get('rob');
 			const timeout = 3.6e+6;
@@ -154,14 +154,14 @@ module.exports = {
 					if (lastGuard !== null && timeOut - (Date.now() - lastGuard) > 0) return message.channel.send(`**${message.author.username}**, there is a guard watching over ${user.username}! You can't rob them.`);
 					await Cooldown.update({ rob: Date.now() }, { where: { userId: message.author.id } });
 
-					if (answer === 'success') {
+					if (success) {
 						const random = Math.floor(0.05 * economyVictim.get('balance'));
 						await Achievement.update({ rob: achievement.get('rob') + random }, { where: { userId: message.author.id } });
 						await Economy.update({ balance: economyVictim.get('balance') - random }, { where: { userId: user.id } });
 						await Economy.update({ balance: economy.get('balance') + random }, { where: { userId: message.author.id } });
 						message.channel.send(`**${message.author.username}**, you robbed ${user.username} and got away with <a:JasmineCoins:718067589984551042> ${random.toLocaleString()}`);
 					}
-					if (answer === 'failed') {
+					else {
 						const random = Math.floor(0.05 * economy.get('balance'));
 
 						await Economy.update({ balance: economyVictim.get('balance') + random }, { where: { userId: user.id } });
