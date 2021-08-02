@@ -23,7 +23,9 @@ module.exports = {
 	example: `${bot_prefix}eval <code to eval>`,
 	usage: '<code to eval>',
 	run: async (client, message, args) => {
-		if (message.author.id !== '275989071774351360') {
+		const clientApp = await client.fetchApplication();
+		const owner = clientApp.owner.id;
+		if (message.author.id !== owner) {
 			return message.channel.send('You\'re not the owner of me!!')
 				.then(m => m.delete(5000));
 		}
@@ -38,7 +40,7 @@ module.exports = {
 		};
 		try {
 			const code = args.join(' ');
-			let evaled = eval(code);
+			let evaled = await eval(code);
 
 			if (typeof evaled !== 'string') {evaled = require('util').inspect(evaled);}
 

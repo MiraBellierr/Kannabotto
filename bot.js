@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const { Client, Collection, MessageEmbed } = require('discord.js');
-const { TOKEN, bot_prefix, db } = require('./config.json');
+const { TOKEN, bot_prefix } = require('./config.json');
 const fs = require('fs');
 const timeoutxp = new Set();
 const prefixes = require('./database/prefix.json');
@@ -291,7 +291,8 @@ client.on('message', async message => {
 		return;
 	}
 	else {
-		const spawnSuccess = Math.random() < 0.03; // 3% chance to spawn a boss in this guild
+		// 3% chance to spawn a boss in this guild
+		const spawnSuccess = Math.random() < 0.03;
 		const randomLevel = Math.floor((Math.random() * 200) + 1);
 		const channel = message.guild.channels.cache.get(redirectChannel[message.guild.id].channel);
 

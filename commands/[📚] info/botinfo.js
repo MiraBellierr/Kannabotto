@@ -14,7 +14,7 @@
 
 const Discord = require('discord.js');
 const { formatDate } = require('../../functions.js');
-const { bot_prefix, owners_id } = require('../../config.json');
+const { bot_prefix } = require('../../config.json');
 const osu = require('node-os-utils');
 const cpu = osu.cpu;
 const drive = osu.drive;
@@ -31,7 +31,8 @@ module.exports = {
 	description: 'Returns bot information',
 	run: async (client, message) => {
 		const m = await message.channel.send('*Loading...*');
-		const owner = client.users.cache.get(owners_id[0]);
+		const clientApp = await client.fetchApplication();
+		const owner = client.users.cache.get(clientApp.owner.id);
 
 		const cpuCount = cpu.count();
 		let cpuUsagePercentage;
