@@ -1,3 +1,5 @@
+/* eslint-disable no-inline-comments */
+/* eslint-disable no-lonely-if */
 // Copyright 2021 Mirabellier
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -107,7 +109,7 @@ module.exports = {
 			}
 			else {
 				await Cooldown.update({ business: Date.now() }, { where: { userId: user } });
-				const breakrate = breakrates[Math.floor(Math.random() * breakrates.length)];
+				const breaks = Math.random() < breakrate;
 				const gain = Math.floor(Math.random() * 50) + 3;
 				const multiplier = Math.floor((inventory.get('bunny') / 100) * gain);
 				const random = gain + multiplier;
