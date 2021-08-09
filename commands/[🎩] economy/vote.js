@@ -23,7 +23,7 @@ module.exports = {
 	run: async (client, message) => {
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-			.setTitle('Vote For Jasmine')
+			.setTitle('Vote For Kanna')
 			.setColor('RANDOM')
 			.setDescription('Voting helps Kanna becomes popular :p')
 			.addField('Links:', '- [top.gg](https://top.gg/bot/867048396358549544/vote) - gives you <a:jasminecoins:868105109748469780> 500')
