@@ -382,4 +382,165 @@ module.exports = {
 
 		return crime;
 	},
+
+	getAchievements: function() {
+		const achievements = {
+			won: [
+				{
+					text: 'First Won - Win 1 battle',
+					check: function(score) {
+						return (score > 0 && score < 100);
+					}
+				},
+				{
+					text: 'Enemy Crusher - Won 100 battles',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Superhero - Won 500 battles',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: '👹 A Monster - Won 1000 battles',
+					check: function(score) {
+						return (score >= 1_000);
+					}
+				}
+			],
+			level: [
+				{
+					text: 'Expert - Level 100 character',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Master - Level 500 character',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: '👼 God - Level 1000 character',
+					check: function(score) {
+						return (score >= 1_000);
+					}
+				}
+			],
+			battle: [
+				{
+					text: '1st Battle - battle 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'Adapted - battle 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'Experienced - battle 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Mastered - battle 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Goddess - battle 1000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: '🌏 Immortal - battle 5000 times',
+					check: function(score) {
+						return (score >= 5_000);
+					}
+				}
+			],
+			balance: [
+				{
+					text: 'Collector - have <a:jasminecoins:868105109748469780> 100,000 in pocket',
+					check: function(score) {
+						return (score >= 100_000 && score < 500_000);
+					}
+				},
+				{
+					text: 'Road To millionaire - have <a:jasminecoins:868105109748469780> 500,000 in pocket',
+					check: function(score) {
+						return (score >= 500_000 && score < 1_000_000);
+					}
+				},
+				{
+					text: '💲 Millionaire - have <a:jasminecoins:868105109748469780> 1,000,000 in pocket',
+					check: function(score) {
+						return (score >= 1_000_000);
+					}
+				}
+			],
+			bank: [
+				{
+					text: 'The Safer - have <a:jasminecoins:868105109748469780> 100,000 in bank',
+					check: function(score) {
+						return (score >= 100_000 && score < 500_000);
+					}
+				},
+				{
+					text: 'Safe Room - have <a:jasminecoins:868105109748469780> 500,000 in bank',
+					check: function(score) {
+						return (score >= 500_000 && score < 1_000_000);
+					}
+				},
+				{
+					text: '🤑 Looks Poor But Actually Rich - have <a:jasminecoins:868105109748469780> 1,000,000 in bank',
+					check: function(score) {
+						return (score >= 1_000_000);
+					}
+				}
+			],
+			totalBank: [
+				{
+					text: 'The Path Opened - have 1,000 bank space',
+					check: function(score) {
+						return (score >= 1_000 && score < 50_000);
+					}
+				},
+				{
+					text: 'Bank Conquerer - have 50,000 bank space',
+					check: function(score) {
+						return (score >= 50_000 && score < 100_000);
+					}
+				},
+				{
+					text: 'Own A Bank - have 100,000 bank space',
+					check: function(score) {
+						return (score >= 100_000 && score < 500_000);
+					}
+				},
+				{
+					text: 'Own Every Bank In The Country - have 500,000 bank space',
+					check: function(score) {
+						return (score >= 500_000 && score < 1_000_000);
+					}
+				},
+				{
+					text: '🏦 All Banks Are Mine - have 1,000,000 bank space',
+					check: function(score) {
+						return (score >= 1_000_000);
+					}
+				}
+			]
+		};
+	}
 };
