@@ -540,6 +540,228 @@ module.exports = {
 						return (score >= 1_000_000);
 					}
 				}
+			],
+			beg: [
+				{
+					text: 'Be A Begger - beg 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'Gimme Money - beg 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'I\'m Poor - beg 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Homeless - beg 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'No life - beg 1,000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: '💀 Feels Like Don\'t Wanna Live Anymore - beg 5,000 times',
+					check: function(score) {
+						return (score >= 5_000);
+					}
+				}
+			],
+			youtube: [
+				{
+					text: 'Become A Youtuber - do youtube business 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Youtuber - do youtube business 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Youtuber - do youtube business 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'A Golden Button - do youtube business 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Youtube Staff - do youtube business 1,000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'CEO of Youtube - do youtube business 5,000 times',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '🛠 Just Bought Youtube - do youtube business 10,000 times',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			website: [
+				{
+					text: 'Become A Website developer - make 1 website',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Website Developer - make 50 websites',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Website Developer - make 100 websites',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Build A Website Company - make 500 websites',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Famous Website Developer - make 1,000 websites',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'Almost Own The Internet - make 5,000 websites',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '🛠 It\'s All Yours - make 10,000 websites',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			product: [
+				{
+					text: 'Become A Product Seller - sell 1 product',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Product Seller - sell 50 products',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Product Seller - sell 100 products',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Build A Product Company - sell 500 products',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Famous Product Seller - sell 1,000 products',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'Almost Out Of Stock - sell 5,000 products',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '📪 Out Of Stock - sell 10,000 products',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			media: [
+				{
+					text: 'Become A Media Social Influencer - do a media social influencer business 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Media Social Influencer - do a Media Social Influencer business 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Media Social Influencer - do a media social influencer business 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Conquer A Media Social Platform - do a media social influencer business 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Conquer Every Media Social platforms - do a media social influencer business 1,000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'Famous Person - do a media social influencer business 5,000 times',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '🤳 Everyone Knows You - do a media social influencer business 10,000 times',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			tools: [
+				{
+					text: '🛍 In Need - have bought fishing rod, hunting rifle, laptop and pickaxe',
+					check: function(rod, rifle, laptop, pickaxe) {
+						return (rod && rifle && laptop && pickaxe);
+					}
+				}
 			]
 		};
 	}
