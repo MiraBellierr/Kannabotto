@@ -62,7 +62,7 @@ module.exports = {
 		else {
 			authorText = author.first().content;
 			if (authorText.length > 256) return message.channel.send('The character is exceeding 256 characters. Command stopped.');
-			await message.channel.send('Please type what the `author icon` would be.\n`Server Icon`, `Jasmine Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n\nType `Skip` to skip.');
+			await message.channel.send('Please type what the `author icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n\nType `Skip` to skip.');
 			const authorIcon = await message.channel.awaitMessages(filter, {
 				max: 1,
 				time: 30000,
@@ -76,7 +76,7 @@ module.exports = {
 			else if (authorIcon.first().content.toLowerCase() === 'server icon') {
 				embed.setAuthor(authorText, message.guild.iconURL());
 			}
-			else if (authorIcon.first().content.toLowerCase() === 'jasmine avatar') {
+			else if (authorIcon.first().content.toLowerCase() === 'Kanna avatar') {
 				embed.setAuthor(authorText, client.user.avatarURL());
 			}
 			else if (authorIcon.first().content.toLowerCase() === 'user avatar') {
@@ -151,7 +151,7 @@ module.exports = {
 		else {
 			footerText = footer.first().content;
 			if (footerText .length > 2048) return message.channel.send('The character is exceeding 2048 characters. Command stopped.');
-			await message.channel.send('Please type what the `footer icon` would be.\n`Server Icon`, `Jasmine Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n\nType `Skip` to skip.');
+			await message.channel.send('Please type what the `footer icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n\nType `Skip` to skip.');
 			const footerIcon = await message.channel.awaitMessages(filter, {
 				max: 1,
 				time: 30000,
@@ -165,7 +165,7 @@ module.exports = {
 			else if (footerIcon.first().content.toLowerCase() === 'server icon') {
 				embed.setFooter(footerText, message.guild.iconURL());
 			}
-			else if (footerIcon.first().content.toLowerCase() === 'jasmine avatar') {
+			else if (footerIcon.first().content.toLowerCase() === 'Kanna avatar') {
 				embed.setFooter(footerText, client.user.avatarURL());
 			}
 			else if (footerIcon.first().content.toLowerCase() === 'user avatar') {
@@ -180,7 +180,7 @@ module.exports = {
 		}
 
 		await message.channel.send(embed);
-		await message.channel.send('What image on the `thumbnail` would be?\n`Server Icon`, `Jasmine Avatar`, `User Icon` or you can send any attachment (picture)\n `skip` if you want to skip.');
+		await message.channel.send('What image on the `thumbnail` would be?\n`Server Icon`, `Kanna Avatar`, `User Icon` or you can send any attachment (picture)\n `skip` if you want to skip.');
 		const thumbnail = await message.channel.awaitMessages(filter, {
 			max: 1,
 			time: 90000,
@@ -194,7 +194,7 @@ module.exports = {
 		else if (thumbnail.first().content.toLowerCase() === 'server icon') {
 			embed.setThumbnail(message.guild.iconURL());
 		}
-		else if (thumbnail.first().content.toLowerCase() === 'jasmine avatar') {
+		else if (thumbnail.first().content.toLowerCase() === 'Kanna avatar') {
 			embed.setThumbnail(client.user.avatarURL());
 		}
 		else if (thumbnail.first().content.toLowerCase() === 'user avatar') {

@@ -31,7 +31,8 @@ module.exports = {
 	description: 'Returns bot information',
 	run: async (client, message) => {
 		const m = await message.channel.send('*Loading...*');
-		const owner = client.users.cache.find(u => u.id === '275989071774351360');
+		const clientApp = await client.fetchApplication();
+		const owner = client.users.cache.get(clientApp.owner.id);
 
 		const cpuCount = cpu.count();
 		let cpuUsagePercentage;

@@ -25,6 +25,7 @@ module.exports = {
 	example: `${bot_prefix}search <name> [--anime | --character | --manga]`,
 	usage: '<name> [--anime | --character | --manga]',
 	run: async (client, message, args) => {
+		if (!message.channel.nsfw) return message.channel.send(`**${message.author.username}**, This command only can be used in nsfw channel.`);
 		if (!args.length) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}search <name> [--anime | --character | --manga]\``);
 		const content = args.join(' ').split('--');
 		const query = encodeURIComponent(content[0]);

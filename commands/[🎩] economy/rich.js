@@ -95,7 +95,7 @@ module.exports = {
 
 			board = board.filter(x => x.user);
 			board = board.sort((a, b) => (b.dataValues.balance + b.dataValues.bank) - (a.dataValues.balance + a.dataValues.bank)).splice(0, 10);
-			const top = board.map((x, i) => `[${i + 1}] ${x.user.username} - Total: <a:JasmineCoins:718067589984551042> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
+			const top = board.map((x, i) => `[${i + 1}] ${x.user.username} - Total: <a:jasminecoins:868105109748469780> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
 			const embed = new MessageEmbed()
 				.setColor('RANDOM')
 				.setDescription(`**🆙 | Top 10 Global Rich**\n\n${top}`);
@@ -116,7 +116,7 @@ module.exports = {
 
 				board = board.filter(x => x.user);
 				board = board.sort((a, b) => (b.dataValues.balance + b.dataValues.bank) - (a.dataValues.balance + a.dataValues.bank)).splice(0, 10);
-				const top = board.map((x, i) => `[${i + 1}] ${x.user} - Total: <a:JasmineCoins:718067589984551042> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
+				const top = board.map((x, i) => `[${i + 1}] ${x.user} - Total: <a:jasminecoins:868105109748469780> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
 				const embed = new MessageEmbed()
 					.setColor('RANDOM')
 					.setDescription(`**🆙 | Top 10 Server Rich**\n\n${top}`);

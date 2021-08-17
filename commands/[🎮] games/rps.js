@@ -139,14 +139,14 @@ module.exports = {
 				if ((me === '🗻' && clientChosen === '✂') || (me === '📰' && clientChosen === '🗻') || (me === '✂' && clientChosen === '📰')) {
 					await Achievement.update({ rps: achievement.get('rps') + 1 }, { where: { userId: user } });
 					await Economy.update({ balance: economy.get('balance') + parseInt(args[0]) }, { where: { userId: user } });
-					return `You won <a:JasmineCoins:718067589984551042> ${args[0].toLocaleString()}!`;
+					return `You won <a:jasminecoins:868105109748469780> ${args[0].toLocaleString()}!`;
 				}
 				else if (me === clientChosen) {
 					return 'It\'s a tie, coins has been returned back!';
 				}
 				else {
 					await Economy.update({ balance: economy.get('balance') - parseInt(args[0]) }, { where: { userId: user } });
-					return `You lost <a:JasmineCoins:718067589984551042> ${args[0].toLocaleString()}!`;
+					return `You lost <a:jasminecoins:868105109748469780> ${args[0].toLocaleString()}!`;
 				}
 			}
 		});

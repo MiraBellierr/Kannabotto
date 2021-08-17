@@ -59,11 +59,11 @@ module.exports = {
 			.setThumbnail(client.user.displayAvatarURL())
 			.setTitle(`Weapon Market - Your balance: ${(economy.get('balance')).toLocaleString()}`)
 			.addFields(
-				{ name: bag.get('sword') === 0 ? '<:sword:843066591628492810> Sword - <a:JasmineCoins:718067589984551042> 5,000' : '~~<:sword:843066591628492810> Sword - <a:JasmineCoins:718067589984551042> 5,000~~ *Bought*', value: '**• +10 Physical Attack**' },
-				{ name: bag.get('staff') === 0 ? '<:staff:843066639834021909> Staff - <a:JasmineCoins:718067589984551042> 5,000' : '~~<:staff:843066639834021909> Staff - <a:JasmineCoins:718067589984551042> 5,000~~ *Bought*', value: '**• +10 Magical Attack**' },
-				{ name: bag.get('shield') === 0 ? '<:shield:726977268760707142> Shield - <a:JasmineCoins:718067589984551042> 8,000' : '~~<:shield:726977268760707142> Shield - <a:JasmineCoins:718067589984551042> 8,000~~ *Bought*', value: '**• +5 Physical Resistance\n• +5 Magical Resistance**' },
-				{ name: bag.get('bow') === 0 ? '🏹 Bow - <a:JasmineCoins:718067589984551042> 10,000' : '~~🏹 Bow - <a:JasmineCoins:718067589984551042> 10,000~~ *Bought*', value: '**• +6 Physical Attack\n• +4 physical Resistance\nPassive: Increase 5% speed every turn**' },
-				{ name: bag.get('swordFire') === 0 ? '<a:fireSword:843064948262305812> Fire-Sword - <a:JasmineCoins:718067589984551042> 10,000' : '~~<a:fireSword:843064948262305812> Fire-Sword - <a:JasmineCoins:718067589984551042> 10,000~~ *Bought*', value: '**• +5 Physical Attack\n• +5 Magical Attack\nPassive: Deals 80% of your overall damage for the first turn**' },
+				{ name: bag.get('sword') === 0 ? '<:sword:868105110100779028> Sword - <a:jasminecoins:868105109748469780> 5,000' : '~~<:sword:868105110100779028> Sword - <a:jasminecoins:868105109748469780> 5,000~~ *Bought*', value: '**• +10 Physical Attack**' },
+				{ name: bag.get('staff') === 0 ? '<:staff:868105110138519582> Staff - <a:jasminecoins:868105109748469780> 5,000' : '~~<:staff:868105110138519582> Staff - <a:jasminecoins:868105109748469780> 5,000~~ *Bought*', value: '**• +10 Magical Attack**' },
+				{ name: bag.get('shield') === 0 ? '🛡️ Shield - <a:jasminecoins:868105109748469780> 8,000' : '~~🛡️ Shield - <a:jasminecoins:868105109748469780> 8,000~~ *Bought*', value: '**• +5 Physical Resistance\n• +5 Magical Resistance**' },
+				{ name: bag.get('bow') === 0 ? '🏹 Bow - <a:jasminecoins:868105109748469780> 10,000' : '~~🏹 Bow - <a:jasminecoins:868105109748469780> 10,000~~ *Bought*', value: '**• +6 Physical Attack\n• +4 physical Resistance\nPassive: Increase 5% speed every turn**' },
+				{ name: bag.get('swordFire') === 0 ? '<a:firesword:868105110176301086> Fire-Sword - <a:jasminecoins:868105109748469780> 10,000' : '~~<a:firesword:868105110176301086> Fire-Sword - <a:jasminecoins:868105109748469780> 10,000~~ *Bought*', value: '**• +5 Physical Attack\n• +5 Magical Attack\nPassive: Deals 80% of your overall damage for the first turn**' },
 
 			);
 

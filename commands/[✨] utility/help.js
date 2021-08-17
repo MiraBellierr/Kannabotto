@@ -41,7 +41,7 @@ function getAll(client, message) {
 		.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
 		.setTimestamp()
 		.setFooter(`Type "${prefixes[message.guild.id]}help [command]" for more info on a command!`, client.user.avatarURL({ dynamic: true }))
-		.setTitle('Jasmine Help Command');
+		.setTitle('Kanna Help Command');
 
 	const commands = (category) => {
 		return client.commands

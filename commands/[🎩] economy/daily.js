@@ -112,7 +112,7 @@ module.exports = {
 				await Cooldown.update({ daily: Date.now() }, { where: { userId: user } });
 				await Achievement.update({ daily: achievement.get('daily') + 1 }, { where: { userId: user } });
 				await Economy.update({ balance: curcoins + amount }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, Here's your daily <a:JasmineCoins:718067589984551042> ${amount.toLocaleString()}. Come back again tomorrow!`);
+				message.channel.send(`**${message.author.username}**, Here's your daily <a:jasminecoins:868105109748469780> ${amount.toLocaleString()}. Come back again tomorrow!`);
 			}
 		});
 	},

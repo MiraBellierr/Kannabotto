@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const { Client, Collection, MessageEmbed } = require('discord.js');
-const { TOKEN, bot_prefix, db } = require('./config.json');
+const { TOKEN, bot_prefix } = require('./config.json');
 const fs = require('fs');
 const timeoutxp = new Set();
 const prefixes = require('./database/prefix.json');
@@ -71,44 +71,10 @@ client.categories = fs.readdirSync('./commands/');
 	require(`./handlers/${handler}`)(client);
 });
 
-const voidbots = require('./post/voidbots');
-const discordlabs = require('./post/discordlabs');
-const blist = require('./post/blist');
-const botlistSpace = require('./post/botlist.space');
-const botsfordiscord = require('./post/botsfordiscord');
-const discordbotlist = require('./post/discordbotlist');
-const botlistme = require('./post/botlist.me');
-const discordbots = require('./post/discord.bots');
 const topgg = require('./post/top.gg');
-const dbeu = require('discord-botlist-api');
-const dbapi = new dbeu.Client();
-const paradisebots = require('./post/paradisebots');
-const disforge = require('./post/disforge');
-const discordextremelist = require('./post/discordextremelist');
-const radarbotdirectory = require('./post/radarbotdirectory');
-
-dbapi.on('ready', () => {
-	console.log('[LOG] DiscordBotList stats posted!');
-	setInterval(() => {
-		dbapi.postData(client.guilds.cache.size, client.shard.count);
-	}, 1.8e+6);
-});
-dbapi.login(db, '636748567586930728');
 
 setInterval(function() {
-	voidbots(client);
-	discordlabs(client);
-	blist(client);
-	botlistSpace(client);
-	botsfordiscord(client);
-	discordbotlist(client);
-	botlistme(client);
-	discordbots(client);
 	topgg(client);
-	paradisebots(client);
-	disforge(client);
-	discordextremelist(client);
-	radarbotdirectory(client);
 }, 1.8e+6);
 
 const Topgg = require('@top-gg/sdk');
@@ -150,7 +116,7 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 	const economy = await Economy.findOne({ where: { userId: vote.user } });
 	const voteReward = economy.get('balance') + 500;
 
-	const channel = client.channels.cache.get('726344072197046312');
+	const channel = client.channels.cache.get('870151501950091264');
 	client.users.fetch(vote.user).then(async user => {
 		await Economy.update({ balance: voteReward }, { where: { userId: vote.user } });
 
@@ -158,10 +124,10 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 			.setTitle('Thank you for voting!')
 			.setColor('#ff1493')
 			.setThumbnail('https://cdn.discordapp.com/attachments/710732218254753842/845169239979589651/1383_bunny_holding_hearts.png')
-			.setDescription(`\`${user.tag} (${vote.user})\` just voted!\n${user.tag} received <a:JasmineCoins:718067589984551042> 500\n\nYou can vote on top.gg [here](https://top.gg/bot/636748567586930728/vote) every 12 hours!`)
+			.setDescription(`\`${user.tag} (${vote.user})\` just voted!\n${user.tag} received <a:jasminecoins:868105109748469780> 500\n\nYou can vote on top.gg [here](https://top.gg/bot/867048396358549544/vote) every 12 hours!`)
 			.setFooter('Thank you for your support!');
 		channel.send(embed);
-		user.send('Thank for voting! You have received <a:JasmineCoins:718067589984551042> 500!').catch(console.error);
+		user.send('Thank for voting! You have received <a:jasminecoins:868105109748469780> 500!').catch(console.error);
 	});
 
 
@@ -325,7 +291,8 @@ client.on('message', async message => {
 		return;
 	}
 	else {
-		const spawnSuccess = Math.random() < 0.03; // 3% chance to spawn a boss in this guild
+		// 3% chance to spawn a boss in this guild
+		const spawnSuccess = Math.random() < 0.03;
 		const randomLevel = Math.floor((Math.random() * 200) + 1);
 		const channel = message.guild.channels.cache.get(redirectChannel[message.guild.id].channel);
 

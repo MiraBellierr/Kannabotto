@@ -21,7 +21,7 @@ module.exports = {
 	name: 'scramble',
 	aliases: ['sc'],
 	category: '[🎮] games',
-	description: 'unscramble the scramble word. Won <a:JasmineCoins:718067589984551042> 100 if you can guess it right.',
+	description: 'unscramble the scramble word. Won <a:jasminecoins:868105109748469780> 100 if you can guess it right.',
 	example: `${bot_prefix}scramble`,
 	run: async (client, message) => {
 		import('parse-ms').then(async ms => {
@@ -139,7 +139,7 @@ module.exports = {
 						m.delete();
 						await Economy.update({ balance: economy.get('balance') + 100 }, { where: { userId: user } });
 						await Achievement.update({ scramble: achievement.get('scramble') + 1 }, { where: { userId: user } });
-						message.channel.send(`You're correct! It was **${word}**. You won **<a:JasmineCoins:718067589984551042> 100**.`);
+						message.channel.send(`You're correct! It was **${word}**. You won **<a:jasminecoins:868105109748469780> 100**.`);
 					}
 					else {
 						m.delete();
@@ -182,7 +182,7 @@ module.exports = {
 					if (guess.first().content.toLowerCase() === word) {
 						m.delete();
 						await Economy.update({ balance: economy.get('balance') + 100 }, { where: { userId: user } });
-						message.channel.send(`You're correct! It was **${word}**. You won **<a:JasmineCoins:718067589984551042> 100**.`);
+						message.channel.send(`You're correct! It was **${word}**. You won **<a:jasminecoins:868105109748469780> 100**.`);
 					}
 					else {
 						m.delete();

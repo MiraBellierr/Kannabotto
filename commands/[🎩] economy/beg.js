@@ -112,7 +112,7 @@ module.exports = {
 					const gain = random + multiplier;
 					const curBal = economy.get('balance');
 					await Economy.update({ balance: curBal + gain }, { where: { userId: user } });
-					message.reply(`You begged and you got <a:JasmineCoins:718067589984551042> **${gain.toLocaleString()}**`);
+					message.reply(`You begged and you got <a:jasminecoins:868105109748469780> **${gain.toLocaleString()}**`);
 				}
 				else {
 					message.channel.send(`**${message.author.username}**, you begged but no one is willing to give you coins.`);

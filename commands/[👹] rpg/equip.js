@@ -49,36 +49,36 @@ module.exports = {
 		if (content === 'sword') {
 			if (bag.get('sword') === 0) return message.channel.send(`**${message.author.username}**, You don't have this weapon.`);
 			if (bag.get('weapon') === 'No Weapon') {
-				await Bag.update({ weapon: '<:sword:843066591628492810> Sword' }, { where: { userId: user } });
+				await Bag.update({ weapon: '<:sword:868105110100779028> Sword' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:sword:843066591628492810> Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:sword:868105110100779028> Sword to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:staff:843066639834021909> Staff') {
-				await Bag.update({ weapon: '<:sword:843066591628492810> Sword' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<:staff:868105110138519582> Staff') {
+				await Bag.update({ weapon: '<:sword:868105110100779028> Sword' }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 10 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:sword:843066591628492810> Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:sword:868105110100779028> Sword to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:shield:726977268760707142> Shield') {
-				await Bag.update({ weapon: '<:sword:843066591628492810> Sword' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '🛡️ Shield') {
+				await Bag.update({ weapon: '<:sword:868105110100779028> Sword' }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') - 5 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:sword:843066591628492810> Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:sword:868105110100779028> Sword to ${player.get('name')}!`);
 			}
 			else if (bag.get('weapon') === '🏹 Bow') {
-				await Bag.update({ weapon: '<:sword:843066591628492810> Sword' }, { where: { userId: user } });
+				await Bag.update({ weapon: '<:sword:868105110100779028> Sword' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 6 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 4 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:sword:843066591628492810> Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:sword:868105110100779028> Sword to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
-				await Bag.update({ weapon: '<:sword:843066591628492810> Sword' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
+				await Bag.update({ weapon: '<:sword:868105110100779028> Sword' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:sword:843066591628492810> Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:sword:868105110100779028> Sword to ${player.get('name')}!`);
 			}
 			else {
 				message.channel.send(`**${message.author.username}**, You are currently equipped this weapon!`);
@@ -87,36 +87,36 @@ module.exports = {
 		else if (content === 'staff') {
 			if (bag.get('staff') === 0) return message.channel.send(`**${message.author.username}**, You don't have this weapon.`);
 			if (bag.get('weapon') === 'No Weapon') {
-				await Bag.update({ weapon: '<:staff:843066639834021909> Staff' }, { where: { userId: user } });
+				await Bag.update({ weapon: '<:staff:868105110138519582> Staff' }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:staff:843066639834021909> Staff to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:staff:868105110138519582> Staff to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:sword:843066591628492810> Sword') {
-				await Bag.update({ weapon: '<:staff:843066639834021909> Staff' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<:sword:868105110100779028> Sword') {
+				await Bag.update({ weapon: '<:staff:868105110138519582> Staff' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 10 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:staff:843066639834021909> Staff to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:staff:868105110138519582> Staff to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:shield:726977268760707142> Shield') {
-				await Bag.update({ weapon: '<:staff:843066639834021909> Staff' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '🛡️ Shield') {
+				await Bag.update({ weapon: '<:staff:868105110138519582> Staff' }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:staff:843066639834021909> Staff to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:staff:868105110138519582> Staff to ${player.get('name')}!`);
 			}
 			else if (bag.get('weapon') === '🏹 Bow') {
-				await Bag.update({ weapon: '<:staff:843066639834021909> Staff' }, { where: { userId: user } });
+				await Bag.update({ weapon: '<:staff:868105110138519582> Staff' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 6 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 4 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:staff:843066639834021909> Staff to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:staff:868105110138519582> Staff to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
-				await Bag.update({ weapon: '<:staff:843066639834021909> Staff' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
+				await Bag.update({ weapon: '<:staff:868105110138519582> Staff' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:staff:843066639834021909> Staff to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <:staff:868105110138519582> Staff to ${player.get('name')}!`);
 			}
 			else {
 				message.channel.send(`**${message.author.username}**, You are currently equipped this weapon!`);
@@ -125,40 +125,40 @@ module.exports = {
 		else if (content === 'shield') {
 			if (bag.get('shield') === 0) return message.channel.send(`**${message.author.username}**, You don't have this weapon.`);
 			if (bag.get('weapon') === 'No Weapon') {
-				await Bag.update({ weapon: '<:shield:726977268760707142> Shield' }, { where: { userId: user } });
+				await Bag.update({ weapon: '🛡️ Shield' }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') + 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:shield:726977268760707142> Shield to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped 🛡️ Shield to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:sword:843066591628492810> Sword') {
-				await Bag.update({ weapon: '<:shield:726977268760707142> Shield' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<:sword:868105110100779028> Sword') {
+				await Bag.update({ weapon: '🛡️ Shield' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 10 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:shield:726977268760707142> Shield to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped 🛡️ Shield to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:staff:843066639834021909> Staff') {
-				await Bag.update({ weapon: '<:shield:726977268760707142> Shield' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<:staff:868105110138519582> Staff') {
+				await Bag.update({ weapon: '🛡️ Shield' }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 10 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:shield:726977268760707142> Shield to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped 🛡️ Shield to ${player.get('name')}!`);
 			}
 			else if (bag.get('weapon') === '🏹 Bow') {
-				await Bag.update({ weapon: '<:shield:726977268760707142> Shield' }, { where: { userId: user } });
+				await Bag.update({ weapon: '🛡️ Shield' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 6 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 4 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') + 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:shield:726977268760707142> Shield to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped 🛡️ Shield to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
-				await Bag.update({ weapon: '<:shield:726977268760707142> Shield' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
+				await Bag.update({ weapon: '🛡️ Shield' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') + 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <:shield:726977268760707142> Shield to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped 🛡️ Shield to ${player.get('name')}!`);
 			}
 			else {
 				message.channel.send(`**${message.author.username}**, You are currently equipped this weapon!`);
@@ -172,21 +172,21 @@ module.exports = {
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 4 }, { where: { userId: user } });
 				message.channel.send(`**${message.author.username}**, you have equipped 🏹 Bow to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:sword:843066591628492810> Sword') {
+			else if (bag.get('weapon') === '<:sword:868105110100779028> Sword') {
 				await Bag.update({ weapon: '🏹 Bow' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 10 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 6 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 4 }, { where: { userId: user } });
 				message.channel.send(`**${message.author.username}**, you have equipped 🏹 Bow to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:staff:843066639834021909> Staff') {
+			else if (bag.get('weapon') === '<:staff:868105110138519582> Staff') {
 				await Bag.update({ weapon: '🏹 Bow' }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 10 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 6 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 4 }, { where: { userId: user } });
 				message.channel.send(`**${message.author.username}**, you have equipped 🏹 Bow to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:shield:726977268760707142> Shield') {
+			else if (bag.get('weapon') === '🛡️ Shield') {
 				await Bag.update({ weapon: '🏹 Bow' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 6 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') + 4 }, { where: { userId: user } });
@@ -194,7 +194,7 @@ module.exports = {
 				await Player.update({ magicalResistance: player.get('magicalResistance') - 5 }, { where: { userId: user } });
 				message.channel.send(`**${message.author.username}**, you have equipped 🏹 Bow to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+			else if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 				await Bag.update({ weapon: '🏹 Bow' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 5 }, { where: { userId: user } });
@@ -209,63 +209,63 @@ module.exports = {
 		else if (content === 'fire-sword') {
 			if (bag.get('swordFire') === 0) return message.channel.send(`**${message.author.username}**, You don't have this weapon.`);
 			if (bag.get('weapon') === 'No Weapon') {
-				await Bag.update({ weapon: '<a:fireSword:843064948262305812> Fire Sword' }, { where: { userId: user } });
+				await Bag.update({ weapon: '<a:firesword:868105110176301086> Fire Sword' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <a:fireSword:843064948262305812> Fire Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <a:firesword:868105110176301086> Fire Sword to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:sword:843066591628492810> Sword') {
-				await Bag.update({ weapon: '<a:fireSword:843064948262305812> Fire Sword' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<:sword:868105110100779028> Sword') {
+				await Bag.update({ weapon: '<a:firesword:868105110176301086> Fire Sword' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 10 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <a:fireSword:843064948262305812> Fire Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <a:firesword:868105110176301086> Fire Sword to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:staff:843066639834021909> Staff') {
-				await Bag.update({ weapon: '<a:fireSword:843064948262305812> Fire Sword' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '<:staff:868105110138519582> Staff') {
+				await Bag.update({ weapon: '<a:firesword:868105110176301086> Fire Sword' }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 10 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <a:fireSword:843064948262305812> Fire Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <a:firesword:868105110176301086> Fire Sword to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:shield:726977268760707142> Shield') {
-				await Bag.update({ weapon: '<a:fireSword:843064948262305812> Fire Sword' }, { where: { userId: user } });
+			else if (bag.get('weapon') === '🛡️ Shield') {
+				await Bag.update({ weapon: '<a:firesword:868105110176301086> Fire Sword' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 5 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') - 5 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <a:fireSword:843064948262305812> Fire Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <a:firesword:868105110176301086> Fire Sword to ${player.get('name')}!`);
 			}
 			else if (bag.get('weapon') === '🏹 Bow') {
-				await Bag.update({ weapon: '<a:fireSword:843064948262305812> Fire Sword' }, { where: { userId: user } });
+				await Bag.update({ weapon: '<a:firesword:868105110176301086> Fire Sword' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') + 5 }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 4 }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 6 }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, you have equipped <a:fireSword:843064948262305812> Fire Sword to ${player.get('name')}!`);
+				message.channel.send(`**${message.author.username}**, you have equipped <a:firesword:868105110176301086> Fire Sword to ${player.get('name')}!`);
 			}
 			else {
 				message.channel.send(`**${message.author.username}**, You are currently equipped this weapon!`);
 			}
 		}
 		else if (content === 'none') {
-			if (bag.get('weapon') === '<a:fireSword:843064948262305812> Fire Sword') {
+			if (bag.get('weapon') === '<a:firesword:868105110176301086> Fire Sword') {
 				await Bag.update({ weapon: 'No Weapon' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 5 }, { where: { userId: user } });
 				message.channel.send(`**${message.author.username}**, you have equipped No Weapon to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:sword:843066591628492810> Sword') {
+			else if (bag.get('weapon') === '<:sword:868105110100779028> Sword') {
 				await Bag.update({ weapon: 'No Weapon' }, { where: { userId: user } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') - 10 }, { where: { userId: user } });
 				message.channel.send(`**${message.author.username}**, you have equipped No Weapon to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:staff:843066639834021909> Staff') {
+			else if (bag.get('weapon') === '<:staff:868105110138519582> Staff') {
 				await Bag.update({ weapon: 'No Weapon' }, { where: { userId: user } });
 				await Player.update({ magicalAttack: player.get('magicalAttack') - 10 }, { where: { userId: user } });
 				message.channel.send(`**${message.author.username}**, you have equipped No Weapon to ${player.get('name')}!`);
 			}
-			else if (bag.get('weapon') === '<:shield:726977268760707142> Shield') {
+			else if (bag.get('weapon') === '🛡️ Shield') {
 				await Bag.update({ weapon: 'No Weapon' }, { where: { userId: user } });
 				await Player.update({ physicalResistance: player.get('physicalResistance') - 5 }, { where: { userId: user } });
 				await Player.update({ magicalResistance: player.get('magicalResistance') - 5 }, { where: { userId: user } });

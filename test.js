@@ -14,9 +14,7 @@
 
 const axios = require('axios');
 const database = require('./database/characters.json');
-console.log(`Total Characters: ${database.length}`);
 const fs = require('fs');
-const counter = require('./counter.json');
 
 
 function getRandomArbitrary(min, max) {
@@ -38,28 +36,24 @@ function randomNum() {
 
 axios({
 	method: 'get',
-	url: `https://api.jikan.moe/v3/search/character?letter=z&page=${counter.counter}`,
+	url: 'https://api.jikan.moe/v3/search/character?letter=a&page=5',
 	headers: {
 		'Content-Type': 'application/json',
 	},
 }).then(async res => {
 	const characters = res.data.results;
-	let id = parseInt(database[database.length - 1].id) + 1;
+	let id = 183;
 	for (let i = 0; i < characters.length; i++) {
 		if (characters[i].image_url.includes('questionmark')) {
 			continue;
 		}
 		const arr = randomNum();
 
-		database.push({ id: `${id}`, name: characters[i].name, from: characters[i].anime[0] ? characters[i].anime[0].name : (characters[i].manga[0] ? characters[i].manga[0].name : 'None'), health: arr[0], physical_attack: arr[1], magical_attack: arr[2], physical_resistance: arr[3], magical_resistance: arr[4], speed: arr[5], image: characters[i].image_url });
+		database.push({ id: `${id}`, name: characters[i].name, from: characters[i].anime[0] ? characters[i].anime[0].name : characters[i].manga[0].name, health: arr[0], physical_attack: arr[1], magical_attack: arr[2], physical_resistance: arr[3], magical_resistance: arr[4], speed: arr[5], image: characters[i].image_url });
 
 		id++;
 	}
-	counter.counter++;
-	fs.writeFile('./counter.json', JSON.stringify(counter, null, 2), (err) => {
-		console.log(err);
-		console.log(`Next page: ${counter.counter}`);
-	});
+
 	fs.writeFile('./database/characters.json', JSON.stringify(database, null, 2), (err) => {
 		console.log(err);
 	});

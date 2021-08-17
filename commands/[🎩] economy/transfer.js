@@ -158,6 +158,6 @@ module.exports = {
 		const total = amount - taxes;
 		await Economy.update({ balance: economy.get('balance') - amount }, { where: { userId: message.author.id } });
 		await Economy.update({ balance: economy2.get('balance') + amount }, { where: { userId: user.id } });
-		message.channel.send(`**${message.author.username}**, you gave <a:JasmineCoins:718067589984551042> ${total.toLocaleString()} after a 5% taxes to **${user.username}**`);
+		message.channel.send(`**${message.author.username}**, you gave <a:jasminecoins:868105109748469780> ${total.toLocaleString()} after a 5% taxes to **${user.username}**`);
 	},
 };

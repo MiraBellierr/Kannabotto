@@ -16,7 +16,7 @@ module.exports = async (client, guild) => {
 
 	client.user.setPresence({ activity: { name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for an info about me!`, type: 'WATCHING' }, status: 'idle' });
 
-	const logChannel = await client.channels.fetch('707243604283752459');
+	const logChannel = await client.channels.fetch('865525377458634762');
 
 	logChannel.send(`The bot has been removed from **${guild.name}** with **${guild.memberCount}** members.`);
 	console.log(`[LOG] The bot has been removed from **${guild.name}** with **${guild.memberCount}** members.`);

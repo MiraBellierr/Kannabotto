@@ -64,10 +64,10 @@ module.exports = {
 
 			if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
 
-			const guild = client.guilds.cache.get('684084513403699314');
+			const guild = client.guilds.cache.get('864537979339014184');
 			const patron = guild.members.cache.get(message.author.id);
 			if (!patron) return message.channel.send(`**${message.author.username}**, This command is accessible for Tier 1 Supporter only and must join our support server.`);
-			if (!patron.roles.cache.get('723772988276867102')) return message.channel.send(`**${message.author.username}**, This command is accessible for Tier 1 Supporter only.`);
+			if (!patron.roles.cache.get('867067538215272448')) return message.channel.send(`**${message.author.username}**, This command is accessible for Tier 1 Patreon only.`);
 
 
 			if (!await Cooldown.findOne({ where: { userId: user } })) {
@@ -115,7 +115,7 @@ module.exports = {
 				await Cooldown.update({ weekly: Date.now() }, { where: { userId: user } });
 				await Achievement.update({ weekly: achievement.get('weekly') + 1 }, { where: { userId: user } });
 				await Economy.update({ balance: curcoins + amount }, { where: { userId: user } });
-				message.channel.send(`**${message.author.username}**, Here's your weekly <a:JasmineCoins:718067589984551042> ${amount.toLocaleString()}. Come back again next week!`);
+				message.channel.send(`**${message.author.username}**, Here's your weekly <a:jasminecoins:868105109748469780> ${amount.toLocaleString()}. Come back again next week!`);
 			}
 		});
 	},

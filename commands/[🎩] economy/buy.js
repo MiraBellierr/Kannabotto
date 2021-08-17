@@ -106,7 +106,7 @@ module.exports = {
 			if (economy.get('balance') < 1000 * amount) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 1000 * amount }, { where: { userId: user } });
 			await Inventory.update({ dog: inventory.get('dog') + 1 * amount }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:doggo:843068555201216512> **Dog**!`);
+			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:dog:868105109647810600> **Dog**!`);
 		}
 		else if (content === 'fishing-rod') {
 			if (economy.get('balance') < 5000 * amount) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
@@ -118,7 +118,7 @@ module.exports = {
 			if (economy.get('balance') < 5000 * amount) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 5000 * amount }, { where: { userId: user } });
 			await Inventory.update({ huntingRifle: inventory.get('huntingRifle') + 1 * amount }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:huntingRifle:843069828658364437> **Hunting-Rifle**!`);
+			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:huntingrifle:868724539121610783> **Hunting-Rifle**!`);
 		}
 		else if (content === 'pickaxe') {
 			if (economy.get('balance') < 5100 * amount) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
@@ -130,34 +130,34 @@ module.exports = {
 			if (economy.get('balance') < 5000 * amount) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 5000 * amount }, { where: { userId: user } });
 			await Inventory.update({ guard: inventory.get('guard') + 1 * amount }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:bearcop:843071040480608307> **Guard**!`);
+			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:bearguard:868105110289543188> **Guard**!`);
 		}
 		else if (content === 'bear') {
 			if (economy.get('balance') < 3000 * amount) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 3000 * amount }, { where: { userId: user } });
 			await Inventory.update({ bear: inventory.get('bear') + 1 * amount }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <a:bearymad:719100025363234817> **Bear**!`);
+			message.channel.send(`**${message.author.username}**, You have bought **${amount}** <a:angrybear:868105109853327370> **Bear**!`);
 		}
 		else if (content === 'sword') {
 			if (bag.get('sword') === 1) return;
 			if (economy.get('balance') < 5000) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 5000 }, { where: { userId: user } });
 			await Bag.update({ sword: 1 }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought <:sword:843066591628492810> **Sword**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
+			message.channel.send(`**${message.author.username}**, You have bought <:sword:868105110100779028> **Sword**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
 		}
 		else if (content === 'staff') {
 			if (bag.get('staff') === 1) return;
 			if (economy.get('balance') < 5000) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 5000 }, { where: { userId: user } });
 			await Bag.update({ staff: 1 }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought <:staff:843066639834021909> **Staff**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
+			message.channel.send(`**${message.author.username}**, You have bought <:staff:868105110138519582> **Staff**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
 		}
 		else if (content === 'shield') {
 			if (bag.get('shield') === 1) return;
 			if (economy.get('balance') < 8000) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 8000 }, { where: { userId: user } });
 			await Bag.update({ shield: 1 }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought <:shield:726977268760707142> **Shield**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
+			message.channel.send(`**${message.author.username}**, You have bought 🛡️ **Shield**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
 		}
 		else if (content === 'bow') {
 			if (bag.get('bow') === 1) return;
@@ -171,13 +171,13 @@ module.exports = {
 			if (economy.get('balance') < 10000) return message.channel.send(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 			await Economy.update({ balance: economy.get('balance') - 10000 }, { where: { userId: user } });
 			await Bag.update({ swordFire: 1 }, { where: { userId: user } });
-			message.channel.send(`**${message.author.username}**, You have bought <a:fireSword:843064948262305812> **Fire-Sword**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
+			message.channel.send(`**${message.author.username}**, You have bought <a:firesword:868105110176301086> **Fire-Sword**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
 		}
 		else if (content === 'laptop') {
 			if (economy.get('balance') < 3000 * amount) return message.channel.send(`**${message.author.username}**, you don't have enough coins to buy that item.`);
 			await Economy.update({ balance: economy.get('balance') - 3000 * amount }, { where: { userId: user } });
 			await Inventory.update({ laptop: inventory.get('laptop') + 1 }, { where: { userId: user } });
-			return message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:laptop:843067880882700318> **Laptop**!`);
+			return message.channel.send(`**${message.author.username}**, You have bought **${amount}** <:laptop:868105109379379221> **Laptop**!`);
 		}
 		else {
 			message.channel.send(`**${message.author.username}**, no item found in the shop and the market??`);

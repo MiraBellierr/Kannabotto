@@ -23,10 +23,10 @@ module.exports = {
 	run: async (client, message) => {
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-			.setTitle('Vote For Jasmine')
+			.setTitle('Vote For Kanna')
 			.setColor('RANDOM')
-			.setDescription('Voting helps Jasmine becomes popular :p')
-			.addField('Links:', '- [botsfordiscord.com](https://botsfordiscord.com/bot/636748567586930728/vote)\n- [discordbotlist.com](https://discordbotlist.com/bots/jasmine/upvote)\n- [top.gg](https://top.gg/bot/636748567586930728/vote) - gives you <a:JasmineCoins:718067589984551042> 500')
+			.setDescription('Voting helps Kanna becomes popular :p')
+			.addField('Links:', '- [top.gg](https://top.gg/bot/867048396358549544/vote) - gives you <a:jasminecoins:868105109748469780> 500')
 			.setTimestamp()
 			.setFooter(client.user.username, client.user.avatarURL({ dynamic: true }));
 

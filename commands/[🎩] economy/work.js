@@ -125,7 +125,7 @@ module.exports = {
 					const random = gain + multiplier;
 					const curBal = economy.get('balance');
 					await Economy.update({ balance: curBal + random }, { where: { userId: user } });
-					const coins = `<a:JasmineCoins:718067589984551042> ${random.toLocaleString()}`;
+					const coins = `<a:jasminecoins:868105109748469780> ${random.toLocaleString()}`;
 					message.reply(`${getWork(coins)}`);
 				}
 				else {

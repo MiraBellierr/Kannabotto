@@ -225,7 +225,7 @@ module.exports = {
 			`You solved the mystery of the Cholera Outbreak and have been rewarded by the government with a sum of ${coins}.`,
 			`You work as a flatulence smell reduction underwear maker and earn ${coins}`,
 			`Someone adopted a puppy from your shelter and got ${coins} for it!`,
-			`You work as a Jasmine bot developer and earn ${coins}`,
+			`You work as a Kanna bot developer and earn ${coins}`,
 			`You work as a comedian and earn ${coins}`,
 			`You work as a sandcastle builder and earn ${coins}`,
 			`You work as a professional worker and earn ${coins}.`,

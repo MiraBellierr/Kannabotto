@@ -100,7 +100,7 @@ module.exports = {
 				const authorText4 = authorText3.replace('{server}', message.guild.name);
 				const authorText5 = authorText4.replace('{membercount}', message.guild.memberCount);
 
-				await message.channel.send({ embed: { description: 'Please type what the `author icon` would be.\n`Server Icon`, `Jasmine Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n`skip` to skip\n`cancel` to cancel' } });
+				await message.channel.send({ embed: { description: 'Please type what the `author icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n`skip` to skip\n`cancel` to cancel' } });
 				const authorIcon = await message.channel.awaitMessages(filter, {
 					max: 1,
 					time: 180000,
@@ -116,7 +116,7 @@ module.exports = {
 					embed.setAuthor(authorText5, message.guild.iconURL());
 					authorLink = authorIcon.first().content.toLowerCase();
 				}
-				else if (authorIcon.first().content.toLowerCase() === 'jasmine avatar') {
+				else if (authorIcon.first().content.toLowerCase() === 'Kanna avatar') {
 					embed.setAuthor(authorText5, client.user.avatarURL());
 					authorLink = authorIcon.first().content.toLowerCase();
 				}
@@ -231,7 +231,7 @@ module.exports = {
 				const footerText3 = footerText2.replace('{tag}', message.author.tag);
 				const footerText4 = footerText3.replace('{server}', message.guild.name);
 				const footerText5 = footerText4.replace('{membercount}', message.guild.memberCount);
-				await message.channel.send({ embed: { description: 'Please type what the `footer icon` would be.\n`Server Icon`, `Jasmine Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n`skip` to skip\n`cancel` to cancel' } });
+				await message.channel.send({ embed: { description: 'Please type what the `footer icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n`skip` to skip\n`cancel` to cancel' } });
 				const footerIcon = await message.channel.awaitMessages(filter, {
 					max: 1,
 					time: 180000,
@@ -247,7 +247,7 @@ module.exports = {
 					embed.setFooter(footerText5, message.guild.iconURL());
 					footerLink = footerIcon.first().content.toLowerCase();
 				}
-				else if (footerIcon.first().content.toLowerCase() === 'jasmine avatar') {
+				else if (footerIcon.first().content.toLowerCase() === 'Kanna avatar') {
 					embed.setFooter(footerText5, client.user.avatarURL());
 					footerLink = footerIcon.first().content.toLowerCase();
 				}
@@ -265,7 +265,7 @@ module.exports = {
 
 			await message.channel.send(embed);
 			await setTimeout(function() {
-				message.channel.send({ embed: { description: 'What image on the `thumbnail` would be?\n`Server Icon`, `Jasmine Avatar`, `User Avatar` or you can send any attachment (picture)\n `skip` to skip\n`cancel` to cancel' } });
+				message.channel.send({ embed: { description: 'What image on the `thumbnail` would be?\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can send any attachment (picture)\n `skip` to skip\n`cancel` to cancel' } });
 			}, 1000);
 			const thumbnail = await message.channel.awaitMessages(filter, {
 				max: 1,
@@ -282,7 +282,7 @@ module.exports = {
 				embed.setThumbnail(message.guild.iconURL());
 				thumbnailLink = thumbnail.first().content.toLowerCase();
 			}
-			else if (thumbnail.first().content.toLowerCase() === 'jasmine avatar') {
+			else if (thumbnail.first().content.toLowerCase() === 'Kanna avatar') {
 				embed.setThumbnail(client.user.avatarURL());
 				thumbnailLink = thumbnail.first().content.toLowerCase();
 			}

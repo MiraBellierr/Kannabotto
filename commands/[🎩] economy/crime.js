@@ -100,7 +100,7 @@ module.exports = {
 			}
 			const achievement = await Achievement.findOne({ where: { userId: user } });
 
-			if (economy.get('balance') < 1) return message.channel.send(`**${message.author.username}**, You need at least <a:JasmineCoins:718067589984551042> 1 to be able to do crime.`);
+			if (economy.get('balance') < 1) return message.channel.send(`**${message.author.username}**, You need at least <a:jasminecoins:868105109748469780> 1 to be able to do crime.`);
 			const timeOut = 60000;
 
 			const lastCrime = await cooldown.get('crime');
@@ -116,14 +116,14 @@ module.exports = {
 					const curBal = economy.get('balance');
 					const random = Math.ceil((0.05 * curBal));
 					await Economy.update({ balance: curBal + random }, { where: { userId: user } });
-					const coins = `<a:JasmineCoins:718067589984551042> ${random.toLocaleString()}`;
+					const coins = `<a:jasminecoins:868105109748469780> ${random.toLocaleString()}`;
 					message.channel.send(`${message.author.username}, ${getCrimeSuccess(coins)}`);
 				}
 				if (answer === 'failed') {
 					const curBal = economy.get('balance');
 					const random = Math.floor(0.05 * curBal);
 					await Economy.update({ balance: curBal - random }, { where: { userId: user } });
-					const coins = `<a:JasmineCoins:718067589984551042> ${random.toLocaleString()}`;
+					const coins = `<a:jasminecoins:868105109748469780> ${random.toLocaleString()}`;
 					message.channel.send(`${message.author.username}, ${getCrimeFail(coins)}`);
 				}
 			}
