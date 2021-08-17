@@ -33,49 +33,48 @@ module.exports = {
 		import('parse-ms').then(async ms => {
 			const user = message.author.id;
 
-			const Inventory = Models.Inventory();
-			const Economy = Models.Economy();
-			const Bag = Models.Bag();
-			const Cooldown = Models.Cooldown();
-			const Player = Models.Player();
-			const Images = Models.Images();
-			const imagess = await Images.findOne({ where: { id: 1 } });
-			const images = imagess.dataValues.data;
+			const InventoryBD = Models.Inventory();
+			const EconomyDB = Models.Economy();
+			const BagDB = Models.Bag();
+			const CooldownDB = Models.Cooldown();
+			const PlayerDB = Models.Player();
+			const ImageDB = Models.Images();
+			const images = await ImageDB.findOne({ where: { id: 1 } }).dataValues.data;
 
-			if (!await Inventory.findOne({ where: { userId: user } })) {
-				await Inventory.create({
+			if (!await InventoryDB.findOne({ where: { userId: user } })) {
+				await InventoryDB.create({
 					userId: user,
 				});
 			}
-			const inventory = await Inventory.findOne({ where: { userId: user } });
+			const inventory = await InventoryDB.findOne({ where: { userId: user } });
 
 
-			if (!await Economy.findOne({ where: { userId: user } })) {
-				await Economy.create({
+			if (!await EconomyDB.findOne({ where: { userId: user } })) {
+				await EconomyDB.create({
 					userId: user,
 				});
 			}
 
-			const economy = await Economy.findOne({ where: { userId: user } });
+			const economy = await EconomyDB.findOne({ where: { userId: user } });
 
 
-			if (!await Bag.findOne({ where: { userId: user } })) {
-				await Bag.create({
+			if (!await BagDB.findOne({ where: { userId: user } })) {
+				await BagDB.create({
 					userId: user,
 				});
 			}
-			const bag = await Bag.findOne({ where: { userId: user } });
+			const bag = await BagDB.findOne({ where: { userId: user } });
 
 
-			if (!await Cooldown.findOne({ where: { userId: user } })) {
-				await Cooldown.create({
+			if (!await CooldownDB.findOne({ where: { userId: user } })) {
+				await CooldownDB.create({
 					userId: user,
 				});
 			}
-			const cooldown = await Cooldown.findOne({ where: { userId: user } });
+			const cooldown = await CooldownDB.findOne({ where: { userId: user } });
 
 
-			const player = await Player.findOne({ where: { userId: user } });
+			const player = await PlayerDB.findOne({ where: { userId: user } });
 
 			const result = new Discord.MessageEmbed()
 				.setDescription('No profile found 😓')
@@ -90,7 +89,7 @@ module.exports = {
 				message.channel.send(`**${message.author.username}**, please wait **${timeObj.seconds}s** till you can battle again.`);
 			}
 			else {
-				await Cooldown.update({ battle: Date.now() }, { where: { userId: user } });
+				await CooldownDB.update({ battle: Date.now() }, { where: { userId: user } });
 
 				if (args.length > 0) {
 					if (args[0].toLowerCase() === 'boss') {
@@ -193,12 +192,12 @@ module.exports = {
 									xpAdd = ((50 / 100) * 10) + 10;
 								}
 								const curxp = player.get('xp');
-								await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+								await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 								break;
 							}
 							else if (enemyHealth < 1) {
 								const curBal = economy.get('balance');
-								await Economy.update({ balance: curBal + random }, { where: { userId: user } });
+								await EconomyDB.update({ balance: curBal + random }, { where: { userId: user } });
 
 								enemyHealth = 0;
 								playerHealth;
@@ -216,7 +215,7 @@ module.exports = {
 									}
 								}
 								const curxp = player.get('xp');
-								await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+								await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 
 								if (!images[message.author.id]) {
 									images[message.author.id] = [
@@ -238,7 +237,7 @@ module.exports = {
 										if (images[message.author.id][i].name === enemy[0].name) {
 										// eslint-disable-next-line no-shadow
 											const curBal = economy.get('balance');
-											await Economy.update({ balance: curBal + 1000 }, { where: { userId: user } });
+											await EconomyDB.update({ balance: curBal + 1000 }, { where: { userId: user } });
 											return;
 										}
 									}
@@ -250,7 +249,7 @@ module.exports = {
 
 									data.push(image);
 									images[message.author.id] = data;
-									await Images.update({ data: images }, { where: { id: 1 } });
+									await ImageDB.update({ data: images }, { where: { id: 1 } });
 									message.channel.send(`Congratulations, you get **${enemy[0].name}** image`);
 									const embed = new Discord.MessageEmbed()
 										.setImage(enemy[0].image);
@@ -268,7 +267,7 @@ module.exports = {
 									xpAdd = ((50 / 100) * 10) + 10;
 								}
 								const curxp = player.get('xp');
-								await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+								await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 								break;
 							}
 							else if (i === 999) {
@@ -281,7 +280,7 @@ module.exports = {
 									xpAdd = ((50 / 100) * 10) + 10;
 								}
 								const curxp = player.get('xp');
-								await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+								await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 								break;
 							}
 							if (playerSpeed > enemySpeed) {
@@ -453,14 +452,15 @@ module.exports = {
 						}, 2000);
 						setTimeout(async function() {
 							if (player.get('totalXp') < player.get('xp')) {
-								await Player.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: user } });
-								await Player.update({ level: player.get('level') + 1 }, { where: { userId: user } });
-								await Player.update({ health: player.get('health') + 1 }, { where: { userId: user } });
-								await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: user } });
-								await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: user } });
-								await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: user } });
-								await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: user } });
-								await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: user } });
+								//TODO: Merge all updates into a single query
+								await PlayerDB.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: user } });
+								await PlayerDB.update({ level: player.get('level') + 1 }, { where: { userId: user } });
+								await PlayerDB.update({ health: player.get('health') + 1 }, { where: { userId: user } });
+								await PlayerDB.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: user } });
+								await PlayerDB.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: user } });
+								await PlayerDB.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: user } });
+								await PlayerDB.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: user } });
+								await PlayerDB.update({ speed: player.get('speed') + 1 }, { where: { userId: user } });
 								message.channel.send(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
 							}
 						}, 4000);
@@ -472,16 +472,16 @@ module.exports = {
 
 						if (enemy === message.author.id) return message.channel.send('Player not found');
 
-						if (!await Bag.findOne({ where: { userId: enemy } })) {
-							await Bag.create({
+						if (!await BagDB.findOne({ where: { userId: enemy } })) {
+							await BagDB.create({
 								userId: enemy,
 							});
 						}
 						const member = await getMember(message, args.join(' '));
-						const bagEnemy = await Bag.findOne({ where: { userId: enemy } });
+						const bagEnemy = await BagDB.findOne({ where: { userId: enemy } });
 						const enemyPlayer = await getMember(message, args.join(' '));
 						if (!enemy) return message.channel.send(`**${message.author.username}**, I couldn't find that user.`);
-						const playerEnemy = await Player.findOne({ where: { userId: enemy } });
+						const playerEnemy = await PlayerDB.findOne({ where: { userId: enemy } });
 						if (!playerEnemy) return message.channel.send(`**${message.author.username}**, There is no player with this name in my database. Do \`${prefixes[message.guild.id]}start\` to create a profile.`);
 						const prompt = new Discord.MessageEmbed()
 							.setTitle(`${message.author.username} challenges ${member.user.username} in battle!`)
@@ -845,20 +845,21 @@ module.exports = {
 						return;
 					}
 				}
+				//TODO: Simplify
 				const charactersArr = [];
-				const characters = await Player.findAll({ attributes: ['userId'] });
+				const characters = await PlayerDB.findAll({ attributes: ['userId'] });
 				const charactersString = characters.map(c => c.userId);
 				for (let i = 0; i < charactersString.length; i++) {
 					charactersArr.push(charactersString[i]);
 				}
 				let enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
-				if (!await Bag.findOne({ where: { userId: enemy } })) {
-					await Bag.create({
+				if (!await BagDB.findOne({ where: { userId: enemy } })) {
+					await BagDB.create({
 						userId: enemy,
 					});
 				}
-				const bagEnemy = await Bag.findOne({ where: { userId: enemy } });
-				const playerEnemy = await Player.findOne({ where: { userId: enemy } });
+				const bagEnemy = await BagDB.findOne({ where: { userId: enemy } });
+				const playerEnemy = await PlayerDB.findOne({ where: { userId: enemy } });
 				while (enemy === user || playerEnemy.get('start') === 0) {
 					enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
 				}
@@ -964,8 +965,8 @@ module.exports = {
 					}
 
 					if (enemyHealth < 1 && playerHealth < 1) {
-						await Player.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
-						await Player.update({ tie: player.get('tie') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ tie: player.get('tie') + 1 }, { where: { userId: user } });
 
 						enemyHealth = 0;
 						playerHealth = 0;
@@ -976,14 +977,14 @@ module.exports = {
 							xpAdd = ((50 / 100) * 10) + 10;
 						}
 						const curxp = player.get('xp');
-						await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+						await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 						break;
 					}
 					else if (enemyHealth < 1) {
-						await Player.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
-						await Player.update({ won: player.get('won') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ won: player.get('won') + 1 }, { where: { userId: user } });
 						const curBal = economy.get('balance');
-						await Economy.update({ balance: curBal + random }, { where: { userId: user } });
+						await EconomyDB.update({ balance: curBal + random }, { where: { userId: user } });
 
 						enemyHealth = 0;
 						playerHealth;
@@ -1002,13 +1003,13 @@ module.exports = {
 						}
 						const curxp = player.get('xp');
 						const curStar = player.get('rank');
-						await Player.update({ rank: curStar + starAdd }, { where: { userId: user } });
-						await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+						await PlayerDB.update({ rank: curStar + starAdd }, { where: { userId: user } });
+						await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 						break;
 					}
 					else if (playerHealth < 1) {
-						await Player.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
-						await Player.update({ lost: player.get('lost') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ lost: player.get('lost') + 1 }, { where: { userId: user } });
 
 						playerHealth = 0;
 						enemyHealth;
@@ -1019,14 +1020,14 @@ module.exports = {
 							xpAdd = ((50 / 100) * 10) + 10;
 						}
 						const curxp = player.get('xp');
-						await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+						await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 						break;
 					}
 					else if (i === 999) {
 						enemyHealth;
 						playerHealth;
-						await Player.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
-						await Player.update({ tie: player.get('tie') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ battle: player.get('battle') + 1 }, { where: { userId: user } });
+						await PlayerDB.update({ tie: player.get('tie') + 1 }, { where: { userId: user } });
 
 						xpAdd = 10;
 						const timeOut2 = 3.6e+6;
@@ -1035,7 +1036,7 @@ module.exports = {
 							xpAdd = ((50 / 100) * 10) + 10;
 						}
 						const curxp = player.get('xp');
-						await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+						await PlayerDB.update({ xp: curxp + xpAdd }, { where: { userId: user } });
 						break;
 					}
 					if (playerSpeed > enemySpeed) {
@@ -1269,16 +1270,17 @@ module.exports = {
 					setTimeout(() => thisMes.edit(battle4), 2000);
 				}, 2000);
 
-				const player1 = await Player.findOne({ where: { userID: user } });
+				const player1 = await PlayerDB.findOne({ where: { userID: user } });
 				if (player1.get('totalXp') < player1.get('xp')) {
-					await Player.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: message.author.id } });
-					await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
-					await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
-					await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
-					await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
-					await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
-					await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
-					await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
+					//TODO: Merge into single querry
+					await PlayerDB.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: message.author.id } });
+					await PlayerDB.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
+					await PlayerDB.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
+					await PlayerDB.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
+					await PlayerDB.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
+					await PlayerDB.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
+					await PlayerDB.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
+					await PlayerDB.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
 					setTimeout(async function() {
 						message.channel.send(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
 					}, 4000);
