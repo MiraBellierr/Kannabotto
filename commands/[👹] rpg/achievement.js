@@ -70,7 +70,13 @@ module.exports = {
 
 		if (!player) return message.channel.send(result);
 
-
+		//TODO: Gameplan =>
+		/*
+		* Offload all achievement text to another file
+		* Offload checking stats to another file
+		* Get all achievements for the user in one array/list
+		* Paginate based on items in the list (cut off at 100 or so)
+		*/
 		const embed2 = new Discord.MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.setThumbnail('https://cdn.discordapp.com/attachments/843064886920871938/845856789810511892/6757_Pixel_Book.gif')

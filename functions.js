@@ -382,4 +382,387 @@ module.exports = {
 
 		return crime;
 	},
+
+	getAchievements: function() {
+		const achievements = {
+			won: [
+				{
+					text: 'First Won - Win 1 battle',
+					check: function(score) {
+						return (score > 0 && score < 100);
+					}
+				},
+				{
+					text: 'Enemy Crusher - Won 100 battles',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Superhero - Won 500 battles',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: '👹 A Monster - Won 1000 battles',
+					check: function(score) {
+						return (score >= 1_000);
+					}
+				}
+			],
+			level: [
+				{
+					text: 'Expert - Level 100 character',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Master - Level 500 character',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: '👼 God - Level 1000 character',
+					check: function(score) {
+						return (score >= 1_000);
+					}
+				}
+			],
+			battle: [
+				{
+					text: '1st Battle - battle 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'Adapted - battle 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'Experienced - battle 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Mastered - battle 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Goddess - battle 1000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: '🌏 Immortal - battle 5000 times',
+					check: function(score) {
+						return (score >= 5_000);
+					}
+				}
+			],
+			balance: [
+				{
+					text: 'Collector - have <a:jasminecoins:868105109748469780> 100,000 in pocket',
+					check: function(score) {
+						return (score >= 100_000 && score < 500_000);
+					}
+				},
+				{
+					text: 'Road To millionaire - have <a:jasminecoins:868105109748469780> 500,000 in pocket',
+					check: function(score) {
+						return (score >= 500_000 && score < 1_000_000);
+					}
+				},
+				{
+					text: '💲 Millionaire - have <a:jasminecoins:868105109748469780> 1,000,000 in pocket',
+					check: function(score) {
+						return (score >= 1_000_000);
+					}
+				}
+			],
+			bank: [
+				{
+					text: 'The Safer - have <a:jasminecoins:868105109748469780> 100,000 in bank',
+					check: function(score) {
+						return (score >= 100_000 && score < 500_000);
+					}
+				},
+				{
+					text: 'Safe Room - have <a:jasminecoins:868105109748469780> 500,000 in bank',
+					check: function(score) {
+						return (score >= 500_000 && score < 1_000_000);
+					}
+				},
+				{
+					text: '🤑 Looks Poor But Actually Rich - have <a:jasminecoins:868105109748469780> 1,000,000 in bank',
+					check: function(score) {
+						return (score >= 1_000_000);
+					}
+				}
+			],
+			totalBank: [
+				{
+					text: 'The Path Opened - have 1,000 bank space',
+					check: function(score) {
+						return (score >= 1_000 && score < 50_000);
+					}
+				},
+				{
+					text: 'Bank Conquerer - have 50,000 bank space',
+					check: function(score) {
+						return (score >= 50_000 && score < 100_000);
+					}
+				},
+				{
+					text: 'Own A Bank - have 100,000 bank space',
+					check: function(score) {
+						return (score >= 100_000 && score < 500_000);
+					}
+				},
+				{
+					text: 'Own Every Bank In The Country - have 500,000 bank space',
+					check: function(score) {
+						return (score >= 500_000 && score < 1_000_000);
+					}
+				},
+				{
+					text: '🏦 All Banks Are Mine - have 1,000,000 bank space',
+					check: function(score) {
+						return (score >= 1_000_000);
+					}
+				}
+			],
+			beg: [
+				{
+					text: 'Be A Begger - beg 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'Gimme Money - beg 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'I\'m Poor - beg 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Homeless - beg 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'No life - beg 1,000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: '💀 Feels Like Don\'t Wanna Live Anymore - beg 5,000 times',
+					check: function(score) {
+						return (score >= 5_000);
+					}
+				}
+			],
+			youtube: [
+				{
+					text: 'Become A Youtuber - do youtube business 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Youtuber - do youtube business 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Youtuber - do youtube business 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'A Golden Button - do youtube business 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Youtube Staff - do youtube business 1,000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'CEO of Youtube - do youtube business 5,000 times',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '🛠 Just Bought Youtube - do youtube business 10,000 times',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			website: [
+				{
+					text: 'Become A Website developer - make 1 website',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Website Developer - make 50 websites',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Website Developer - make 100 websites',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Build A Website Company - make 500 websites',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Famous Website Developer - make 1,000 websites',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'Almost Own The Internet - make 5,000 websites',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '🛠 It\'s All Yours - make 10,000 websites',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			product: [
+				{
+					text: 'Become A Product Seller - sell 1 product',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Product Seller - sell 50 products',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Product Seller - sell 100 products',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Build A Product Company - sell 500 products',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Famous Product Seller - sell 1,000 products',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'Almost Out Of Stock - sell 5,000 products',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '📪 Out Of Stock - sell 10,000 products',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			media: [
+				{
+					text: 'Become A Media Social Influencer - do a media social influencer business 1 time',
+					check: function(score) {
+						return (score > 0 && score < 50);
+					}
+				},
+				{
+					text: 'An Expert Media Social Influencer - do a Media Social Influencer business 50 times',
+					check: function(score) {
+						return (score >= 50 && score < 100);
+					}
+				},
+				{
+					text: 'A Pro Media Social Influencer - do a media social influencer business 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'Conquer A Media Social Platform - do a media social influencer business 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Conquer Every Media Social platforms - do a media social influencer business 1,000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'Famous Person - do a media social influencer business 5,000 times',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '🤳 Everyone Knows You - do a media social influencer business 10,000 times',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			tools: [
+				{
+					text: '🛍 In Need - have bought fishing rod, hunting rifle, laptop and pickaxe',
+					check: function(rod, rifle, laptop, pickaxe) {
+						return (rod && rifle && laptop && pickaxe);
+					}
+				}
+			]
+		};
+	}
 };
