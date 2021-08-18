@@ -1,9 +1,9 @@
 ---
 name: Feature request
-about: Suggest an idea for Jasmine bot
-title: "[FEATURE]"
-labels: enhancement
-assignees: MiraBellierr
+about: Suggest an idea for Kanna
+title: "[Feature]: <your feature here>"
+labels: 'Priority: Low, Status: Available, Type: Feature'
+assignees: ''
 
 ---
 

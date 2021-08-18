@@ -1,14 +1,14 @@
 ---
 name: Bug report
-about: Create a bug report to help me improve Jasmine
-title: "[BUG]"
-labels: bug
-assignees: MiraBellierr
+about: File a bug report to help in improving Kanna
+title: "[Bug]: <your issue here>"
+labels: 'Priority: Low, Status: Available, Type: Bug'
+assignees: ''
 
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+
 
 **To Reproduce**
 Steps to reproduce the behavior:
@@ -18,10 +18,9 @@ Steps to reproduce the behavior:
 4.
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+
 
 **Additional context**
-Add any other context about the problem here.
