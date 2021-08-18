@@ -384,7 +384,7 @@ module.exports = {
 	},
 
 	getAchievements: function() {
-		const achievements = {
+		return {
 			won: [
 				{
 					text: 'First Won - Win 1 battle',
@@ -760,6 +760,82 @@ module.exports = {
 					text: '🛍 In Need - have bought fishing rod, hunting rifle, laptop and pickaxe',
 					check: function(rod, rifle, laptop, pickaxe) {
 						return (rod && rifle && laptop && pickaxe);
+					}
+				}
+			],
+			crime: [
+				{
+					text: 'First Time Do A Crime - do crime 1 time',
+					check: function(score) {
+						return (score > 0 && score < 100);
+					}
+				},
+				{
+					text: 'A Bad Person - do crime 100 times',
+					check: function(score) {
+						return (score >= 100 && score < 500);
+					}
+				},
+				{
+					text: 'A Criminal - do crime 500 times',
+					check: function(score) {
+						return (score >= 500 && score < 1_000);
+					}
+				},
+				{
+					text: 'Most Wanted - do crime 1000 times',
+					check: function(score) {
+						return (score >= 1_000 && score < 5_000);
+					}
+				},
+				{
+					text: 'Nowhere is safe - do crime 5,000 times',
+					check: function(score) {
+						return (score >= 5_000 && score < 10_000);
+					}
+				},
+				{
+					text: '🦹‍♂️ Should Be in The Prison - do crime 10,000 time',
+					check: function(score) {
+						return (score >= 10_000);
+					}
+				}
+			],
+			daily: [
+				{
+					text: '1st Daily - claim daily 1 time',
+					check: function (score) {
+						return (score > 0 && score < 10);
+					}
+				},
+				{
+					text: '10th Daily - claim daily 10 times',
+					check: function (score) {
+						return (score >= 10 && score < 20);
+					}
+				},
+				{
+					text: '20th Daily - claim daily 20 times',
+					check: function (score) {
+						return (score >= 20 && score < 30);
+					}
+				},
+				{
+					text: '1 Month Daily - claim daily 30 times',
+					check: function (score) {
+						return (score >= 30 && score < 60);
+					}
+				},
+				{
+					text: '2 Months Daily - claim daily 60 times',
+					check: function (score) {
+						return (score >= 60 && score < 100);
+					}
+				},
+				{
+					text: '🧠 Strong Memories - claim daily 100 times',
+					check: function (score) {
+						return (score >= 100);
 					}
 				}
 			]
