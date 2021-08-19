@@ -106,7 +106,7 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 			.setThumbnail('https://cdn.discordapp.com/attachments/710732218254753842/845169239979589651/1383_bunny_holding_hearts.png')
 			.setDescription(`\`${user.tag} (${vote.user})\` just voted!\n${user.tag} received <a:jasminecoins:868105109748469780> 500\n\nYou can vote on top.gg [here](https://top.gg/bot/867048396358549544/vote) every 12 hours!`)
 			.setFooter('Thank you for your support!');
-		channel.reply({ embeds: [embed] });
+		channel.send({ embeds: [embed] });
 		user.send('Thank for voting! You have received <a:jasminecoins:868105109748469780> 500!').catch(console.error);
 	});
 
@@ -190,7 +190,7 @@ client.on('messageCreate', async message => {
 			random_character[message.guild.id].defeat = false;
 
 			fs.writeFile('./database/randomCharacter.json', JSON.stringify(random_character, null, 2), (err) => {
-				if (err) return channel.reply(`An error occured \`${err}\``);
+				if (err) return channel.send(`An error occured \`${err}\``);
 			});
 
 			if (!prefixes[message.guild.id]) {
@@ -205,7 +205,7 @@ client.on('messageCreate', async message => {
 				.setImage(character.image)
 				.setFooter(`Type "${prefixes[message.guild.id]}battle boss" to challenge this boss`);
 
-			channel.reply({ embeds: [embed] });
+			channel.send({ embeds: [embed] });
 		}
 		else {
 			return;

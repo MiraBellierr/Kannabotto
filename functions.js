@@ -1160,7 +1160,7 @@ module.exports = {
 			if (confirm2.first().content.toLowerCase() === 'yes') {
 				message.reply(`Alright. Sending it to ${channel}.`);
 
-				channel.reply({ embeds: [embed] }).catch(() => message.reply('I can\'t send a message to that channel.'));
+				channel.send({ embeds: [embed] }).catch(() => message.reply('I can\'t send a message to that channel.'));
 			}
 			else if (confirm2.first().content.toLowerCase() === 'no') {
 				message.reply('Deleted.');

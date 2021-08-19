@@ -126,7 +126,7 @@ module.exports = async (client, member) => {
 
 		if (!channel) return;
 
-		channel.reply({ embeds: [embed] });
+		channel.send({ embeds: [embed] });
 	}
 
 	const log = JSON.parse(fs.readFileSync('./database/logging.json', 'utf8'));
