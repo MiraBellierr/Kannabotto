@@ -25,15 +25,15 @@ module.exports = {
 	description: 'Who would win meme generator',
 	usage: '"<text 1>" "<text 2>"',
 	run: async (client, message, args) => {
-		if (!args[0]) return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text1>" "<text2>"\`.`);
-		if (!args[1]) return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text1>" "<text2>"\`.`);
+		if (!args[0]) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text1>" "<text2>"\`.`);
+		if (!args[1]) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text1>" "<text2>"\`.`);
 
 		const a = args.join(' ');
 		const content = a.split('"');
 
-		if (content[0] !== '') return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text 1>" "<text2>"\`.`);
-		if (content[4] !== '') return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text 1>" "<text2>"\`.`);
-		const m = await message.channel.send('Please wait...');
+		if (content[0] !== '') return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text 1>" "<text2>"\`.`);
+		if (content[4] !== '') return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}whowouldwin "<text 1>" "<text2>"\`.`);
+		const m = await message.reply('Please wait...');
 
 		axios({
 			method: 'post',
@@ -49,12 +49,11 @@ module.exports = {
 				text1: content[3],
 			},
 		}).then(async response => {
-			console.log(response);
 			const attachment = new Discord.MessageAttachment(await response.data.data.url, '101910402.png');
 			m.delete();
-			message.channel.send(attachment);
+			message.reply({ files: [attachment] });
 		}).catch(err =>{
-			message.channel.send('An error occurred. Please try again.');
+			message.reply('An error occurred. Please try again.');
 			console.log(err);
 		});
 

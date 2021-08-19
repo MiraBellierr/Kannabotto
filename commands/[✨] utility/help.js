@@ -41,7 +41,7 @@ function getAll(client, message) {
 		.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
 		.setTimestamp()
 		.setFooter(`Type "${prefixes[message.guild.id]}help [command]" for more info on a command!`, client.user.avatarURL({ dynamic: true }))
-		.setTitle('Kanna Help Command');
+		.setTitle(`${client.user.username} help command`);
 
 	const commands = (category) => {
 		return client.commands
@@ -53,7 +53,7 @@ function getAll(client, message) {
 		.map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
 		.reduce((string, category) => string + '\n' + category);
 
-	return message.channel.send(embed.setDescription(info).setTimestamp());
+	return message.reply({ embeds: [embed.setDescription(info).setTimestamp()] });
 }
 
 function getCMD(client, message, input) {
@@ -64,7 +64,7 @@ function getCMD(client, message, input) {
 	let info = `No information found for command **${input.toLowerCase()}**`;
 
 	if (!cmd) {
-		return message.channel.send(embed.setColor('RED').setDescription(info));
+		return message.reply({ embeds: [embed.setColor('RED').setDescription(info)] });
 	}
 
 	if (cmd.name) info = `**Command name**: ${cmd.name}`;
@@ -76,5 +76,5 @@ function getCMD(client, message, input) {
 		embed.setFooter('Syntax: <> = required, [] = optional');
 	}
 
-	return message.channel.send(embed.setColor('GREEN').setDescription(info).setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })).setTimestamp());
+	return message.reply({ embeds: [embed.setColor('GREEN').setDescription(info).setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true })).setTimestamp()] });
 }

@@ -25,7 +25,7 @@ module.exports = {
 			message.reply('You must input text to be reversed!');
 			return;
 		}
-		message.channel.send(args.join(' ').split('').reverse().join(''), { disableMentions: 'all' });
+		message.reply(`${args.join(' ').split('').reverse().join('')}`);
 
 
 	},

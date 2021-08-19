@@ -26,12 +26,16 @@ module.exports = {
 	run: async (client, message, args) => {
 		const member = await getMember(message, args.join(' '));
 		let image = message.attachments.first() || member.user.displayAvatarURL({ format: 'png', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
-		if (!image) return message.channel.send(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}wasted [username | attachment]\`.`);
+
+		if (!image) return message.reply(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}wasted [username | attachment]\`.`);
+
 		if (image === message.attachments.first()) {
 			image = message.attachments.first().url;
 		}
-		const m = await message.channel.send('*Please wait..*');
+
+		const m = await message.reply('*Please wait..*');
 		const attachment = new Discord.MessageAttachment(await `https://some-random-api.ml/canvas/wasted?avatar=${image}`, 'wasted.png');
-		message.channel.send(attachment).then(() => m.delete());
+
+		message.reply({ files: [attachment] }).then(() => m.delete());
 	},
 };

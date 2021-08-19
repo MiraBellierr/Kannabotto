@@ -44,7 +44,7 @@ module.exports = {
 				.setImage(result.url)
 				.setFooter(`⬆️ ${result.ups} | 💬 ${result.num_comments} | 🏅 ${result.total_awards_received}`);
 
-			message.channel.send(embed);
-		}).catch(err => message.channel.send(`An error occured \`${err}\``));
+			message.reply({ embeds: [embed] });
+		}).catch(err => message.reply(`An error occured \`${err}\``));
 	},
 };

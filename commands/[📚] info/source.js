@@ -15,35 +15,36 @@
 const beautify = require('beautify');
 const { bot_prefix } = require('../../config.json');
 const getSource = require('get-source');
+const fs = require('fs');
+const { PaginateContent } = require('../../Pagination');
+
 module.exports = {
 	name: 'source',
 	aliases: ['s'],
 	description: 'send a source code',
-	example: `${bot_prefix}source <path to file>`,
-	usage: '<path to file>',
+	example: `${bot_prefix}source <command name>`,
+	usage: '<command name>',
 	run: async (client, message, args) => {
-		if (message.author.id !== '275989071774351360') {
-			return message.channel.send('You\'re not the owner of me!!')
-				.then(m => m.delete(5000));
-		}
-		const dir = args[0];
-		const file = args[1];
-		const dirType = {
-			m: '[🛠] moderation',
-			meme: '[🤣] meme',
-			u: '[✨] utility',
-			e: '[🎩] economy',
-			g: '[🎮] games',
-			l: '[🎮] level',
-			i: '[📚] info',
-			im: '[📷] image manipulation',
-			p: '[📸] picture',
-			a: '[🤺] actions',
-			f: '[🧩] fun',
-			c: '[😷] corona',
-			r: '[👹] rpg',
-		};
-		const source = getSource (`./commands/${dirType[dir]}/${file}.js`);
-		message.channel.send(`path: \`${source.path}\`\n\`\`\`js\n${beautify(source.text, { format: 'js' })}\`\`\``, { split: { prepend: `\`\`\`js\n${beautify(message, { format: 'js' })}`, append: '```' } });
+		if (!args[0]) return message.reply('Please state a command name to be pulled');
+
+		fs.readdirSync('./commands').forEach(dir => {
+			fs.readdirSync(`./commands/${dir}`).forEach(async file => {
+				if (file === `${args[0]}.js`) {
+					const source = getSource(`./commands/${dir}/${file}`);
+					const splitString = [];
+					let i = 0;
+					while (i < source.text.length) {
+						splitString.push(source.text.slice(i, i + 1200));
+						i = i + 1200;
+					}
+
+					const splitStringMap = splitString.map((str, index) => `Path: \`${source.path}\`\n\`\`\`js\n${beautify(str, { format: 'js' })}\n\`\`\`\nPage ${index + 1}/${splitString.length}`);
+
+					const paginated = new PaginateContent.DiscordJS(client, message, splitStringMap);
+					await paginated.init();
+				}
+			});
+
+		});
 	},
 };

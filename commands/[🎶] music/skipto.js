@@ -25,15 +25,16 @@ module.exports = {
 	example: `${bot_prefix}skipto <queue number>`,
 	usage: '<queue number>',
 	run: async (client, message, args) => {
-		if (!args.length) return message.channel.send(`**${message.author.username}**, the right syntax is ${prefixes[message.guild.id]}skipto <Queue Number>`);
+		if (!args.length) return message.reply(`**${message.author.username}**, the right syntax is ${prefixes[message.guild.id]}skipto <Queue Number>`);
 
 		const queue = client.queue.get(message.guild.id);
-		if (!queue) return message.channel.send(`**${message.author.username}**, there is no queue.`).catch(console.error);
-		if (!canModifyQueue(message.member)) return message.channel.send('You need to join the voice channel first');
+
+		if (!queue) return message.reply(`**${message.author.username}**, there is no queue.`).catch(console.error);
+		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
 		queue.playing = true;
 		queue.songs = queue.songs.slice(args[0] - 2);
-		queue.connection.dispatcher.end();
-		queue.textChannel.send(new Discord.MessageEmbed().setDescription(`**${message.author.username}** skipped ${args[0] - 1} songs`).setColor('RANDOM')).catch(console.error);
+		queue.connection._state.subscription.player.stop();
+		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** skipped ${args[0] - 1} songs`).setColor('RANDOM')] }).catch(console.error);
 	},
 };

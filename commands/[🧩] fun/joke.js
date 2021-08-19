@@ -32,7 +32,7 @@ module.exports = {
 				.setColor('RANDOM')
 				.setTimestamp();
 
-			message.channel.send(embed);
-		}).catch(err => message.channel.send(`An error occurred \`${err}\``));
+			message.reply({ embeds: [embed] });
+		}).catch(err => message.reply(`An error occurred \`${err}\``));
 	},
 };

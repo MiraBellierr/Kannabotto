@@ -13,9 +13,9 @@
 // limitations under the License.
 
 const { bot_prefix } = require('../../config.json');
-const Discord = require('discord.js');
-const chance = 0.7; // 70% chance (before it was ~71.43%)
+const chance = 0.7;
 const Models = require('../../create-model');
+const { checkGuildDisable, guildDisableMessage, checkBlacklist, blacklistMessage, cooldown, createAllDataForNewUser, getUserDataAndCreate } = require('../../functions');
 
 module.exports = {
 	name: 'beg',
@@ -23,101 +23,44 @@ module.exports = {
 	description: 'You\'re poor. Try begging for coins',
 	example: `${bot_prefix}beg`,
 	run: async (client, message) => {
-		import('parse-ms').then(async ms => {
-			const user = message.author.id;
+		const user = message.author.id;
+		const Cooldown = Models.Cooldown();
+		const Inventory = Models.Inventory();
+		const Economy = Models.Economy();
+		const Achievement = Models.Achievement();
 
-			const Cooldown = Models.Cooldown();
-			const Disable = Models.Disable();
-			const Blacklist = Models.Blacklist();
-			const Inventory = Models.Inventory();
-			const Economy = Models.Economy();
-			const Achievement = Models.Achievement();
+		if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
+		if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
 
-			if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
-				await Disable.create({
-					guildId: message.guild.id,
-				});
-			}
-			const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
+		await createAllDataForNewUser(user);
 
-			const warn = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('This command is disabled for this guild')
-				.setDescription('This is most likely because this guild has broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+		const inventory = await getUserDataAndCreate(Inventory, user);
+		const economy = await getUserDataAndCreate(Economy, user);
+		const achievement = await getUserDataAndCreate(Achievement, user);
+		const timer = await cooldown('beg', user, 40000);
 
-			if (disable.get('economy') === 1) return message.channel.send(warn);
+		if (timer.bool) {
+			message.reply(`**${message.author.username}**, Please wait **${timer.seconds}s** until you can beg again.`);
+		}
+		else {
+			await Cooldown.update({ beg: Date.now() }, { where: { userId: user } });
+			await Achievement.update({ beg: achievement.get('beg') + 1 }, { where: { userId: user } });
 
+			const success = Math.random() < chance;
 
-			if (!await Blacklist.findOne({ where: { userId: message.author.id } })) {
-				await Blacklist.create({
-					userId: message.author.id,
-				});
-			}
-			const blacklist = await Blacklist.findOne({ where: { userId: message.author.id } });
+			if (success) {
+				const random = Math.floor(Math.random() * 50) + 3;
+				const multiplier = Math.floor((inventory.get('bunny') / 100) * random);
+				const gain = random + multiplier;
+				const curBal = economy.get('balance');
 
-			const warn1 = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('You have been blacklisted from this command')
-				.setDescription('This is most likely because you have broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+				await Economy.update({ balance: curBal + gain }, { where: { userId: user } });
 
-
-			if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
-
-			if (!await Cooldown.findOne({ where: { userId: user } })) {
-				await Cooldown.create({
-					userId: user,
-				});
-			}
-			const cooldown = await Cooldown.findOne({ where: { userId: user } });
-
-
-			if (!await Inventory.findOne({ where: { userId: user } })) {
-				await Inventory.create({
-					userId: user,
-				});
-			}
-			const inventory = await Inventory.findOne({ where: { userId: user } });
-
-
-			if (!await Economy.findOne({ where: { userId: user } })) {
-				await Economy.create({
-					userId: user,
-				});
-			}
-			const economy = await Economy.findOne({ where: { userId: user } });
-
-			if (!await Achievement.findOne({ where: { userId: user } })) {
-				await Achievement.create({
-					userId: user,
-				});
-			}
-			const achievement = await Achievement.findOne({ where: { userId: user } });
-
-			const timeOut = 40000;
-
-			const lastBeg = await cooldown.get('beg');
-			if (lastBeg !== null && timeOut - (Date.now() - lastBeg) > 0) {
-				const timeObj = ms.default(timeOut - (Date.now() - lastBeg));
-				message.channel.send(`**${message.author.username}**, Please wait **${timeObj.seconds}s** until you can beg again.`);
+				message.reply(`You begged and you got <a:jasminecoins:868105109748469780> **${gain.toLocaleString()}**`);
 			}
 			else {
-				await Cooldown.update({ beg: Date.now() }, { where: { userId: user } });
-				await Achievement.update({ beg: achievement.get('beg') + 1 }, { where: { userId: user } });
-				const success = Math.random() < chance;
-				if (success) {
-					const random = Math.floor(Math.random() * 50) + 3;
-					const multiplier = Math.floor((inventory.get('bunny') / 100) * random);
-					const gain = random + multiplier;
-					const curBal = economy.get('balance');
-					await Economy.update({ balance: curBal + gain }, { where: { userId: user } });
-					message.reply(`You begged and you got <a:jasminecoins:868105109748469780> **${gain.toLocaleString()}**`);
-				}
-				else {
-					message.channel.send(`**${message.author.username}**, you begged but no one is willing to give you coins.`);
-				}
+				message.reply(`**${message.author.username}**, you begged but no one is willing to give you coins.`);
 			}
-		});
+		}
 	},
 };

@@ -29,6 +29,7 @@ module.exports = {
 			.setImage(message.guild.iconURL({ dynamic: true, size: 4096 }))
 			.setTimestamp()
 			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
-		return message.channel.send(embeduser);
+
+		return message.reply({ embeds: [embeduser] });
 	},
 };

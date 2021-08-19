@@ -37,7 +37,7 @@ module.exports = {
 
 		if (personPoke.user.id === message.author.id) {
 
-			message.channel.send(`*pokes ${message.author.username}*`);
+			message.reply(`*pokes ${message.author.username}*`);
 			return;
 		}
 
@@ -46,6 +46,6 @@ module.exports = {
 			.setImage(pokesR)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

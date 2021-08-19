@@ -16,6 +16,7 @@ const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const Models = require('../../create-model.js');
+const { createAllDataForNewUser, checkPlayerExist } = require('../../functions');
 
 module.exports = {
 	name: 'setname',
@@ -29,18 +30,20 @@ module.exports = {
 
 		const Player = Models.Player();
 
-		const player = await Player.findOne({ where: { userId: user } });
+		await createAllDataForNewUser(user);
 
 		const result = new Discord.MessageEmbed()
 			.setDescription('No profile found 😓')
 			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
-		if (!player) return message.channel.send(result);
-		if (!args[0]) return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}setname <name>\`.`);
+		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
+		if (!args[0]) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}setname <name>\`.`);
 
 		const name = args.join(' ');
+
 		await Player.update({ name: name }, { where: { userId: user } });
 
-		message.channel.send(`**${message.author.username}**, Your character name has been set!`);
+		message.reply(`**${message.author.username}**, Your character name has been set!`);
 	},
 };

@@ -26,17 +26,17 @@ module.exports = {
 	example: `${bot_prefix}unmute <mention | id | username> [reason]`,
 	usage: '<mention | id | username> [reason]',
 	run: async (client, message, args) => {
-		if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('Sorry, you don\'t have `KICK_MEMBERS` permission to use this.').then(m => m.delete({ timeout: 5000 }));
-		if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.permissions.has('KICK_MEMBERS')) return message.reply('Sorry, you don\'t have `KICK_MEMBERS` permission to use this.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.reply('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
 
 		const toMute = await getMember(message, args[0]);
 
-		if (!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}unmute <mention | id | username> [reason]\`.`);
-		if (!toMute) return message.channel.send('The user can\'t be found.');
+		if (!args[0]) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}unmute <mention | id | username> [reason]\`.`);
+		if (!toMute) return message.reply('The user can\'t be found.');
 
 		const role = message.guild.roles.cache.find(r => r.name === 'muted');
 
-		if (!role || !toMute.roles.cache.has(role.id)) return message.channel.send('This user is not muted!');
+		if (!role || !toMute.roles.cache.has(role.id)) return message.reply('This user is not muted!');
 
 		if (!logsetting[message.guild.id]) {
 			logsetting[message.guild.id] = {
@@ -55,7 +55,7 @@ module.exports = {
 		}
 
 		await toMute.roles.remove(role.id).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
-		message.channel.send(`${toMute.user.tag} has been unmuted for a reason ${res}!`);
+		message.reply(`${toMute.user.tag} has been unmuted for a reason ${res}!`);
 
 		if (values === undefined) return;
 		if (values === 0) return;
@@ -76,7 +76,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(`ID ${toMute.user.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 	},
 };

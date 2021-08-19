@@ -13,7 +13,6 @@
 // limitations under the License.
 
 const { bot_prefix } = require('../../config.json');
-const { MessageEmbed } = require('discord.js');
 const prefixes = require('../../database/prefix.json');
 function shuffle(array) {
 	const arr = array.slice(0);
@@ -26,6 +25,7 @@ function shuffle(array) {
 	return arr;
 }
 const Models = require('../../create-model.js');
+const { checkGuildDisable, guildDisableMessage, blacklistMessage, checkBlacklist, createAllDataForNewUser, getUserDataAndCreate, cooldown } = require('../../functions');
 
 module.exports = {
 	name: 'slots',
@@ -35,100 +35,44 @@ module.exports = {
 	example: `${bot_prefix}slots <amount>`,
 	usage: '<amount>',
 	run: async (client, message, args) => {
-		import('parse-ms').then(async ms => {
-			const user = message.author.id;
+		const user = message.author.id;
 
-			const Disable = Models.Disable();
-			const Blacklist = Models.Blacklist();
-			const Cooldown = Models.Cooldown();
-			const Inventory = Models.Inventory();
-			const Economy = Models.Economy();
-			const Achievement = Models.Achievement();
+		const Cooldown = Models.Cooldown();
+		const Economy = Models.Economy();
+		const Achievement = Models.Achievement();
 
-			if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
-				await Disable.create({
-					guildId: message.guild.id,
-				});
-			}
-			const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
+		if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
+		if (await checkGuildDisable(message, 'games')) return guildDisableMessage(message);
+		if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
+		if (await checkBlacklist(message, 'games')) return blacklistMessage(message);
 
-			const warn = new MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('This command is disabled for this guild')
-				.setDescription('This is most likely because this guild has broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+		await createAllDataForNewUser(user);
 
-			if (disable.get('economy') === 1) return message.channel.send(warn);
-			if (disable.get('games') === 1) return message.channel.send(warn);
+		const economy = await getUserDataAndCreate(Economy, user);
+		const achievement = await getUserDataAndCreate(Achievement, user);
 
 
-			if (!await Blacklist.findOne({ where: { userId: message.author.id } })) {
-				await Blacklist.create({
-					userId: message.author.id,
-				});
-			}
-			const blacklist = await Blacklist.findOne({ where: { userId: message.author.id } });
+		const slots = ['🐹', '🐶', '🐵', '🐱', '🐸', '🐻', '🐰'];
+		if (!args[0]) return message.reply(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}slots <amount>\`.`);
+		if (isNaN(args[0])) return message.reply(`**${message.author.username}**, Please enter a valid number!`);
+		if (args[0] > 10000 || args[0] < 100) return message.reply(`**${message.author.username}**, You can only bet from 100-10,000 only`);
+		if(economy.get('balance') < args[0]) return message.reply(`**${message.author.username}**, You don't have that much coins in your pocket!`);
 
-			const warn1 = new MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('You have been blacklisted from this command')
-				.setDescription('This is most likely because you have broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+		const timer = await cooldown('slots', user, 15000);
 
+		if (timer.bool) {
+			message.reply(`**${message.author.username}**, please wait **${timer.seconds}s** till you can play again.`);
+		}
+		else {
 
-			if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
-			if (blacklist.get('games') === 1) return message.channel.send(warn1);
+			await Cooldown.update({ slots: Date.now() }, { where: { userId: user } });
+			const amount = parseInt(args[0]);
 
+			const arr1 = shuffle(slots);
+			const arr2 = shuffle(slots);
+			const arr3 = shuffle(slots);
 
-			if (!await Cooldown.findOne({ where: { userId: user } })) {
-				await Cooldown.create({
-					userId: user,
-				});
-			}
-			const cooldown = await Cooldown.findOne({ where: { userId: user } });
-
-
-			if (!await Inventory.findOne({ where: { userId: user } })) {
-				await Inventory.create({
-					userId: user,
-				});
-			}
-
-
-			if (!await Economy.findOne({ where: { userId: user } })) {
-				await Economy.create({
-					userId: user,
-				});
-			}
-			const economy = await Economy.findOne({ where: { userId: user } });
-
-
-			if (!await Achievement.findOne({ where: { userId: user } })) {
-				await Achievement.create({
-					userId: user,
-				});
-			}
-			const achievement = await Achievement.findOne({ where: { userId: user } });
-
-			const slots = ['🐹', '🐶', '🐵', '🐱', '🐸', '🐻', '🐰'];
-			if (!args[0]) return message.channel.send(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}slots <amount>\`.`);
-			if (isNaN(args[0])) return message.channel.send(`**${message.author.username}**, Please enter a valid number!`);
-			if (args[0] > 10000 || args[0] < 100) return message.channel.send(`**${message.author.username}**, You can only bet from 100-10,000 only`);
-			if(economy.get('balance') < args[0]) return message.channel.send(`**${message.author.username}**, You don't have that much coins in your pocket!`);
-			const timeOut = 15000;
-			const lastSlots = await cooldown.get('slots');
-			if (lastSlots !== null && timeOut - (Date.now() - lastSlots) > 0) {
-				const timeObj = ms.default(timeOut - (Date.now() - lastSlots));
-				message.channel.send(`**${message.author.username}**, please wait **${timeObj.seconds}s** till you can play again.`);
-			}
-			else {
-				await Cooldown.update({ slots: Date.now() }, { where: { userId: user } });
-				const amount = parseInt(args[0]);
-
-				const arr1 = shuffle(slots);
-				const arr2 = shuffle(slots);
-				const arr3 = shuffle(slots);
-				const thisMes = await message.channel.send(`
+			const thisMes = await message.reply(`
       **[ 🎰 | SLOTS ]**
       **-----------------**
       ${arr1[2]} : ${arr2[0]} : ${arr3[2]}
@@ -137,12 +81,12 @@ module.exports = {
       **-----------------**
       `);
 
-				for(let i = 0; i < 5; i++) {
-					arr1.push(arr1.shift());
-					arr2.push(arr2.shift());
-					arr3.push(arr3.shift());
+			for(let i = 0; i < 5; i++) {
+				arr1.push(arr1.shift());
+				arr2.push(arr2.shift());
+				arr3.push(arr3.shift());
 
-					await setTimeout(() => thisMes.edit(`
+				await setTimeout(() => thisMes.edit(`
       **[ 🎰 | SLOTS ]**
       **-----------------**
       ${arr1[0]} : ${arr2[1]} : ${arr3[0]}
@@ -151,7 +95,7 @@ module.exports = {
       **-----------------**
           `), 800);
 
-					setTimeout(() => thisMes.edit(`
+				setTimeout(() => thisMes.edit(`
       **[ 🎰 | SLOTS ]**
       **-----------------**
       ${arr1[2]} : ${arr2[1]} : ${arr3[2]}
@@ -160,45 +104,53 @@ module.exports = {
       **-----------------**
           `), 1000);
 
-					if (arr1[1] === arr2[1] && arr1[1] === arr3[1] || arr2[1] === arr1[1] && arr2[1] === arr3[1] || arr3[1] === arr2[1] && arr3[1] === arr1[1]) {
-						const random = 5 * amount;
-						await Achievement.update({ slots: achievement.get('slots') + 1 }, { where: { userId: user } });
-						const curBal = economy.get('balance');
-						await Economy.update({ balance: curBal + random }, { where: { userId: user } });
+				if (arr1[1] === arr2[1] && arr1[1] === arr3[1] || arr2[1] === arr1[1] && arr2[1] === arr3[1] || arr3[1] === arr2[1] && arr3[1] === arr1[1]) {
+					const random = 5 * amount;
 
-						return setTimeout(() => thisMes.edit(`
-      **[ 🎰 | SLOTS ]**
-      **-----------------**
-      ${arr1[2]} : ${arr2[0]} : ${arr3[2]}
-      ${arr1[1]} : ${arr2[1]} : ${arr3[1]} **«**
-      ${arr1[0]} : ${arr2[2]} : ${arr3[0]}
-      **-----------------**
-      | : : : **WIN** : : : |
-      **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and won <a:jasminecoins:868105109748469780> ${random.toLocaleString()}
-		  `), 2500);
+					await Achievement.update({ slots: achievement.get('slots') + 1 }, { where: { userId: user } });
 
-					}
-					if (arr1[1] === arr2[1] || arr1[1] === arr2[1] || arr2[1] === arr1[1] || arr2[1] === arr2[3] || arr3[1] === arr1[1] || arr3[1] === arr2[1]) {
-						const random = 2 * amount;
-						await Achievement.update({ slots: achievement.get('slots') + 1 }, { where: { userId: user } });
-						const curBal = economy.get('balance');
-						await Economy.update({ balance: curBal + random }, { where: { userId: user } });
-						return setTimeout(() => thisMes.edit(`
-      **[ 🎰 | SLOTS ]**
-      **-----------------**
-      ${arr1[2]} : ${arr2[0]} : ${arr3[2]}
-      ${arr1[1]} : ${arr2[1]} : ${arr3[1]} **«**
-      ${arr1[0]} : ${arr2[2]} : ${arr3[0]}
-      **-----------------**
-      | : : : **WIN** : : : |
-      **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and won <a:jasminecoins:868105109748469780> ${random.toLocaleString()}
-		  `), 2500);
+					const curBal = economy.get('balance');
 
-					}
-					const curbal = economy.get('balance');
-					await Economy.update({ balance: curbal - amount }, { where: { userid: user } });
+					await Economy.update({ balance: curBal + random }, { where: { userId: user } });
 
 					return setTimeout(() => thisMes.edit(`
+      **[ 🎰 | SLOTS ]**
+      **-----------------**
+      ${arr1[2]} : ${arr2[0]} : ${arr3[2]}
+      ${arr1[1]} : ${arr2[1]} : ${arr3[1]} **«**
+      ${arr1[0]} : ${arr2[2]} : ${arr3[0]}
+      **-----------------**
+      | : : : **WIN** : : : |
+      **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and won <a:jasminecoins:868105109748469780> ${random.toLocaleString()}
+		  `), 2500);
+
+				}
+				if (arr1[1] === arr2[1] || arr1[1] === arr2[1] || arr2[1] === arr1[1] || arr2[1] === arr2[3] || arr3[1] === arr1[1] || arr3[1] === arr2[1]) {
+					const random = 2 * amount;
+
+					await Achievement.update({ slots: achievement.get('slots') + 1 }, { where: { userId: user } });
+
+					const curBal = economy.get('balance');
+
+					await Economy.update({ balance: curBal + random }, { where: { userId: user } });
+
+					return setTimeout(() => thisMes.edit(`
+      **[ 🎰 | SLOTS ]**
+      **-----------------**
+      ${arr1[2]} : ${arr2[0]} : ${arr3[2]}
+      ${arr1[1]} : ${arr2[1]} : ${arr3[1]} **«**
+      ${arr1[0]} : ${arr2[2]} : ${arr3[0]}
+      **-----------------**
+      | : : : **WIN** : : : |
+      **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and won <a:jasminecoins:868105109748469780> ${random.toLocaleString()}
+		  `), 2500);
+
+				}
+				const curbal = economy.get('balance');
+
+				await Economy.update({ balance: curbal - amount }, { where: { userid: user } });
+
+				return setTimeout(() => thisMes.edit(`
       **[ 🎰 | SLOTS ]**
       **-----------------**
       ${arr1[2]} : ${arr2[0]} : ${arr3[2]}
@@ -209,8 +161,7 @@ module.exports = {
       **${message.author.username}** used <a:jasminecoins:868105109748469780> ${amount.toLocaleString()} and lost everything.
 		  `), 2500);
 
-				}
 			}
-		});
+		}
 	},
 };

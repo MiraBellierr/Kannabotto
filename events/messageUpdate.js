@@ -49,7 +49,7 @@ module.exports = (client, oldMessage, newMessage) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newMessage.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 	}
 };

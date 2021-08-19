@@ -13,10 +13,10 @@
 // limitations under the License.
 
 const Discord = require('discord.js');
-const { Canvas, resolveImage } = require('canvas-constructor');
+const { Canvas, resolveImage } = require('canvas-constructor/cairo');
 const { bot_prefix } = require('../../config.json');
 const bg = require('../../database/background.json');
-const { getMember } = require('../../functions');
+const { getMember, getUserDataAndCreate } = require('../../functions');
 const Models = require('../../create-model');
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
 	run: async (client, message, args) => {
 		const member = await getMember(message, args.join(' '));
 		const user = member.user;
-		if (user.bot) return message.channel.send(`**${message.author.username}, Nice bot!**`);
+		if (user.bot) return message.reply(`**${message.author.username}, Nice bot!**`);
 
 		if(!bg[user.id]) {
 			bg[user.id] = {
@@ -38,13 +38,7 @@ module.exports = {
 		}
 
 		const Level = Models.Level();
-
-		if (!await Level.findOne({ where: { userId: user.id } })) {
-			await Level.create({
-				userId: user.id,
-			});
-		}
-		const level = await Level.findOne({ where: { userId: user.id } });
+		const level = await getUserDataAndCreate(Level, user.id);
 
 		const curxp = level.get('xp');
 		const curlvl = level.get('level');
@@ -82,7 +76,7 @@ module.exports = {
 					.printRectangle(136.9, 70, difference, 20)
 					.toBufferAsync();
 			}
-			const m = await message.channel.send('*Please Wait...*');
+			const m = await message.reply('*Please Wait...*');
 
 			const gumen = `
 __**\`${user.username}\`'**s level information__
@@ -91,10 +85,10 @@ Progress: ${getProgbar(curxp, nxtLvlXp, 10)}
 Needed XP to reach level **${curlvl + 1}** : **${difference2}**
 `;
 			const attachment = new Discord.MessageAttachment(await createCanvas(), 'rank-card.png');
-			message.channel.send(gumen, attachment).then(() => {m.delete();});
+			message.reply({ content: `${gumen}`, files: [attachment] }).then(() => {m.delete();});
 		}
 		catch (e) {
-			message.channel.send(`Oh no an error occurred :( \`${e.message}\` Please report it to the support server.`);
+			message.reply(`Oh no an error occurred :( \`${e.message}\` Please report it to the support server.`);
 		}
 	},
 

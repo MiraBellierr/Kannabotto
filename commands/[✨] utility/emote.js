@@ -25,8 +25,8 @@ module.exports = {
 	usage: '<emote>',
 	run: (client, message, args) => {
 
-		if (!args.length) return message.channel.send(`Please use this command with an emoji. \`${prefixes[message.guild.id]}emote <emoji>\`.`);
-		if (args.length > 1) return message.channel.send('I only can convert one emoji at a time. Sorry if i\'m disappointed you :c');
+		if (!args.length) return message.reply(`Please use this command with an emoji. \`${prefixes[message.guild.id]}emote <emoji>\`.`);
+		if (args.length > 1) return message.reply('I only can convert one emoji at a time. Sorry if i\'m disappointed you :c');
 
 		try {
 			const wordArr = message.content.split('').slice(8);
@@ -46,12 +46,10 @@ module.exports = {
 				embed.setImage(`https://cdn.discordapp.com/emojis/${emojiID}.png`);
 			}
 
-			message.channel.send(embed);
+			message.reply({ embeds: [embed] });
 		}
 		catch (e) {
-			message.channel.send(`Emoji can't be found :c\n\n**NOTE**:\n- Unicode's emojis can't be retrieved (default emojis).\n- Please use this command with the right syntax \`${prefixes[message.guild.id]}emote <emoji>\`.`);
+			message.reply(`Emoji can't be found :c\n\n**NOTE**:\n- Unicode's emojis can't be retrieved (default emojis).\n- Please use this command with the right syntax \`${prefixes[message.guild.id]}emote <emoji>\`.`);
 		}
-
-
 	},
 };

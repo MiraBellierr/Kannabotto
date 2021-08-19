@@ -30,14 +30,13 @@ module.exports = {
 
 		if (!args[0]) {
 
-
 			message.reply(`Use this command to your friend! The syntax is \`${prefixes[message.guild.id]}bite <mention | id | username>\`.`);
 			return;
 		}
 
 		if (person.user.id === message.author.id) {
 
-			message.channel.send(`*bites ${message.author.username}*`);
+			message.reply(`*bites ${message.author.username}*`);
 			return;
 		}
 
@@ -46,6 +45,6 @@ module.exports = {
 			.setImage(random)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

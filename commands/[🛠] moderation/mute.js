@@ -29,15 +29,15 @@ module.exports = {
 	example: `${bot_prefix}mute <mention | id | username> <duration> [reason]`,
 	usage: '<mention | id | username> <duration> [reason]',
 	run: async (client, message, args) => {
-		if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('Sorry, you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
-		if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
-		if (!args.length) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
+		if (!message.member.permissions.has('KICK_MEMBERS')) return message.reply('Sorry, you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
+		if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.reply('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
+		if (!args.length) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
 
 		const tomute = await getMember(message, args[0]);
 
-		if (!tomute) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
-		if (tomute.hasPermission('KICK_MEMBERS')) return message.channel.send('I cant mute this user');
-		if (tomute.user.id === message.author.id) return message.channel.send('You can\'t mute yourself!');
+		if (!tomute) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
+		if (tomute.permissions.has('KICK_MEMBERS')) return message.reply('I cant mute this user');
+		if (tomute.user.id === message.author.id) return message.reply('You can\'t mute yourself!');
 		let muterole = message.guild.roles.cache.find(r => r.name === 'muted');
 
 		if (!logsetting[message.guild.id]) {
@@ -70,15 +70,15 @@ module.exports = {
 		}
 
 		const mutetime = args[1];
-		if (!args[1]) return message.channel.send('You didn\'t specify a duration!');
+		if (!args[1]) return message.reply('You didn\'t specify a duration!');
 		const splitArgs = mutetime.split('');
-		if (isNaN(splitArgs[0])) return message.channel.send('please specify the correct duration. For example, 10m, 1h');
+		if (isNaN(splitArgs[0])) return message.reply('please specify the correct duration. For example, 10m, 1h');
 
 
 		const reason = args.slice(2).join(' ');
 		let res;
 		if (!reason) {
-			res = 'No reason given';
+			res = 'no reason given';
 		}
 		else {
 			res = reason;
@@ -92,12 +92,17 @@ module.exports = {
 		}
 
 		const muteTime = await moderation[tomute.user.id].mute;
-		if ((muteTime !== null && timeOut - (Date.now() - muteTime) > 0) || tomute.roles.cache.has(muterole.id)) return message.channel.send('This user has already been muted.');
+
+		if ((muteTime !== null && timeOut - (Date.now() - muteTime) > 0) || tomute.roles.cache.has(muterole.id)) return message.reply('This user has already been muted.');
+
 		moderation[tomute.user.id].mute = Date.now();
+
 		await (tomute.roles.add(muterole.id)).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
-		message.channel.send(`**${tomute.user.username}** has been muted for ${ms(ms(mutetime))} by ${message.author.username} for a reason ${res}`);
+
+		message.reply(`**${tomute.user.username}** has been muted for ${ms(ms(mutetime))} by ${message.author.username} for a reason ${res}`);
+
 		fs.writeFile('./database/moderation.json', JSON.stringify(moderation, null, 2), (err) => {
-			if (err) return message.channel.send(`An error occurred: \`${err}\``);
+			if (err) return message.reply(`An error occurred: \`${err}\``);
 		});
 
 		setTimeout(function() {
@@ -122,7 +127,7 @@ module.exports = {
 					.setTimestamp()
 					.setFooter(`ID: ${tomute.user.id}`);
 
-				logChannel.send(embed);
+				logChannel.send({ embeds: [embed] });
 			}
 		}, timeOut);
 
@@ -146,7 +151,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(`ID: ${tomute.user.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 	},
 };

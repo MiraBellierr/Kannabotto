@@ -26,7 +26,7 @@ module.exports = {
 			method: 'get',
 			url: 'https://animechan.vercel.app/api/random',
 		}).then(res => {
-			return message.channel.send(`"${res.data.quote}"\n\n*${res.data.character} - ${res.data.anime}*`);
+			return message.reply(`"${res.data.quote}"\n\n*${res.data.character} - ${res.data.anime}*`);
 		});
 	},
 };

@@ -14,7 +14,7 @@
 
 const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
-const { getMember } = require('../../functions');
+const { getMember, guildDisableMessage, blacklistMessage, getUserDataAndCreate, createAllDataForNewUser, checkGuildDisable, checkBlacklist } = require('../../functions');
 const Models = require('../../create-model');
 
 module.exports = {
@@ -29,64 +29,14 @@ module.exports = {
 			const member = await getMember(message, args.join(' '));
 			const user = member.user;
 
-			const Disable = Models.Disable();
-			const Blacklist = Models.Blacklist();
 			const Cooldown = Models.Cooldown();
-			const Inventory = Models.Inventory();
-			const Economy = Models.Economy();
 
-			if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
-				await Disable.create({
-					guildId: message.guild.id,
-				});
-			}
-			const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
+			if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
+			if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
 
-			const warn = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('This command is disabled for this guild')
-				.setDescription('This is most likely because this guild has broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+			const cooldown = await getUserDataAndCreate(Cooldown, user.id);
 
-			if (disable.get('economy') === 1) return message.channel.send(warn);
-
-
-			if (!await Blacklist.findOne({ where: { userId: message.author.id } })) {
-				await Blacklist.create({
-					userId: message.author.id,
-				});
-			}
-			const blacklist = await Blacklist.findOne({ where: { userId: message.author.id } });
-
-			const warn1 = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('You have been blacklisted from this command')
-				.setDescription('This is most likely because you have broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
-
-			if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
-
-
-			if (!await Cooldown.findOne({ where: { userId: user.id } })) {
-				await Cooldown.create({
-					userId: user.id,
-				});
-			}
-			const cooldown = await Cooldown.findOne({ where: { userId: user.id } });
-
-
-			if (!await Inventory.findOne({ where: { userId: user.id } })) {
-				await Inventory.create({
-					userId: user.id,
-				});
-			}
-
-
-			if (!await Economy.findOne({ where: { userId: user.id } })) {
-				await Economy.create({
-					userId: user.id,
-				});
-			}
+			await createAllDataForNewUser(user.id);
 
 			const timeoutGuard = 4.32e+7;
 			const timeoutBear = 3.6e+6;
@@ -96,6 +46,7 @@ module.exports = {
 			const bear = await cooldown.get('bear');
 			const bearTime = timeoutBear - (Date.now() - bear);
 			const bearObj = ms.default(bearTime);
+
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${user.username}'s active item`, user.displayAvatarURL({ dynamic: true }))
 				.setColor('RANDOM')
@@ -103,7 +54,7 @@ module.exports = {
 				.setTimestamp()
 				.setDescription(`${(guard === null && guardTime < 1) && (bear === null && bearTime < 1) ? 'You have no active item' : ''}${guard !== null && guardTime > 0 ? `**• <:bearguard:868105110289543188> Guard** - ${guardObj.hours}h${guardObj.minutes}m${guardObj.seconds}s left` : ''}${bear !== null && bearTime > 0 ? `\n**• <a:angrybear:868105109853327370> Bear** -- ${bearObj.minutes}m${bearObj.seconds}s left` : ''}`);
 
-			message.channel.send(embed);
+			message.reply({ embeds: [embed] });
 		});
 	},
 };

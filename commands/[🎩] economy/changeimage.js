@@ -19,13 +19,15 @@ module.exports = {
 	description: 'Custom image for patron',
 	example: '<id> <link>',
 	run: async (client, message, args) => {
-		if (message.author.id !== '275989071774351360') return;
-		if (!args.length) return message.channel.send('<id> <link>');
+		if (message.author.id !== '548050617889980426') return;
+		if (!args.length) return message.reply('<id> <link>');
+
 		const id = args[0];
 		const image = args[1];
 		const Images = Models.Images();
 		const imagess = await Images.findOne({ where: { id: 1 } });
 		const images = imagess.dataValues.data;
+
 		if (!images[id]) {
 			images[id] = [
 				{
@@ -37,7 +39,9 @@ module.exports = {
 		}
 
 		images[id][0].image = image;
+
 		await Images.update({ data: images }, { where: { id: 1 } });
-		return message.channel.send('Custom image has successfully been set.');
+
+		return message.reply('Custom image has successfully been set.');
 	},
 };

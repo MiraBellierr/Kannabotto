@@ -12,8 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const { loadItems } = require('../handlers/item');
+const { loadWeapons } = require('../handlers/weapon');
+
 module.exports = async client => {
 
-	client.user.setPresence({ activity: { name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for info about me!`, type: 'WATCHING' }, status: 'idle' });
+	client.user.setPresence({ activities: [{ name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for info about me!`, type: 'WATCHING' }], status: 'idle' });
+
 	console.log(`Hi, ${client.user.username} is now online!`);
+
+	loadItems(client);
+	loadWeapons(client);
 };

@@ -10,15 +10,15 @@ module.exports = {
 	example: `${bot_prefix}overwrite "<name>" "<image_url>" "<old_image_url>"`,
 	usage: '"<name>" "<image_url>" "<old_image_url>"',
 	run: async (client, message, args) => {
-		if (message.author.id !== '275989071774351360') return;
-		if (!args.length) return message.channel.send('"<name>" "<image_url>" "<old_image_url>"');
-		if (!args[1]) return message.channel.send('"<name>" "<image_url>" "<old_image_url>"');
+		if (message.author.id !== '548050617889980426') return;
+		if (!args.length) return message.reply('"<name>" "<image_url>" "<old_image_url>"');
+		if (!args[1]) return message.reply('"<name>" "<image_url>" "<old_image_url>"');
 		const input = args.join(' ').split('"');
 
-		if (input[0] !== '') return message.channel.send('"<name>" "<image_url>" "<old_image_url>"');
-		if (input[2] !== ' ') return message.channel.send('"<name>" "<image_url>" "<old_image_url>"');
-		if (input[4] !== ' ') return message.channel.send('"<name>" "<image_url>" "<old_image_url>"');
-		if (input[6] !== '') return message.channel.send('"<name>" "<image_url>" "<old_image_url>"');
+		if (input[0] !== '') return message.reply('"<name>" "<image_url>" "<old_image_url>"');
+		if (input[2] !== ' ') return message.reply('"<name>" "<image_url>" "<old_image_url>"');
+		if (input[4] !== ' ') return message.reply('"<name>" "<image_url>" "<old_image_url>"');
+		if (input[6] !== '') return message.reply('"<name>" "<image_url>" "<old_image_url>"');
 
 		const Images = Models.Images();
 		const imagess = await Images.findOne({ where: { id: 1 } });
@@ -33,7 +33,7 @@ module.exports = {
 		}
 		fs.writeFile('./database/characters.json', JSON.stringify(characters, null, 2), (err) => {
 			console.error(err);
-			message.channel.send('Boss characters is overwritten.');
+			message.reply('Boss characters is overwritten.');
 		});
 
 		for (const i in players) {
@@ -51,6 +51,6 @@ module.exports = {
 		}
 
 		await Images.update({ data: images }, { where: { id: 1 } });
-		message.channel.send('The image has been overwritten.');
+		message.reply('The image has been overwritten.');
 	},
 };

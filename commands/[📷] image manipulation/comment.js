@@ -24,17 +24,20 @@ module.exports = {
 	example: `${bot_prefix}comment <username | id | mentions> <text>`,
 	usage: '[mention | attachment] <text>',
 	run: async (client, message, args) => {
-		if (!args[0]) return message.channel.send(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}comment <username | id | mention> <text>\`.`);
-		if (!args[1]) return message.channel.send(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}comment <username | id | mention> <text>\`.`);
+		if (!args[0]) return message.reply(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}comment <username | id | mention> <text>\`.`);
+		if (!args[1]) return message.reply(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}comment <username | id | mention> <text>\`.`);
+
 		const member = await getMember(message, args[0]);
 		const image = member.user.displayAvatarURL({ format: 'png', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
-		if (!image) return message.channel.send('User not found.');
+
+		if (!image) return message.reply('User not found.');
+
 		const username = await getMember(message, args[0]).displayName || message.member.displayName;
-		const m = await message.channel.send('*Please wait..*');
+		const m = await message.reply('*Please wait..*');
 		const comment = args.slice(1).join(' ');
-		console.log(comment);
 		const url = `https://some-random-api.ml/canvas/youtube-comment?avatar=${image}&username=${username}&comment=${comment}`;
 		const attachment = new Discord.MessageAttachment(await encodeURI(url), 'youtube.png');
-		message.channel.send(attachment).then(() => m.delete());
+
+		message.reply({ files: [attachment] }).then(() => m.delete());
 	},
 };

@@ -1,22 +1,8 @@
-// Copyright 2021 Mirabellier
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-// 	http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 require('colors');
+const { MessageActionRow, MessageButton } = require('discord.js');
 
 function Paginate(client, message, pages, options = {
 	time: 1000 * 60 * 3,
-	onEnd: 'delete',
 }, emojis = {
 	backward: '869052152331509781',
 	stop: '869052152260214794',
@@ -74,92 +60,99 @@ function Paginate(client, message, pages, options = {
 
 	this.init = async function() {
 		let page = 1;
-		const msg = await this.message.channel.send(this.pages[page - 1]);
+		const row = new MessageActionRow()
+			.addComponents([
+				new MessageButton()
+					.setCustomId('backward')
+					.setLabel('Back')
+					.setStyle('PRIMARY')
+					.setEmoji(this.emojis.backward),
+				new MessageButton()
+					.setCustomId('stop')
+					.setLabel('Stop')
+					.setStyle('DANGER')
+					.setEmoji(this.emojis.stop),
+				new MessageButton()
+					.setCustomId('forward')
+					.setLabel('Next')
+					.setStyle('PRIMARY')
+					.setEmoji(this.emojis.forward),
+			]);
 
+		let msg;
 
-		await msg.react(this.emojis.backward).catch(() => {
-			throw new TypeError('Specify a valid backward emoji');
-		});
+		if (typeof this.pages[page - 1] == 'object') {
+			msg = await this.message.reply({ embeds: [this.pages[page - 1]], components: [row] });
+		}
+		else {
+			msg = await this.message.reply({ content: `${[this.pages[page - 1]]}`, components: [row] });
+		}
 
-		setTimeout(async () => {
-			await msg.react(this.emojis.stop).catch(() => {
-				throw new TypeError('Specify a valid stop emoji');
-			});
-		}, 740);
+		const backwardFilter = (inter) => inter.customId === 'backward' && inter.user.id === this.message.author.id;
+		const stopFilter = (inter) => inter.customId === 'stop' && inter.user.id === this.message.author.id;
+		const forwardFilter = (inter) => inter.customId === 'forward' && inter.user.id === this.message.author.id;
 
-		setTimeout(async () => {
-			await msg.react(this.emojis.forward).catch(() => {
-				throw new TypeError('Specify a valid forward emoji');
-			});
-		}, 740 * 2);
-
-		const backwardFilter = (reaction, user) => reaction.emoji.id === this.emojis.backward && user.id === this.message.author.id;
-		const stopFilter = (reaction, user) => reaction.emoji.id === this.emojis.stop && user.id === this.message.author.id;
-		const forwardFilter = (reaction, user) => reaction.emoji.id === this.emojis.forward && user.id === this.message.author.id;
-
-		const backward = msg.createReactionCollector((backwardFilter), {
+		const backward = msg.createMessageComponentCollector({
+			filter: backwardFilter,
 			time: this.options.time,
+			type: 'BUTTON',
 		});
 
-		const stop = msg.createReactionCollector((stopFilter), {
+		const stop = msg.createMessageComponentCollector({
+			filter: stopFilter,
 			time: this.options.time,
+			componentType: 'BUTTON',
 		});
 
-		const forward = msg.createReactionCollector((forwardFilter), {
+		const forward = msg.createMessageComponentCollector({
+			filter: forwardFilter,
 			time: this.options.time,
+			componentType: 'BUTTON',
 		});
 
-		backward.on('collect', async () => {
+		backward.on('collect', async (i) => {
 
 			if (page === 1) return;
 			page--;
 
 			if (typeof this.pages[page - 1] == 'object') {
-				await msg.edit({
-					content: null,
-					embed: this.pages[page - 1],
+				await i.update({
+					embeds: [this.pages[page - 1]],
+					components: [row],
 				});
 			}
 			else {
-				await msg.edit({
+				await i.update({
 					content: this.pages[page - 1],
-					embed: null,
+					components: [row],
 				});
 			}
 		});
 
 		stop.on('collect', async () => {
 
-			if (this.options.onEnd == 'removeAll') {
-				await msg.reactions.removeAll();
-			}
-			else if (this.options.onEnd == 'delete') {
-				backward.stop('ENDED');
-				forward.stop('ENDED');
-				stop.stop('ENDED');
-				await msg.delete();
-				return;
-			}
 			backward.stop('ENDED');
 			forward.stop('ENDED');
 			stop.stop('ENDED');
+
+			await msg.delete();
 		});
 
-		forward.on('collect', async () => {
+		forward.on('collect', async (i) => {
 
 			if (page === this.pages.length) return;
 			page++;
 
 			if (typeof this.pages[page - 1] == 'object') {
-				await msg.edit({
-					content: null,
-					embed: this.pages[page - 1],
+				await i.update({
+					embeds: [this.pages[page - 1]],
+					components: [row],
 				});
 			}
 			else {
-				await msg.edit({
+				await i.update({
 					content: this.pages[page - 1],
-					embed: null,
+					components: [row],
 				});
 			}
 		});
@@ -169,11 +162,11 @@ function Paginate(client, message, pages, options = {
 		});
 
 		stop.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new TypeError(reason);
+			if (reason != 'time' && reason != 'ENDED') throw new Error(reason);
 		});
 
 		forward.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new TypeError(reason);
+			if (reason != 'time' && reason != 'ENDED') throw new Error(reason);
 		});
 
 		return {

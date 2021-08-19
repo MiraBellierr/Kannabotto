@@ -24,28 +24,35 @@ module.exports = {
 	example: `${bot_prefix}country <country>`,
 	usage: '<country>',
 	run: async (client, message, args) => {
-		if (!args.length) return message.channel.send(`The right syntax is \`${prefix[message.guild.id]}country <country>\``);
+		if (!args.length) return message.reply(`The right syntax is \`${prefix[message.guild.id]}country <country>\``);
+
 		let name = args.join(' ').toLowerCase();
 		let url = `https://restcountries.eu/rest/v2/name/${name}`;
+
 		if (name === 'usa' || name === 'united states') name = 'united states of america';
 		if (name === 'india') url = `https://restcountries.eu/rest/v2/name/${name}?fullText=true`;
-		const m = await message.channel.send('*Please Wait...*');
+
+		const m = await message.reply('*Please Wait...*');
 
 		axios({
 			method: 'get',
 			url: url,
 		}).then(res => {
 			res.data[0].flag = `https://www.countryflags.io/${res.data[0].alpha2Code}/shiny/64.png`;
+
 			const data = res.data[0];
 			const currencies = [];
 			const languages = [];
 			const regionalBlocs = [];
+
 			for (let i = 0; i < data.currencies.length; i++) {
 				currencies.push(data.currencies[i].name);
 			}
+
 			for (let i = 0; i < data.languages.length; i++) {
 				languages.push(data.languages[i].name);
 			}
+
 			for (let i = 0; i < data.regionalBlocs.length; i++) {
 				regionalBlocs.push(data.regionalBlocs[i].name);
 			}
@@ -60,10 +67,14 @@ module.exports = {
 				.addField('Timezones', data.timezones.join(', '));
 
 			m.delete();
-			message.channel.send(embed);
-		}).catch(() => {
+
+			message.reply({ embeds: [embed] });
+		}).catch((e) => {
 			m.delete();
-			message.channel.send('I didn\'t found any information of that country.');
+
+			console.error(e);
+
+			message.reply('I didn\'t found any information of that country.');
 		});
 	},
 };

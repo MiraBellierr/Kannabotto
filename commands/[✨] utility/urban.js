@@ -25,17 +25,17 @@ module.exports = {
 	category: '[✨] utility',
 	usage: '<word>',
 	run: (client, message, args) => {
-		if (!message.channel.nsfw) return message.channel.send(`**${message.author.username}**, This command only can be used in nsfw channel.`);
-		if (!args.length) return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}urban <word>\``);
+		if (!message.channel.nsfw) return message.reply('This command only can be used in nsfw channel.');
+		if (!args.length) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}urban <word>\``);
 
 		urban(args).first(json => {
 
 			if (!json) {
-				return message.channel.send({
-					embed: {
-						'description': 'Nothing found :sweat: ',
-						'color': 0xFF2222,
-					},
+				return message.reply({
+					embeds: [new Discord.MessageEmbed()
+						.setDescription('Nothing found :sweat:')
+						.setColor(0xFF2222),
+					],
 				});
 			}
 
@@ -43,14 +43,14 @@ module.exports = {
 				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 				.setColor(0x56aaff)
 				.setDescription(json.definition)
-				.addField('Example', json.example)
-				.addField('Upvotes', json.thumbs_up, true)
-				.addField('Downvotes', json.thumbs_down, true)
+				.addField('Example', `${json.example}`)
+				.addField('Upvotes', `${json.thumbs_up}`, true)
+				.addField('Downvotes', `${json.thumbs_down}`, true)
 				.setFooter(`Written by ${json.author}`)
 				.setTimestamp()
 				.setTitle(json.word);
 
-			message.channel.send(embed);
+			message.reply({ embeds: [embed] });
 
 		});
 	},

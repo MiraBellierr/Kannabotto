@@ -16,6 +16,7 @@ const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const Models = require('../../create-model.js');
+const { createAllDataForNewUser, checkPlayerExist } = require('../../functions');
 
 module.exports = {
 	name: 'topstar',
@@ -27,31 +28,22 @@ module.exports = {
 
 		message.guild.members.fetch().then(async members => {
 			const user = message.author.id;
-			const m = await message.channel.send('*Loading...*');
+			const m = await message.reply('*Loading...*');
 
-			const Bag = Models.Bag();
 			const Player = Models.Player();
 
-			if (!await Bag.findOne({ where: { userId: user } })) {
-				await Bag.create({
-					userId: user,
-				});
-			}
-
-
-			const player = await Player.findOne({ where: { userId: user } });
-
+			await createAllDataForNewUser(user);
 
 			const result = new Discord.MessageEmbed()
 				.setDescription('No profile found 😓')
 				.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
-			if (!player) return message.channel.send(result);
-
+			if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 			let board = [];
 			const playerList = await Player.findAll({ attributes: ['userId'] });
 			const playerListString = playerList.map(p => p.userId);
+
 			for(let i = 0; i < playerListString.length; i++) {
 				const value = Object.assign({ user: members.get(playerListString[i]) }, await Player.findOne({ where: { UserId: playerListString[i] } }));
 				board.push(value);
@@ -65,7 +57,8 @@ module.exports = {
 				.setDescription(`**⭐ | Top 10 Star Players in The Server**\n\n${top}`);
 
 			m.delete();
-			return message.channel.send(embed);
+
+			return message.reply({ embeds: [embed] });
 		});
 
 	},

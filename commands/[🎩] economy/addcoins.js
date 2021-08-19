@@ -13,28 +13,29 @@
 // limitations under the License.
 
 const Models = require('../../create-model');
+const { getUserDataAndCreate, createAllDataForNewUser } = require('../../functions');
 
 module.exports = {
 	name: 'addcoins',
 	run: async (client, message, args) => {
 		if (message.author.id !== '275989071774351360') return;
-		if (!args.length) return message.channel.send('`<ID> <amount>`');
+		if (!args.length) return message.reply('`<ID> <amount>`');
+
 		const id = args[0];
-		if (!client.users.cache.get(id)) return message.channel.send('There is no user with this id');
+
+		if (!client.users.cache.get(id)) return message.reply('There is no user with this id');
+
 		const amount = parseInt(args[1]);
-		if (isNaN(amount)) return message.channel.send('Invalid input.');
+
+		if (isNaN(amount)) return message.reply('Invalid input.');
+
+		await createAllDataForNewUser(id);
 
 		const Economy = Models.Economy();
+		const economy = await getUserDataAndCreate(Economy, id);
 
-		if (!await Economy.findOne({ where: { userId: id } })) {
-			await Economy.create({
-				userId: id,
-			});
-		}
-		const economy = await Economy.findOne({ where: { userId: id } });
 		await Economy.update({ balance: economy.get('balance') + amount }, { where: { userId: id } });
-		message.channel.send(`Successfully added <a:jasminecoins:868105109748469780> **${amount.toLocaleString()}** to **${client.users.cache.get(id).tag}**.`);
 
-
+		message.reply(`Successfully added <a:jasminecoins:868105109748469780> **${amount.toLocaleString()}** to **${client.users.cache.get(id).tag}**.`);
 	},
 };

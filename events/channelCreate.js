@@ -44,6 +44,6 @@ module.exports = (client, channel) => {
 			.setTimestamp()
 			.setFooter(`ID: ${channel.id}`);
 
-		logChannel.send(embed);
+		logChannel.send({ embeds: [embed] });
 	}
 };

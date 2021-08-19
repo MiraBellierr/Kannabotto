@@ -31,7 +31,6 @@ module.exports = {
 			.setImage(actionR)
 			.setColor('RANDOM');
 
-
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

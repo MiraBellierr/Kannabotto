@@ -51,6 +51,6 @@ module.exports = {
 			.addField(`☁ **${person.displayName}** loves **${message.member.displayName}** this much:`,
 				`💟 ${Math.floor(love)}%\n\n${loveLevel}`);
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

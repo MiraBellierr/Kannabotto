@@ -25,8 +25,8 @@ module.exports = {
 	example: `${bot_prefix}unban <mention | id> [reason]`,
 	usage: '<mention | id> [reason]',
 	run: async (client, message, args) => {
-		if (!message.guild.me.hasPermission('BAN_MEMBERS')) return message.channel.send('i don\'t have ban permission for me to unban this user').then(m => m.delete({ timeout: 5000 }));
-		if (!message.member.permissions.has('BAN_MEMBERS')) return message.channel.send('You don\'t have ban permission to use this command.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.guild.me.permissions.has('BAN_MEMBERS')) return message.reply('i don\'t have ban permission for me to unban this user').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.permissions.has('BAN_MEMBERS')) return message.reply('You don\'t have ban permission to use this command.').then(m => m.delete({ timeout: 5000 }));
 
 		const unbanned = message.mentions.users.first() || client.users.cache.get(args[0]);
 		const reason = args.slice(1).join(' ');
@@ -36,10 +36,10 @@ module.exports = {
 		const ban = await message.guild.fetchBans();
 
 		// MESSAGES
-		if (!args[0]) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}unban [reason]\`.`);
-		if (!unbanned) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}unban [reason]\`.`);
+		if (!args[0]) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}unban [reason]\`.`);
+		if (!unbanned) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}unban [reason]\`.`);
 
-		if (!ban.get(member.id)) return message.channel.send('This user is not banned.');
+		if (!ban.get(member.id)) return message.reply('This user is not banned.');
 
 		if (!logsetting[message.guild.id]) {
 			logsetting[message.guild.id] = {
@@ -58,7 +58,7 @@ module.exports = {
 		}
 
 		message.guild.members.unban(member).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
-		message.channel.send(`**${member.tag}** has been unbanned by **${message.author.username}** for a reason **${res}**`);
+		message.reply(`**${member.tag}** has been unbanned by **${message.author.username}** for a reason **${res}**`);
 
 		if (values === undefined) return;
 		if (values === 0) return;
@@ -81,7 +81,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(`Unbanned member ID: ${member.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 	},
 };

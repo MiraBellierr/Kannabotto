@@ -20,6 +20,7 @@ const animals = ['aardvark', 'abalone', 'african elephant', 'african gray parrot
 	'virginia opossum', 'vulcanodon', 'vulture', 'walkingstick', 'wallaby', 'walrus', 'warthog', 'wasp', 'water moccasin', 'water strider', 'waterbug', 'weasel', 'weddell seal', 'weevil', 'west highland white terrier', 'western meadowlark', 'western spotted owl', 'whale', 'whale shark', 'whelk', 'whip scorpion', 'whippet', 'white bengal tiger', 'white dove', 'white pelican', 'white rhinoceros', 'white tiger', 'white-breasted nuthatch', 'white-spotted dolphin', 'white-tailed deer', 'wild cat', 'wild dog', 'wildebeest', 'wolf', 'wolverine', 'wombat', 'wood louse', 'woodchuck', 'woodland caribou', 'woodpecker', 'woolly bear caterpillar', 'woolly mammoth', 'woolly rhinoceros', 'working dog', 'worm', 'wren', 'xenarthra', 'edentata', 'xenops', 'xiaosaurus', 'yak', 'yellow mealworm', 'yellow mongoose', ' yellowjacket', 'yorkshire terrier', 'zebra', 'zebra bullhead shark', 'zebra longwing butterfly', 'zebra swallowtail butterfly', 'zooplankton', 'zorilla', 'zorro'];
 const categories = [animals];
 const Models = require('../../create-model.js');
+const { checkGuildDisable, guildDisableMessage, blacklistMessage, checkBlacklist, createAllDataForNewUser, getUserDataAndCreate, cooldown } = require('../../functions');
 
 module.exports = {
 	name: 'hangman',
@@ -28,131 +29,84 @@ module.exports = {
 	description: 'Prevent a man from being hanged by guessing words as fast as you can. Win <a:jasminecoins:868105109748469780> 100 if you can guess the word',
 	example: `${bot_prefix}hangman`,
 	run: async (client, message) => {
-		import('parse-ms').then(async ms => {
-			const user = message.author.id;
+		const user = message.author.id;
 
-			const Disable = Models.Disable();
-			const Blacklist = Models.Blacklist();
-			const Cooldown = Models.Cooldown();
-			const Inventory = Models.Inventory();
-			const Economy = Models.Economy();
-			const Achievement = Models.Achievement();
+		const Cooldown = Models.Cooldown();
+		const Economy = Models.Economy();
+		const Achievement = Models.Achievement();
 
-			if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
-				await Disable.create({
-					guildId: message.guild.id,
-				});
-			}
-			const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
+		if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
+		if (await checkGuildDisable(message, 'games')) return guildDisableMessage(message);
+		if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
+		if (await checkBlacklist(message, 'games')) return blacklistMessage(message);
 
-			const warn = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('This command is disabled for this guild')
-				.setDescription('This is most likely because this guild has broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+		await createAllDataForNewUser(user);
 
-			if (disable.get('economy') === 1) return message.channel.send(warn);
-			if (disable.get('games') === 1) return message.channel.send(warn);
+		const economy = await getUserDataAndCreate(Economy, user);
+		const achievement = await getUserDataAndCreate(Achievement, user);
 
+		const timer = await cooldown('hangman', user, 15000);
 
-			if (!await Blacklist.findOne({ where: { userId: message.author.id } })) {
-				await Blacklist.create({
-					userId: message.author.id,
-				});
-			}
-			const blacklist = await Blacklist.findOne({ where: { userId: message.author.id } });
+		if (timer.bool) {
+			message.reply(`**${message.author.username}**, please wait **${timer.seconds}s** till you can play again.`);
+		}
+		else {
+			await Cooldown.update({ hangman: Date.now() }, { where: { userId: user } });
 
-			const warn1 = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('You have been blacklisted from this command')
-				.setDescription('This is most likely because you have broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+			const category = categories[Math.floor(Math.random() * categories.length)];
+			let theme;
 
+			if (category === animals) theme = 'Animals';
+			if (playing.has(message.channel.id)) return message.reply('Only one game may be occurring per channel.');
 
-			if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
-			if (blacklist.get('games') === 1) return message.channel.send(warn1);
+			playing.add(message.channel.id);
 
+			try {
+				const word = category[Math.floor(Math.random() * category.length)];
+				let points = 0;
+				let displayText = null;
+				let guessed = false;
+				const confirmation = [];
+				const incorrect = [];
+				const display = new Array(word.length).fill('◯');
 
-			if (!await Cooldown.findOne({ where: { userId: user } })) {
-				await Cooldown.create({
-					userId: user,
-				});
-			}
-			const cooldown = await Cooldown.findOne({ where: { userId: user } });
+				for (let i = 0; i < word.length; i++) {
+					if (word.charAt(i) === ' ') {
+						display[i] = word.charAt(i);
 
-
-			if (!await Inventory.findOne({ where: { userId: user } })) {
-				await Inventory.create({
-					userId: user,
-				});
-			}
-
-
-			if (!await Economy.findOne({ where: { userId: user } })) {
-				await Economy.create({
-					userId: user,
-				});
-			}
-			const economy = await Economy.findOne({ where: { userId: user } });
-
-
-			if (!await Achievement.findOne({ where: { userId: user } })) {
-				await Achievement.create({
-					userId: user,
-				});
-			}
-			const achievement = await Achievement.findOne({ where: { userId: user } });
-
-			const timeOut = 15000;
-			const lastHangman = await cooldown.get('hangman');
-			if (lastHangman !== null && timeOut - (Date.now() - lastHangman) > 0) {
-				const timeObj = ms.default(timeOut - (Date.now() - lastHangman));
-				message.channel.send(`**${message.author.username}**, please wait **${timeObj.seconds}s** till you can play again.`);
-			}
-			else {
-				await Cooldown.update({ hangman: Date.now() }, { where: { userId: user } });
-
-				const category = categories[Math.floor(Math.random() * categories.length)];
-				let theme;
-				if (category === animals) theme = 'Animals';
-				if (playing.has(message.channel.id)) return message.reply('Only one game may be occurring per channel.');
-				playing.add(message.channel.id);
-				try {
-					const word = category[Math.floor(Math.random() * category.length)];
-					console.log(word);
-					let points = 0;
-					let displayText = null;
-					let guessed = false;
-					const confirmation = [];
-					const incorrect = [];
-					const display = new Array(word.length).fill('◯');
-					for (let i = 0; i < word.length; i++) {
-						if (word.charAt(i) === ' ') {
-							display[i] = word.charAt(i);
-							confirmation.push(word.charAt(i));
-						}
-						if (word.charAt(i) === '-') {
-							display[i] = word.charAt(i);
-							confirmation.push(word.charAt(i));
-						}
-						if (word.charAt(i) === '\'') {
-							display[i] = word.charAt(i);
-							confirmation.push(word.charAt(i));
-						}
-						if (word.charAt(i) === ',') {
-							display[i] = word.charAt(i);
-							confirmation.push(word.charAt(i));
-						}
-						if (word.charAt(i) === '.') {
-							display[i] = word.charAt(i);
-							confirmation.push(word.charAt(i));
-						}
+						confirmation.push(word.charAt(i));
 					}
-					while (word.length !== confirmation.length && points < 6) {
-						const embed = new Discord.MessageEmbed()
-							.setColor('RANDOM')
-							.setTitle(`Hangman game - Theme: ${theme}`)
-							.setDescription(stripIndents`
+
+					if (word.charAt(i) === '-') {
+						display[i] = word.charAt(i);
+
+						confirmation.push(word.charAt(i));
+					}
+
+					if (word.charAt(i) === '\'') {
+						display[i] = word.charAt(i);
+
+						confirmation.push(word.charAt(i));
+					}
+
+					if (word.charAt(i) === ',') {
+						display[i] = word.charAt(i);
+
+						confirmation.push(word.charAt(i));
+					}
+
+					if (word.charAt(i) === '.') {
+						display[i] = word.charAt(i);
+
+						confirmation.push(word.charAt(i));
+					}
+				}
+
+				while (word.length !== confirmation.length && points < 6) {
+					const embed = new Discord.MessageEmbed()
+						.setColor('RANDOM')
+						.setTitle(`Hangman game - Theme: ${theme}`)
+						.setDescription(stripIndents`
 					${displayText === null ? 'Here we go!' : displayText ? 'Good job!' : 'Nope!'}
 					\`${display.join(' ')}\`. Which letter do you choose?
 					Incorrect Tries: ${incorrect.join(', ') || 'None'}
@@ -165,57 +119,78 @@ module.exports = {
 				  =============
 					\`\`\`
 				`);
-						const m = await message.channel.send(embed);
-						const filter = res => {
-							const choice = res.content.toLowerCase();
-							return res.author.id === message.author.id && !confirmation.includes(choice) && !incorrect.includes(choice);
-						};
-						const guess = await message.channel.awaitMessages(filter, {
-							max: 1,
-							time: 30000,
-						});
-						m.delete();
-						if (!guess.size) {
-							playing.delete(message.channel.id);
-							await message.reply(`Sorry, time is up! The answer was **${word}**`);
-							return;
-						}
-						const choice = guess.first().content.toLowerCase();
-						if (choice === 'end') break;
-						if (choice.length > 1 && choice === word) {
-							guessed = true;
-							break;
-						}
-						else if (word.includes(choice)) {
-							displayText = true;
-							for (let i = 0; i < word.length; i++) {
-								if (word.charAt(i) !== choice) continue; // eslint-disable-line max-depth
-								confirmation.push(word.charAt(i));
-								display[i] = word.charAt(i);
-							}
-						}
-						else {
-							displayText = false;
-							if (choice.length === 1) incorrect.push(choice);
-							points++;
-						}
-					}
-					playing.delete(message.channel.id);
-					if (word.length === confirmation.length || guessed) {
-						await Economy.update({ balance: economy.get('balance') + 100 }, { where: { userId: user } });
-						await Achievement.update({ hangman: achievement.get('hangman') + 1 }, { where: { userId: user } });
 
-						message.channel.send(`You're correct! It was **${word}**. You won **<a:jasminecoins:868105109748469780> 100**.`);
+					const m = await message.reply({ embeds: [embed] });
+
+					const filter = res => {
+						const choice = res.content.toLowerCase();
+
+						return res.author.id === message.author.id && !confirmation.includes(choice) && !incorrect.includes(choice);
+					};
+
+					const guess = await message.channel.awaitMessages({
+						filter,
+						max: 1,
+						time: 30000,
+					});
+
+					m.delete();
+
+					if (!guess.size) {
+						playing.delete(message.channel.id);
+
+						await message.reply(`Sorry, time is up! The answer was **${word}**`);
 						return;
 					}
-					message.channel.send(`You couldn't guess it... Too bad... The answer was **${word}**`);
+
+					const choice = guess.first().content.toLowerCase();
+
+					if (choice === 'end') break;
+
+					if (choice.length > 1 && choice === word) {
+						guessed = true;
+						break;
+					}
+					else if (word.includes(choice)) {
+						displayText = true;
+
+						for (let i = 0; i < word.length; i++) {
+							if (word.charAt(i) !== choice) continue; // eslint-disable-line max-depth
+
+							confirmation.push(word.charAt(i));
+
+							display[i] = word.charAt(i);
+						}
+					}
+					else {
+						displayText = false;
+
+						if (choice.length === 1) incorrect.push(choice);
+
+						points++;
+					}
+				}
+
+				playing.delete(message.channel.id);
+
+				if (word.length === confirmation.length || guessed) {
+					await Economy.update({ balance: economy.get('balance') + 100 }, { where: { userId: user } });
+					await Achievement.update({ hangman: achievement.get('hangman') + 1 }, { where: { userId: user } });
+
+					message.reply(`You're correct! It was **${word}**. You won **<a:jasminecoins:868105109748469780> 100**.`);
 					return;
 				}
-				catch (err) {
-					playing.delete(message.channel.id);
-					return message.reply(`Oh no, an error occurred :( \`${err.message}\`. Try again later!`);
-				}
+
+				message.reply(`You couldn't guess it... Too bad... The answer was **${word}**`);
+				return;
 			}
-		});
+			catch (err) {
+				playing.delete(message.channel.id);
+
+				console.error(err);
+
+				return message.reply(`Oh no, an error occurred :( \`${err.message}\`. Try again later!`);
+			}
+		}
 	},
 };

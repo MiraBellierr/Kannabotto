@@ -39,7 +39,7 @@ module.exports = {
 
 		if (person.user.id === message.author.id) {
 
-			message.channel.send(`*pats ${message.author.username}*`);
+			message.reply(`*pats ${message.author.username}*`);
 			return;
 		}
 
@@ -48,6 +48,6 @@ module.exports = {
 			.setImage(random)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

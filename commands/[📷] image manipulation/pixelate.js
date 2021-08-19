@@ -30,16 +30,18 @@ module.exports = {
 		if (isNaN(args[0])) return message.reply(`the right syntax is \`${prefixes[message.guild.id]}pixelate <number> [username | attachment]\`.`);
 		if (args[0] > 100 || args[0] < 1) return message.reply('you can only choose a number between 1-100');
 		if (!image) return message.reply(`the right syntax is \`${prefixes[message.guild.id]}pixelate <number> [username | attachment]\`.`);
-		if (image === undefined) return message.channel.send('Oops sorry, I can\'t manipulate that image');
-		const m = await message.channel.send('Please Wait...');
+		if (image === undefined) return message.reply('Oops sorry, I can\'t manipulate that image');
+		const m = await message.reply('Please Wait...');
 
 		await Jimp.read(image)
 			.then(i => {
 				return i
 					.pixelate(parseInt(args[0]))
 					.write(`./images/${member.user.id}-pixelate.png`);
-			}).catch(e => message.channel.send(e.message));
+			}).catch(e => message.reply(e.message));
 
-		message.channel.send({ files: [`./images/${member.user.id}-pixelate.png`] }).then(() => m.delete());
+		setTimeout(function() {
+			message.reply({ files: [`./images/${member.user.id}-pixelate.png`] }).then(() => m.delete());
+		}, 5000);
 	},
 };

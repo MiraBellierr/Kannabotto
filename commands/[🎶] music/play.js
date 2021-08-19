@@ -17,6 +17,7 @@ const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const yts = require('yt-search');
 const Discord = require('discord.js');
+const { joinVoiceChannel } = require('@discordjs/voice');
 
 module.exports = {
 	name: 'play',
@@ -29,25 +30,28 @@ module.exports = {
 		if (message.deletable) {
 			message.delete();
 		}
+
 		const { channel } = message.member.voice;
 
-
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if (!channel) return message.channel.send(`**${message.author.username}**, you need to join a voice channel first!`).catch(err => message.channel.send(`An error occurred\n\`${err}\``));
-		if (serverQueue && channel !== message.guild.me.voice.channel) {return message.channel.send(`**${message.author.username}**, you must be in the same channel as me.`).catch(err => message.channel.send(`An error occurred\n\`${err}\``));}
+
+		if (!channel) return message.reply(`**${message.author.username}**, you need to join a voice channel first!`).catch(err => message.reply(`An error occurred\n\`${err}\``));
+		if (serverQueue && channel !== message.guild.me.voice.channel) {return message.reply(`**${message.author.username}**, you must be in the same channel as me.`).catch(err => message.reply(`An error occurred\n\`${err}\``));}
 
 		if (!args.length) {
-			return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}play <YouTube URL>\``)
+			return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}play <YouTube URL>\``)
 				.catch(console.error);
 		}
 
 		const permissions = channel.permissionsFor(message.client.user);
-		if (!permissions.has('CONNECT')) {return message.channel.send(`**${message.author.username}**, I'm missing \`CONNECT\` permission.`);}
-		if (!permissions.has('SPEAK')) {return message.channel.send(`**${message.author.username}**, I'm missing \`SPEAK\` permission.`);}
-		const m = await message.channel.send('*Please wait...*');
+
+		if (!permissions.has('CONNECT')) {return message.reply(`**${message.author.username}**, I'm missing \`CONNECT\` permission.`);}
+		if (!permissions.has('SPEAK')) {return message.reply(`**${message.author.username}**, I'm missing \`SPEAK\` permission.`);}
+
+		const m = await message.reply('*Please wait...*');
+
 		yts(args.join(' '), async (err, res) => {
-			if (err) return message.channel.send('No video found.');
-			console.log(res.videos[0]);
+			if (err) return message.reply('No video found.');
 
 			const queueConstruct = {
 				textChannel: message.channel,
@@ -82,7 +86,7 @@ module.exports = {
 				serverQueue.songs.push(song);
 				m.delete();
 				return serverQueue.textChannel
-					.send(new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('RANDOM').setImage(song.image))
+					.send({ embeds: [new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('RANDOM').setImage(song.image)] })
 					.catch(console.error);
 			}
 
@@ -90,16 +94,27 @@ module.exports = {
 			client.queue.set(message.guild.id, queueConstruct);
 
 			try {
-				queueConstruct.connection = await channel.join();
+				queueConstruct.connection = await joinVoiceChannel({
+					channelId: channel.id,
+					guildId: channel.guild.id,
+					adapterCreator: channel.guild.voiceAdapterCreator,
+				});
 
 				play(queueConstruct.songs[0], message);
+
 				m.delete();
 			}
 			catch (error) {
 				console.error(`Could not join voice channel: ${error}`);
+
+				const queue = message.client.queue.get(message.guild.id);
+
+				queue.connection.destroy();
+
 				message.client.queue.delete(message.guild.id);
-				await channel.leave();
-				return message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
+
+
+				return message.reply(`Could not join the channel: ${error}`).catch(console.error);
 			}
 		});
 	},

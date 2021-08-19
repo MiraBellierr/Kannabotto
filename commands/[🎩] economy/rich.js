@@ -15,6 +15,7 @@
 const { MessageEmbed } = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const Models = require('../../create-model.js');
+const { checkGuildDisable, guildDisableMessage, blacklistMessage, checkBlacklist, createAllDataForNewUser } = require('../../functions');
 
 module.exports = {
 	name: 'rich',
@@ -24,105 +25,63 @@ module.exports = {
 	run: async (client, message, args) => {
 		const user = message.author.id;
 
-		const Disable = Models.Disable();
-		const Blacklist = Models.Blacklist();
-		const Cooldown = Models.Cooldown();
-		const Inventory = Models.Inventory();
 		const Economy = Models.Economy();
 
-		if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
-			await Disable.create({
-				guildId: message.guild.id,
-			});
-		}
-		const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
+		if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
+		if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
 
-		const warn = new MessageEmbed()
-			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-			.setTitle('This command is disabled for this guild')
-			.setDescription('This is most likely because this guild has broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-			.setTimestamp();
+		await createAllDataForNewUser(user);
 
-		if (disable.get('economy') === 1) return message.channel.send(warn);
-
-
-		if (!await Blacklist.findOne({ where: { userId: message.author.id } })) {
-			await Blacklist.create({
-				userId: message.author.id,
-			});
-		}
-		const blacklist = await Blacklist.findOne({ where: { userId: message.author.id } });
-
-		const warn1 = new MessageEmbed()
-			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-			.setTitle('You have been blacklisted from this command')
-			.setDescription('This is most likely because you have broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-			.setTimestamp();
-
-
-		if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
-		const m = await message.channel.send('*Loading..*');
-
-
-		if (!await Cooldown.findOne({ where: { userId: user } })) {
-			await Cooldown.create({
-				userId: user,
-			});
-		}
-
-
-		if (!await Inventory.findOne({ where: { userId: user } })) {
-			await Inventory.create({
-				userId: user,
-			});
-		}
-
-
-		if (!await Economy.findOne({ where: { userId: user } })) {
-			await Economy.create({
-				userId: user,
-			});
-		}
+		const m = await message.reply('*Loading..*');
 
 		if (args[0] === 'global') {
 			let board = [];
 			const economyList = await Economy.findAll({ order: [['balance', 'DESC']], limit: 10, attributes: ['userId'] });
 			const economyListString = economyList.map(p => p.userId);
+
 			for(let i = 0; i < economyListString.length; i++) {
 				const value = Object.assign({ user: await client.users.fetch(economyListString[i]) }, await Economy.findOne({ where: { UserId: economyListString[i] } }));
+
 				board.push(value);
 			}
 
 			board = board.filter(x => x.user);
 			board = board.sort((a, b) => (b.dataValues.balance + b.dataValues.bank) - (a.dataValues.balance + a.dataValues.bank)).splice(0, 10);
+
 			const top = board.map((x, i) => `[${i + 1}] ${x.user.username} - Total: <a:jasminecoins:868105109748469780> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
+
 			const embed = new MessageEmbed()
 				.setColor('RANDOM')
 				.setDescription(`**🆙 | Top 10 Global Rich**\n\n${top}`);
 
 			m.delete();
-			return message.channel.send(embed);
+
+			return message.reply({ embeds: [embed] });
 		}
 		else {
-
 			message.guild.members.fetch().then(async members => {
 				let board = [];
 				const economyList = await Economy.findAll({ order: [['balance', 'DESC']], limit: 800, attributes: ['userId'] });
 				const economyListString = economyList.map(p => p.userId);
+
 				for(let i = 0; i < economyListString.length; i++) {
 					const value = Object.assign({ user: members.get(economyListString[i]) }, await Economy.findOne({ where: { UserId: economyListString[i] } }));
+
 					board.push(value);
 				}
 
 				board = board.filter(x => x.user);
 				board = board.sort((a, b) => (b.dataValues.balance + b.dataValues.bank) - (a.dataValues.balance + a.dataValues.bank)).splice(0, 10);
+
 				const top = board.map((x, i) => `[${i + 1}] ${x.user} - Total: <a:jasminecoins:868105109748469780> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
+
 				const embed = new MessageEmbed()
 					.setColor('RANDOM')
 					.setDescription(`**🆙 | Top 10 Server Rich**\n\n${top}`);
 
 				m.delete();
-				return message.channel.send(embed);
+
+				return message.reply({ embeds: [embed] });
 			});
 		}
 

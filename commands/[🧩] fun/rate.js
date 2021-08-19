@@ -36,7 +36,7 @@ module.exports = {
 		const answer = answers[Math.floor(Math.random() * answers.length)];
 
 		if (args[0]) {
-			message.channel.send(answer);
+			message.reply(`${answer}`);
 		}
 		else {
 			message.reply('Give me something to rate').then(m => m.delete(1500));

@@ -31,7 +31,7 @@ module.exports = {
 			message.reply('Gimme a question!');
 		}
 		else {
-			message.channel.send(responses[randomIndex]);
+			message.reply(responses[randomIndex]);
 		}
 
 	},

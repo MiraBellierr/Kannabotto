@@ -29,6 +29,6 @@ module.exports = {
 			.setImage(criesR)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

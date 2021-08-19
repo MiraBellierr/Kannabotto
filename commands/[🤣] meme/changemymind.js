@@ -25,10 +25,10 @@ module.exports = {
 	description: 'change my mind meme generator',
 	usage: '<text 1>',
 	run: async (client, message, args) => {
-		if (!args[0]) return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}changemymind <text1>\`.`);
+		if (!args[0]) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}changemymind <text1>\`.`);
 
 
-		const m = await message.channel.send('Please wait...');
+		const m = await message.reply('Please wait...');
 
 		axios({
 			method: 'post',
@@ -43,12 +43,11 @@ module.exports = {
 				text0: args.join(' '),
 			},
 		}).then(async response => {
-			console.log(response);
 			const attachment = new Discord.MessageAttachment(await response.data.data.url, '129242436.png');
 			m.delete();
-			message.channel.send(attachment);
+			message.reply({ files: [attachment] });
 		}).catch(err =>{
-			message.channel.send('An error occurred. Please try again.');
+			message.reply('An error occurred. Please try again.');
 			console.log(err);
 		});
 

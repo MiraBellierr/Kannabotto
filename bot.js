@@ -18,38 +18,37 @@ const fs = require('fs');
 const timeoutxp = new Set();
 const prefixes = require('./database/prefix.json');
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('database', 'user', 'password', {
+new Sequelize('database', 'user', 'password', {
 	host: 'localhost',
 	dialect: 'sqlite',
 	logging: false,
 	storage: './database/database.sqlite',
 });
+const Models = require('./create-model');
 
-const { GiveawaysManager } = require('discord-giveaways');
+const { GiveawaysManager } = require('./discord-giveaways/index');
 const PrivilegedIntents = {
 	GUILD_PRESENCES: 'GUILD_PRESENCES',
 	GUILD_MEMBERS: 'GUILD_MEMBERS',
 };
 const client = new Client({
 	allowedMentions: { parse: ['users'] },
-	ws: {
-		intents: [
-			'GUILDS',
-			'DIRECT_MESSAGES',
-			'DIRECT_MESSAGE_REACTIONS',
-			'DIRECT_MESSAGE_TYPING',
-			'GUILD_BANS',
-			'GUILD_EMOJIS',
-			'GUILD_INTEGRATIONS',
-			'GUILD_INVITES',
-			PrivilegedIntents.GUILD_MEMBERS,
-			'GUILD_MESSAGES',
-			'GUILD_MESSAGE_REACTIONS',
-			'GUILD_MESSAGE_TYPING',
-			'GUILD_VOICE_STATES',
-			'GUILD_WEBHOOKS',
-		],
-	},
+	intents: [
+		'GUILDS',
+		'DIRECT_MESSAGES',
+		'DIRECT_MESSAGE_REACTIONS',
+		'DIRECT_MESSAGE_TYPING',
+		'GUILD_BANS',
+		'GUILD_EMOJIS_AND_STICKERS',
+		'GUILD_INTEGRATIONS',
+		'GUILD_INVITES',
+		PrivilegedIntents.GUILD_MEMBERS,
+		'GUILD_MESSAGES',
+		'GUILD_MESSAGE_REACTIONS',
+		'GUILD_MESSAGE_TYPING',
+		'GUILD_VOICE_STATES',
+		'GUILD_WEBHOOKS',
+	],
 });
 client.giveawaysManager = new GiveawaysManager(client, {
 	storage: './database/giveaways.json',
@@ -63,6 +62,8 @@ client.giveawaysManager = new GiveawaysManager(client, {
 
 client.snipeMap = new Map();
 client.queue = new Map();
+client.items = new Map();
+client.weapons = new Map();
 client.commands = new Collection();
 client.aliases = new Collection();
 client.categories = fs.readdirSync('./commands/');
@@ -79,44 +80,23 @@ setInterval(function() {
 
 const Topgg = require('@top-gg/sdk');
 const express = require('express');
+const { createAllDataForNewUser, getUserDataAndCreate, checkGuildDisable, checkBlacklist } = require('./functions');
 
 const app = express();
 
 const webhook = new Topgg.Webhook('656432');
 
 app.post('/dblwebhook', webhook.listener(async vote => {
-	const Economy = sequelize.define('economy', {
-		userId: {
-			type: Sequelize.STRING,
-			unique: true,
-			allowNull: false,
-		},
-		balance: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		bank: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		totalBank: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-	});
-	Economy.sync();
-	if (!await Economy.findOne({ where: { userId: vote.user } })) {
-		await Economy.create({
-			userId: vote.user,
-		});
-	}
-	const economy = await Economy.findOne({ where: { userId: vote.user } });
+	const Economy = Models.Economy();
+
+	await createAllDataForNewUser(vote.user);
+
+	const economy = await getUserDataAndCreate(Economy, vote.user);
+
 	const voteReward = economy.get('balance') + 500;
 
 	const channel = client.channels.cache.get('870151501950091264');
+
 	client.users.fetch(vote.user).then(async user => {
 		await Economy.update({ balance: voteReward }, { where: { userId: vote.user } });
 
@@ -126,7 +106,7 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 			.setThumbnail('https://cdn.discordapp.com/attachments/710732218254753842/845169239979589651/1383_bunny_holding_hearts.png')
 			.setDescription(`\`${user.tag} (${vote.user})\` just voted!\n${user.tag} received <a:jasminecoins:868105109748469780> 500\n\nYou can vote on top.gg [here](https://top.gg/bot/867048396358549544/vote) every 12 hours!`)
 			.setFooter('Thank you for your support!');
-		channel.send(embed);
+		channel.reply({ embeds: [embed] });
 		user.send('Thank for voting! You have received <a:jasminecoins:868105109748469780> 500!').catch(console.error);
 	});
 
@@ -135,128 +115,23 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 
 app.listen(8000);
 
-client.on('message', async message => {
+client.on('messageCreate', async message => {
 	if (message.author.bot) return;
-	const Disable = sequelize.define('disable', {
-		guildId: {
-			type: Sequelize.STRING,
-			unique: true,
-		},
-		economy: {
-			type: Sequelize.INTEGER,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		games: {
-			type: Sequelize.INTEGER,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		reason1: {
-			type: Sequelize.TEXT,
-			defaultValue: 'None',
-		},
-		reason2: {
-			type: Sequelize.INTEGER,
-			defaultValue: 'None',
-		},
-	});
-	Disable.sync();
-	if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
-		await Disable.create({
-			guildId: message.guild.id,
-		});
-	}
-	const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
 
+	if (await checkGuildDisable(message, 'economy')) return;
+	if (await checkBlacklist(message, 'blacklist')) return;
 
-	if (disable.get('economy') === 1) return;
+	const Economy = Models.Economy();
 
-	const Blacklist = sequelize.define('blacklist', {
-		userId: {
-			type: Sequelize.STRING,
-			unique: true,
-		},
-		blacklist: {
-			type: Sequelize.INTEGER,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		games: {
-			type: Sequelize.INTEGER,
-			defaultValue: 0,
-			allowNull: false,
-		},
-	});
-	Blacklist.sync();
-	if (!await Blacklist.findOne({ where: { userId: message.author.id } })) {
-		await Blacklist.create({
-			userId: message.author.id,
-		});
-	}
-	const blacklist = await Blacklist.findOne({ where: { userId: message.author.id } });
-
-	if (blacklist.get('blacklist') === 1) return;
-
-	const Economy = sequelize.define('economy', {
-		userId: {
-			type: Sequelize.STRING,
-			unique: true,
-			allowNull: false,
-		},
-		balance: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		bank: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		totalBank: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-	});
-	Economy.sync();
-
-	if (!await Economy.findOne({ where: { userId: message.author.id } })) {
-		await Economy.create({
-			userId: message.author.id,
-		});
-	}
-	const economy = await Economy.findOne({ where: { userId: message.author.id } });
+	const economy = await getUserDataAndCreate(Economy, message.author.id);
 	const xpAdd = Math.floor(Math.random() * 1) + 1;
 
 	if (timeoutxp.has(message.author.id)) return;
 
-	const Level = sequelize.define('level', {
-		userId: {
-			type: Sequelize.STRING,
-			unique: true,
-			allowNull: false,
-		},
-		xp: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		level: {
-			type: Sequelize.BIGINT,
-			defaultValue: 0,
-			allowNull: false,
-		},
-	});
-	Level.sync();
+	const Level = Models.Level();
 
-	if (!await Level.findOne({ where: { userId: message.author.id } })) {
-		await Level.create({
-			userId: message.author.id,
-		});
-	}
-	const level = await Level.findOne({ where: { userId: message.author.id } });
+	const level = await getUserDataAndCreate(Level, message.author.id);
+
 	const curxp = level.get('xp');
 	const curlvl = level.get('level');
 	const nxtLvl = level.get('level') * 500;
@@ -274,7 +149,7 @@ client.on('message', async message => {
 	setTimeout(() => timeoutxp.delete(message.author.id), 20000);
 });
 
-client.on('message', async message => {
+client.on('messageCreate', async message => {
 
 	if (message.author.bot) return;
 
@@ -315,7 +190,7 @@ client.on('message', async message => {
 			random_character[message.guild.id].defeat = false;
 
 			fs.writeFile('./database/randomCharacter.json', JSON.stringify(random_character, null, 2), (err) => {
-				if (err) return channel.send(`An error occured \`${err}\``);
+				if (err) return channel.reply(`An error occured \`${err}\``);
 			});
 
 			if (!prefixes[message.guild.id]) {
@@ -330,7 +205,7 @@ client.on('message', async message => {
 				.setImage(character.image)
 				.setFooter(`Type "${prefixes[message.guild.id]}battle boss" to challenge this boss`);
 
-			channel.send(embed);
+			channel.reply({ embeds: [embed] });
 		}
 		else {
 			return;

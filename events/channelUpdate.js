@@ -47,7 +47,7 @@ module.exports = (client, oldChannel, newChannel) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newChannel.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 		else if (newChannel.topic !== oldChannel.topic) {
 			const embed = new Discord.MessageEmbed()
@@ -58,7 +58,7 @@ module.exports = (client, oldChannel, newChannel) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newChannel.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 		else if (newChannel.nsfw !== oldChannel.nsfw) {
 			const embed = new Discord.MessageEmbed()
@@ -69,7 +69,7 @@ module.exports = (client, oldChannel, newChannel) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newChannel.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 		else if (newChannel.bitrate !== oldChannel.bitrate) {
 			const embed = new Discord.MessageEmbed()
@@ -80,7 +80,7 @@ module.exports = (client, oldChannel, newChannel) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newChannel.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 
 	}

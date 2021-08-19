@@ -20,8 +20,6 @@ module.exports = {
 	category: '[✨] utility',
 	example: `${bot_prefix}donate`,
 	run: async (client, message) => {
-
-
-		message.channel.send('Donate any amount you want! It helps a creator afford a faster server for Kanna! As a return, you will receive benefits!\nLink: https://www.patreon.com/kannacoco');
+		message.reply('Donate any amount you want! It helps a creator afford a faster server for Kanna! As a return, you will receive benefits!\nLink: https://www.patreon.com/kannacoco');
 	},
 };

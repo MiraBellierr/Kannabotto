@@ -24,15 +24,17 @@ module.exports = {
 	description: 'Search youtube videos',
 	example: `${bot_prefix}youtube <video to search>`,
 	run: async (client, message, args) => {
-		if (!message.channel.nsfw) return message.channel.send('This command can only be used in the nsfw channel only');
-		if (!args.length) return message.channel.send(`The right syntax is \`${prefix[message.guild.id]}youtube <video to search>\`.`);
+		if (!message.channel.nsfw) return message.reply('This command can only be used in the nsfw channel only');
+		if (!args.length) return message.reply(`The right syntax is \`${prefix[message.guild.id]}youtube <video to search>\`.`);
+
 		const search = args.join(' ');
 
 		yts(search, async (err, res) => {
-			if (err) return message.channel.send('No videos found! ^-^');
+			if (err) return message.reply('No videos found! ^-^');
 			const pages = [];
 			for (let i = 0; i < res.videos.length; i++) {
 				const values = `Video ${i + 1}/${res.videos.length}\n${res.videos[i].url}`;
+
 				pages.push(values);
 			}
 

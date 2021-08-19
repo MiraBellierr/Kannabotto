@@ -48,7 +48,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
 
-			message.channel.send(embed);
+			message.reply({ embeds: [embed] });
 		}
 	},
 };

@@ -20,6 +20,6 @@ module.exports = {
 	category: '[✨] utility',
 	example: `${bot_prefix}support`,
 	run: async (client, message) => {
-		message.channel.send('Our support server:\nhttps://discord.gg/NcPeGuNEdc');
+		message.reply('Our support server:\nhttps://discord.gg/NcPeGuNEdc');
 	},
 };

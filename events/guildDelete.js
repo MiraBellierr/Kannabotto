@@ -14,7 +14,7 @@
 
 module.exports = async (client, guild) => {
 
-	client.user.setPresence({ activity: { name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for an info about me!`, type: 'WATCHING' }, status: 'idle' });
+	client.user.setPresence({ activities: [{ name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for an info about me!`, type: 'WATCHING' }], status: 'idle' });
 
 	const logChannel = await client.channels.fetch('865525377458634762');
 

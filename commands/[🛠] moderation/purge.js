@@ -27,7 +27,7 @@ module.exports = {
 		}
 
 		// Member doesn't have permissions
-		if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+		if (!message.member.permissions.has('MANAGE_MESSAGES')) {
 			return message.reply('You don\'t have `MANAGE_MASSAGES` permission').then(m => m.delete({ timeout: 5000 }));
 		}
 
@@ -37,7 +37,7 @@ module.exports = {
 		}
 
 		// Maybe the bot can't delete messages
-		if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) {
+		if (!message.guild.me.permissions.has('MANAGE_MESSAGES')) {
 			return message.reply('Sorry... I can\'t delete messages. Make sure to check my `MANAGE_MESSAGES` permission').then(m => m.delete({ timeout: 5000 }));
 		}
 
@@ -52,7 +52,7 @@ module.exports = {
 
 		message.channel.bulkDelete(deleteAmount, true)
 			.then(async deleted => {
-				const m = await message.channel.send(`I deleted \`${deleted.size}\` messages.`);
+				const m = await message.reply(`I deleted \`${deleted.size}\` messages.`);
 				setTimeout(function() {
 					m.delete();
 				}, 1000);

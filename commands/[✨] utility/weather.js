@@ -25,16 +25,16 @@ module.exports = {
 	usage: '<location>',
 	run: (client, message) => {
 		const loc = message.content.split(' ');
+
 		if (!loc) {
-			message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}weather <location>\`.`);
-			return;
+			return message.reply(`The right syntax is \`${prefixes[message.guild.id]}weather <location>\`.`);
 		}
 		else {
 			w.find({ search: loc, degreeType: 'C', resCount: 1 }, function(err, result) {
 				if (err) {
-					message.channel.send(err);
-					message.channel.send(JSON.stringify(result, null, 2));
+					console.error(err);
 				}
+
 				const area = result[0];
 
 				const embed = new discord.MessageEmbed()
@@ -44,8 +44,7 @@ module.exports = {
 					.setTimestamp()
 					.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
 
-				message.channel.send(embed);
-				return;
+				message.reply({ embeds: [embed] });
 			});
 		}
 

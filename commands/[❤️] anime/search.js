@@ -25,11 +25,13 @@ module.exports = {
 	example: `${bot_prefix}search <name> [--anime | --character | --manga]`,
 	usage: '<name> [--anime | --character | --manga]',
 	run: async (client, message, args) => {
-		if (!message.channel.nsfw) return message.channel.send(`**${message.author.username}**, This command only can be used in nsfw channel.`);
-		if (!args.length) return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}search <name> [--anime | --character | --manga]\``);
+		if (!message.channel.nsfw) return message.reply('This command only can be used in nsfw channel.');
+		if (!args.length) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}search <name> [--anime | --character | --manga]\``);
+
 		const content = args.join(' ').split('--');
 		const query = encodeURIComponent(content[0]);
 		let type = 'anime';
+
 		if (content[1]) type = content[1];
 
 		axios({
@@ -40,10 +42,11 @@ module.exports = {
 			},
 		}).then(async response => {
 			if (type === 'anime') {
-				const m = await message.channel.send('*please wait...*');
+				const m = await message.reply('*please wait...*');
 				const anime = response.data.results[0];
 				const startDate = moment(anime.start_date).format('dddd, MMMM Do YYYY, h:mm:ss a');
 				const endDate = moment(anime.end_date).format('dddd, MMMM Do YYYY, h:mm:ss a');
+
 				const embed = new Discord.MessageEmbed()
 					.setAuthor('Anime Search', message.author.displayAvatarURL({ dynamic: true }))
 					.setTitle(anime.title)
@@ -52,25 +55,25 @@ module.exports = {
 					.setDescription(anime.synopsis)
 					.addFields([
 						{
-							name: 'Type', value: anime.type, inline: true,
+							name: 'Type', value: `${anime.type}`, inline: true,
 						},
 						{
-							name: 'Episodes', value: anime.episodes === 0 ? '???' : anime.episodes, inline: true,
+							name: 'Episodes', value: anime.episodes === 0 ? '???' : `${anime.episodes}`, inline: true,
 						},
 						{
-							name: 'Score', value: anime.score, inline: true,
+							name: 'Score', value: `${anime.score}`, inline: true,
 						},
 						{
-							name: 'Start Date', value: startDate, inline: true,
+							name: 'Start Date', value: `${startDate}`, inline: true,
 						},
 						{
-							name: 'End Date', value: anime.end_date === null ? '???' : endDate, inline: true,
+							name: 'End Date', value: anime.end_date === null ? '???' : `${endDate}`, inline: true,
 						},
 						{
-							name: 'Members', value: anime.members.toLocaleString(), inline: true,
+							name: 'Members', value: `${anime.members.toLocaleString()}`, inline: true,
 						},
 						{
-							name: 'Rated', value: anime.rated, inline: true,
+							name: 'Rated', value: `${anime.rated}`, inline: true,
 						},
 					])
 					.setColor('RANDOM')
@@ -79,14 +82,16 @@ module.exports = {
 					.setFooter(`ID: ${anime.mal_id}`);
 
 				m.delete();
-				return message.channel.send(embed);
+
+				return message.reply({ embeds: [embed] });
 			}
 			else if (type === 'character') {
-				const m = await message.channel.send('*please wait...*');
+				const m = await message.reply('*please wait...*');
 				const character = response.data.results[0];
 				const altNames = character.alternative_names.map((charname) => `${charname}`).join(', ');
 				const anime = character.anime.splice(0, 5).map(anime2 => `${anime2.name}`).join(', ');
 				const manga = character.manga.splice(0, 5).map(manga2 => `${manga2.name}`).join(', ');
+
 				const embed = new Discord.MessageEmbed()
 					.setAuthor('Character Search', message.author.displayAvatarURL({ dynamic: true }))
 					.setTitle(character.name)
@@ -94,13 +99,13 @@ module.exports = {
 					.setThumbnail(client.user.displayAvatarURL())
 					.addFields([
 						{
-							name: 'Alternative_name', value: altNames,
+							name: 'Alternative_name', value: `${altNames}`,
 						},
 						{
-							name: 'Anime', value: anime,
+							name: 'Anime', value: `${anime}`,
 						},
 						{
-							name: 'Manga', value: manga,
+							name: 'Manga', value: `${manga}`,
 						},
 					])
 					.setColor('RANDOM')
@@ -109,13 +114,15 @@ module.exports = {
 					.setFooter(`ID: ${character.mal_id}`);
 
 				m.delete();
-				return message.channel.send(embed);
+
+				return message.reply({ embeds: [embed] });
 			}
 			else if (type === 'manga') {
-				const m = await message.channel.send('*please wait...*');
+				const m = await message.reply('*please wait...*');
 				const manga = response.data.results[0];
 				const startDate = moment(manga.start_date).format('dddd, MMMM Do YYYY, h:mm:ss a');
 				const endDate = moment(manga.end_date).format('dddd, MMMM Do YYYY, h:mm:ss a');
+
 				const embed = new Discord.MessageEmbed()
 					.setAuthor('Manga Search', message.author.displayAvatarURL({ dynamic: true }))
 					.setTitle(manga.title)
@@ -124,25 +131,25 @@ module.exports = {
 					.setDescription(manga.synopsis)
 					.addFields([
 						{
-							name: 'Type', value: manga.type, inline: true,
+							name: 'Type', value: `${manga.type}`, inline: true,
 						},
 						{
-							name: 'Chapters', value: manga.chapters === 0 ? '???' : manga.chapters, inline: true,
+							name: 'Chapters', value: manga.chapters === 0 ? '???' : `${manga.chapters}`, inline: true,
 						},
 						{
-							name: 'Volumes', value: manga.volumes === 0 ? '???' : manga.volumes, inline: true,
+							name: 'Volumes', value: manga.volumes === 0 ? '???' : `${manga.volumes}`, inline: true,
 						},
 						{
-							name: 'Score', value: manga.score, inline: true,
+							name: 'Score', value: `${manga.score}`, inline: true,
 						},
 						{
-							name: 'Start Date', value: startDate, inline: true,
+							name: 'Start Date', value: `${startDate}`, inline: true,
 						},
 						{
-							name: 'End Date', value: manga.end_date === null ? '???' : endDate, inline: true,
+							name: 'End Date', value: manga.end_date === null ? '???' : `${endDate}`, inline: true,
 						},
 						{
-							name: 'Members', value: manga.members.toLocaleString(), inline: true,
+							name: 'Members', value: `${manga.members.toLocaleString()}`, inline: true,
 						},
 					])
 					.setColor('RANDOM')
@@ -151,15 +158,17 @@ module.exports = {
 					.setFooter(`ID: ${manga.mal_id}`);
 
 				m.delete();
-				return message.channel.send(embed);
+
+				return message.reply({ embeds: [embed] });
 			}
 			else {
-				return message.channel.send(`The right syntax is \`${prefixes[message.guild.id]}search <name> [--anime | --character | --manga]\``);
+				return message.reply(`The right syntax is \`${prefixes[message.guild.id]}search <name> [--anime | --character | --manga]\``);
 			}
 
 		}).catch(err =>{
 			console.log(err);
-			return message.channel.send('Request failed. An error occurs. Please check your spelling.');
+
+			return message.reply('I didn\'t find any result');
 		});
 	},
 };

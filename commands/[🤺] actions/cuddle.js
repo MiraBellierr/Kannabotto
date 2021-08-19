@@ -39,7 +39,7 @@ module.exports = {
 
 		if (personcuddle.id === message.author.id) {
 
-			message.channel.send(`*cuddles ${message.author.username}*`);
+			message.reply(`*cuddles ${message.author.username}*`);
 			return;
 		}
 		const embed = new Discord.MessageEmbed()
@@ -47,6 +47,6 @@ module.exports = {
 			.setImage(cuddleR)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

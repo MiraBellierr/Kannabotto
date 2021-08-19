@@ -21,7 +21,7 @@ module.exports = {
 	description: 'Returns latency and API ping',
 	example: `${bot_prefix}ping`,
 	run: async (client, message) => {
-		const msg = await message.channel.send('🏓 Pinging....');
+		const msg = await message.reply('🏓 Pinging....');
 
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
@@ -32,7 +32,6 @@ module.exports = {
 			.setTimestamp()
 			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
 
-
-		message.channel.send(embed).then(msg.delete());
+		message.reply({ embeds: [embed] }).then(msg.delete());
 	},
 };

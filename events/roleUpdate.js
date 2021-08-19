@@ -44,7 +44,7 @@ module.exports = (client, oldRole, newRole) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newRole.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 		if (newRole.hexColor !== oldRole.hexColor) {
 			const embed = new Discord.MessageEmbed()
@@ -55,7 +55,7 @@ module.exports = (client, oldRole, newRole) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newRole.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 		else if (newRole.hoist !== oldRole.hoist) {
 			const embed = new Discord.MessageEmbed()
@@ -66,7 +66,7 @@ module.exports = (client, oldRole, newRole) => {
 				.setTimestamp()
 				.setFooter(`ID: ${newRole.id}`);
 
-			logChannel.send(embed);
+			logChannel.send({ embeds: [embed] });
 		}
 
 	}

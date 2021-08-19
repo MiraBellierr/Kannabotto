@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { MessageEmbed, splitMessage, escapeMarkdown } = require('discord.js');
+const { MessageEmbed, Util } = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 
 module.exports = {
@@ -23,9 +23,10 @@ module.exports = {
 	example: `${bot_prefix}queue`,
 	run: (client, message) => {
 		const queue = client.queue.get(message.guild.id);
-		if (!queue) return message.channel.send(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
 
-		const description = queue.songs.map((song, index) => `${index + 1}. ${escapeMarkdown(song.title)} - ${song.duration}`);
+		if (!queue) return message.reply(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
+
+		const description = queue.songs.map((song, index) => `${index + 1}. ${Util.escapeMarkdown(`${song.title}`)} - ${song.duration}`);
 
 		const queueEmbed = new MessageEmbed()
 			.setTitle(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
@@ -34,7 +35,7 @@ module.exports = {
 			.setTimestamp()
 			.setFooter(client.user.username, client.user.avatarURL({ dynamic: true }));
 
-		const splitDescription = splitMessage(description, {
+		const splitDescription = Util.splitMessage(`${description}`, {
 			maxLength: 2048,
 			char: '\n',
 			prepend: '',
@@ -43,7 +44,7 @@ module.exports = {
 
 		splitDescription.forEach(async (m) => {
 			queueEmbed.setDescription(`__Queue List:__\n${m}`);
-			message.channel.send(queueEmbed);
+			message.reply({ embeds: [queueEmbed] });
 		});
 	},
 };

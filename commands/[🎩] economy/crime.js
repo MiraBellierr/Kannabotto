@@ -13,8 +13,7 @@
 // limitations under the License.
 
 const { bot_prefix } = require('../../config.json');
-const { getCrimeSuccess, getCrimeFail } = require('../../functions');
-const Discord = require('discord.js');
+const { getCrimeSuccess, getCrimeFail, checkGuildDisable, guildDisableMessage, checkBlacklist, blacklistMessage, getUserDataAndCreate, createAllDataForNewUser, cooldown } = require('../../functions');
 const Models = require('../../create-model');
 
 module.exports = {
@@ -23,110 +22,54 @@ module.exports = {
 	description: 'Do some bad works and get coins',
 	example: `${bot_prefix}crime`,
 	run: async (client, message) => {
-		import('parse-ms').then(async ms => {
-			const user = message.author.id;
+		const user = message.author.id;
 
-			const Disable = Models.Disable();
-			const Blacklist = Models.Blacklist();
-			const Cooldown = Models.Cooldown();
-			const Inventory = Models.Inventory();
-			const Economy = Models.Economy();
-			const Achievement = Models.Achievement();
+		const Cooldown = Models.Cooldown();
+		const Economy = Models.Economy();
+		const Achievement = Models.Achievement();
 
-			if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
-				await Disable.create({
-					guildId: message.guild.id,
-				});
+		if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
+		if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
+
+		const answers = ['success', 'failed'];
+		const answer = answers[Math.floor(Math.random() * answers.length)];
+
+		await createAllDataForNewUser(user);
+
+		const economy = await getUserDataAndCreate(Economy, user);
+		const achievement = await getUserDataAndCreate(Achievement, user);
+
+		if (economy.get('balance') < 1) return message.reply(`**${message.author.username}**, You need at least <a:jasminecoins:868105109748469780> 1 to be able to do crime.`);
+
+		const timer = await cooldown('crime', user, 60000);
+
+		if (timer.bool) {
+			message.reply(`**${message.author.username}**, Please wait **${timer.seconds}s** until you can do crime again.`);
+		}
+		else {
+			await Cooldown.update({ crime: Date.now() }, { where: { userId: user } });
+			await Achievement.update({ crime: achievement.get('crime') + 1 }, { where: { userId: user } });
+
+			if (answer === 'success') {
+				const curBal = economy.get('balance');
+				const random = Math.ceil((0.05 * curBal));
+
+				await Economy.update({ balance: curBal + random }, { where: { userId: user } });
+
+				const coins = `<a:jasminecoins:868105109748469780> ${random.toLocaleString()}`;
+
+				message.reply(`${message.author.username}, ${getCrimeSuccess(coins)}`);
 			}
-			const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
+			if (answer === 'failed') {
+				const curBal = economy.get('balance');
+				const random = Math.floor(0.05 * curBal);
 
-			const warn = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('This command is disabled for this guild')
-				.setDescription('This is most likely because this guild has broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
+				await Economy.update({ balance: curBal - random }, { where: { userId: user } });
 
-			if (disable.get('economy') === 1) return message.channel.send(warn);
+				const coins = `<a:jasminecoins:868105109748469780> ${random.toLocaleString()}`;
 
-
-			if (!await Blacklist.findOne({ where: { userId: message.author.id } })) {
-				await Blacklist.create({
-					userId: message.author.id,
-				});
+				message.reply(`${message.author.username}, ${getCrimeFail(coins)}`);
 			}
-			const blacklist = await Blacklist.findOne({ where: { userId: message.author.id } });
-
-			const warn1 = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('You have been blacklisted from this command')
-				.setDescription('This is most likely because you have broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
-				.setTimestamp();
-
-
-			if (blacklist.get('blacklist') === 1) return message.channel.send(warn1);
-
-			const answers = ['success', 'failed'];
-
-			const answer = answers[Math.floor(Math.random() * answers.length)];
-
-
-			if (!await Cooldown.findOne({ where: { userId: user } })) {
-				await Cooldown.create({
-					userId: user,
-				});
-			}
-			const cooldown = await Cooldown.findOne({ where: { userId: user } });
-
-
-			if (!await Inventory.findOne({ where: { userId: user } })) {
-				await Inventory.create({
-					userId: user,
-				});
-			}
-
-
-			if (!await Economy.findOne({ where: { userId: user } })) {
-				await Economy.create({
-					userId: user,
-				});
-			}
-			const economy = await Economy.findOne({ where: { userId: user } });
-
-
-			if (!await Achievement.findOne({ where: { userId: user } })) {
-				await Achievement.create({
-					userId: user,
-				});
-			}
-			const achievement = await Achievement.findOne({ where: { userId: user } });
-
-			if (economy.get('balance') < 1) return message.channel.send(`**${message.author.username}**, You need at least <a:jasminecoins:868105109748469780> 1 to be able to do crime.`);
-			const timeOut = 60000;
-
-			const lastCrime = await cooldown.get('crime');
-			if (lastCrime !== null && timeOut - (Date.now() - lastCrime) > 0) {
-				const timeObj = ms.default(timeOut - (Date.now() - lastCrime));
-				message.channel.send(`**${message.author.username}**, Please wait **${timeObj.seconds}s** until you can do crime again.`);
-			}
-			else {
-				await Cooldown.update({ crime: Date.now() }, { where: { userId: user } });
-				await Achievement.update({ crime: achievement.get('crime') + 1 }, { where: { userId: user } });
-
-				if (answer === 'success') {
-					const curBal = economy.get('balance');
-					const random = Math.ceil((0.05 * curBal));
-					await Economy.update({ balance: curBal + random }, { where: { userId: user } });
-					const coins = `<a:jasminecoins:868105109748469780> ${random.toLocaleString()}`;
-					message.channel.send(`${message.author.username}, ${getCrimeSuccess(coins)}`);
-				}
-				if (answer === 'failed') {
-					const curBal = economy.get('balance');
-					const random = Math.floor(0.05 * curBal);
-					await Economy.update({ balance: curBal - random }, { where: { userId: user } });
-					const coins = `<a:jasminecoins:868105109748469780> ${random.toLocaleString()}`;
-					message.channel.send(`${message.author.username}, ${getCrimeFail(coins)}`);
-				}
-			}
-		});
+		}
 	},
 };

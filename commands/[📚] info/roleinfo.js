@@ -24,30 +24,41 @@ module.exports = {
 	usage: '<role name>',
 	run: async (client, message, args) => {
 
-		const role = args.join(' ');
+		let role = args.join(' ');
 		if(!role) return message.reply('Specify a role!');
-		const gRole = message.guild.roles.cache.get(role) || message.guild.roles.cache.find(r => r.name.toLowerCase().includes(role)) || message.mentions.roles.first();
-		if(!gRole) return message.reply('Couldn\'t find that role.');
+		role = message.guild.roles.cache.get(role) || message.guild.roles.cache.find(r => r.name.toLowerCase().includes(role)) || message.mentions.roles.first();
+		if(!role) return message.reply('Couldn\'t find that role.');
 
 
-		message.guild.members.fetch().then(members => {
-			const memberCount = members.filter(member => member.roles.cache.has(gRole.id)).size;
+		const guildMembers = await role.guild.members.fetch();
+		const memberCount = guildMembers.filter(member => member.roles.cache.has(role.id)).size;
 
-			const status = {
-				false: 'No',
-				true: 'Yes',
-			};
+		let permission;
 
-			const roleemebed = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('Role Information')
-				.setDescription(`**• ID:** ${gRole.id}\n**• Name:** ${gRole.name}\n**• Mention:** ${gRole}\n**• Hex:** ${gRole.hexColor.toUpperCase()}\n**• Members with this role:** ${memberCount}\n**• Position:** ${gRole.position}\n**• Hoisted status:** ${[gRole.hoist]}\n**• Mentionable:** ${status[gRole.mentionable]}\n**• Managed:** ${status[gRole.managed]}`)
-				.setColor('#00ff00')
-				.setThumbnail(message.guild.iconURL)
-				.setTimestamp()
-				.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
+		if (role.permissions.has('ADMINISTRATOR')) {
+			permission = 'Administrator';
+		}
+		else if (!role.permissions.has('ADMINISTRATOR') && (role.permissions.has('KICK_MEMBERS') || role.permissions.has('BAN_MEMBERS') || role.permissions.has('MANAGE_CHANNELS') || role.permissions.has('MANAGE_GUILD') || role.permissions.has('MANAGE_MESSAGES') || role.permissions.has('MENTION_EVERYONE') || role.permissions.has('MUTE_MEMBERS') || role.permissions.has('DEAFEN_MEMBERS') || role.permissions.has('MOVE_MEMBERS') || role.permissions.has('MANAGE_NICKNAMES') || role.permissions.has('MANAGE_ROLES') || role.permissions.has('MANAGE_WEBHOOKS') || role.permissions.has('MANAGE_EMOJIS_AND_STICKERS'))) {
+			permission = 'Moderator';
+		}
+		else {
+			permission = 'Member';
+		}
 
-			message.channel.send(roleemebed);
-		});
+		const status = {
+			false: 'No',
+			true: 'Yes',
+		};
+
+		const roleemebed = new Discord.MessageEmbed()
+			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+			.setTitle('Role Information')
+			.setDescription(`**• ID:** ${role.id}\n**• Name:** ${role.name}\n**• Mention:** ${role}\n**• Hex:** ${role.hexColor.toUpperCase()}\n**• Members with this role:** ${memberCount}\n**• Position:** ${role.position}\n**• Hoisted status:** ${status[role.hoist]}\n**• Mentionable:** ${status[role.mentionable]}\n**• Permission:** ${permission}`)
+			.setColor('#00ff00')
+			.setThumbnail(role.guild.iconURL({ dynamic: true }))
+			.setTimestamp()
+			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
+
+		message.reply({ embeds: [roleemebed] });
 	},
 };

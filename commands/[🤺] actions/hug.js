@@ -39,7 +39,7 @@ module.exports = {
 
 		if (personhug.user.id === message.author.id) {
 
-			message.channel.send(`*hugs ${message.author.username}*`);
+			message.reply(`*hugs ${message.author.username}*`);
 			return;
 		}
 		const embed = new Discord.MessageEmbed()
@@ -47,6 +47,6 @@ module.exports = {
 			.setImage(hugR)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

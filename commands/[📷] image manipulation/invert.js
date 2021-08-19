@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 // Copyright 2021 Mirabellier
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,16 +28,18 @@ module.exports = {
 		const member = await getMember(message, args.join(' '));
 		const image = message.attachments.first() || member.user.displayAvatarURL({ format: 'png', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
 		if (!image) return message.reply(`the right syntax is \`${prefixes[message.guild.id]}invert [username | attachment]\`.`);
-		if (image === undefined) return message.channel.send('Oops sorry, I can\'t manipulate that image');
-		const m = await message.channel.send('Please Wait...');
+		if (image === undefined) return message.reply('Oops sorry, I can\'t manipulate that image');
+		const m = await message.reply('Please Wait...');
 
 		await Jimp.read(image)
 			.then(i => {
 				return i
 					.invert()
 					.write(`./images/${member.user.id}-invert.png`);
-			}).catch(e => message.channel.send(e.message));
+			}).catch(e => message.reply(e.message));
 
-		message.channel.send({ files: [`./images/${member.user.id}-invert.png`] }).then(() => m.delete());
+		setTimeout(function() {
+			message.reply({ files: [`./images/${member.user.id}-invert.png`] }).then(() => m.delete());
+		}, 5000);
 	},
 };

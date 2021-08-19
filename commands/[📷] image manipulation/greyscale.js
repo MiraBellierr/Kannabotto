@@ -27,16 +27,18 @@ module.exports = {
 		const member = await getMember(message, args.join(' '));
 		const image = message.attachments.first() || member.user.displayAvatarURL({ format: 'png', size: 4096 }) || message.author.displayAvatarURL({ format: 'jpg', size: 4096 });
 		if (!image) return message.reply(`the right syntax is \`${prefixes[message.guild.id]}greyscale [username | attachment]\`.`);
-		if (image === undefined) return message.channel.send('Oops sorry, I can\'t manipulate that image');
-		const m = await message.channel.send('Please Wait...');
+		if (image === undefined) return message.reply('Oops sorry, I can\'t manipulate that image');
+		const m = await message.reply('Please Wait...');
 
 		await Jimp.read(image)
 			.then(i => {
 				return i
 					.greyscale()
 					.write(`./images/${member.user.id}-greyscale.png`);
-			}).catch(e => message.channel.send(e.message));
+			}).catch(e => message.reply(e.message));
 
-		message.channel.send({ files: [`./images/${member.user.id}-greyscale.png`] }).then(() => m.delete());
+		setTimeout(function() {
+			message.reply({ files: [`./images/${member.user.id}-greyscale.png`] }).then(() => m.delete());
+		}, 5000);
 	},
 };

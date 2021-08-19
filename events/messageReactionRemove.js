@@ -47,7 +47,7 @@ module.exports = async (client, reaction) => {
 
 
 					const starMsg = await starChannel.messages.fetch(stars.id);
-					await starMsg.edit(`⭐ ${parseInt(star[1]) - 1} | ${message.id}`, embed);
+					await starMsg.edit({ content: `⭐ ${parseInt(star[1]) - 1} | ${message.id}`, embeds: [embed] });
 				}
 			}
 		}

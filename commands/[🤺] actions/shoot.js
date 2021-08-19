@@ -37,7 +37,7 @@ module.exports = {
 
 		if (personslap.user.id === message.author.id) {
 
-			message.channel.send(`*shoots ${message.author.username}*`);
+			message.reply(`*shoots ${message.author.username}*`);
 			return;
 		}
 		const embed = new Discord.MessageEmbed()
@@ -45,6 +45,6 @@ module.exports = {
 			.setImage(slapR)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

@@ -34,7 +34,7 @@ module.exports = {
 				'Content-Type': 'application/json',
 			},
 		}).then(async response => {
-			const m = await message.channel.send('*please wait...*');
+			const m = await message.reply('*please wait...*');
 			const top = response.data.top.splice(0, 10);
 			const board = top.map((anime, i) => `**[${i + 1}] - [${anime.title}](${anime.url})**`).join('\n');
 
@@ -46,10 +46,12 @@ module.exports = {
 				.setTimestamp();
 
 			m.delete();
-			return message.channel.send(embed);
+
+			return message.reply({ embeds: [embed] });
 		}).catch(err =>{
 			console.log(err);
-			return message.channel.send('Request failed. An error occurs. Please check your spelling.');
+
+			return message.reply('I didn\'t find any result');
 		});
 	},
 };

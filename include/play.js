@@ -14,15 +14,24 @@
 
 const ytdlDiscord = require('discord-ytdl-core');
 const Discord = require('discord.js');
+const { createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
+const player = createAudioPlayer({
+	behaviors: {
+		noSubscriber: NoSubscriberBehavior.Pause,
+	},
+});
+
 
 module.exports = {
 	async play(song, message) {
 		const queue = message.client.queue.get(message.guild.id);
 
 		if (!song) {
-			queue.channel.leave();
+			queue.connection.destroy();
+
 			message.client.queue.delete(message.guild.id);
-			return queue.textChannel.send(new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('RANDOM')).catch(console.error);
+
+			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('RANDOM')] }).catch(console.error);
 		}
 
 		let stream = null;
@@ -39,38 +48,44 @@ module.exports = {
 			}
 
 			console.error(error);
-			return message.channel.send(`Error: ${error.message ? error.message : error}`);
+
+			return message.reply(`Error: ${error.message ? error.message : error}`);
 		}
 
-		queue.connection.on('disconnect', () => message.client.queue.delete(message.guild.id));
+		queue.connection.on(VoiceConnectionStatus.Disconnected, () => message.client.queue.delete(message.guild.id));
 
 		const type = song.url.includes('youtube.com') ? 'opus' : 'ogg/opus';
-		const dispatcher = queue.connection
-			.play(stream, { type: type })
-			.on('finish', () => {
 
+		const resource = createAudioResource(stream, { inputType: type, inlineVolume: true });
+		player.play(resource);
+
+		const dispatcher = queue.connection
+			.subscribe(player)
+			.player.on(AudioPlayerStatus.Idle, () => {
 				if (queue.loop) {
-					// if loop is on, push the song back at the end of the queue
-					// so it can repeat endlessly
+				// if loop is on, push the song back at the end of the queue
+				// so it can repeat endlessly
 					const lastSong = queue.songs.shift();
 					queue.songs.push(lastSong);
 					module.exports.play(queue.songs[0], message);
 				}
 				else {
-					// Recursively play the next song
+				// Recursively play the next song
 					queue.songs.shift();
 					module.exports.play(queue.songs[0], message);
 				}
-			})
-			.on('error', (err) => {
+			}).on('unsubscribe', () => {
+				message.client.queue.delete(message.guild.id);
+			}).on('error', (err) => {
 				console.error(err);
 				queue.songs.shift();
 				module.exports.play(queue.songs[0], message);
 			});
-		dispatcher.setVolumeLogarithmic(queue.volume / 100);
+
+		dispatcher._state.resource.volume.setVolume(queue.volume / 100);
 
 		try {
-			queue.textChannel.send(new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: song.title, inline: true }, { name: 'URL', value: song.url, inline: true }, { name: 'Description', value: song.description }, { name: 'Duration', value: song.duration }, { name: 'Created', value: song.created, inline: true }).setColor('RANDOM').setImage(song.image));
+			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: `${song.title}`, inline: true }, { name: 'URL', value: `${song.url}`, inline: true }, { name: 'Description', value: `${song.description}` }, { name: 'Duration', value: `${song.duration}` }, { name: 'Created', value: `${song.created}`, inline: true }).setColor('RANDOM').setImage(song.image)] });
 		}
 		catch (error) {
 			console.error(error);

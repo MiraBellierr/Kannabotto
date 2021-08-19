@@ -53,7 +53,7 @@ module.exports = async (client, reaction) => {
 					if (foundStar.image) embed.setImage(foundStar.image.url);
 
 					const starMsg = await starChannel.messages.fetch(stars.id);
-					await starMsg.edit(`⭐ ${parseInt(star[1]) + 1} | ${message.id}`, embed);
+					await starMsg.edit({ content: `⭐ ${parseInt(star[1]) + 1} | ${message.id}`, embeds: [embed] });
 				}
 				if (!stars) {
 					if (reaction.emoji.reaction.count < starboard[message.guild.id].count) return;
@@ -68,7 +68,7 @@ module.exports = async (client, reaction) => {
 						.setImage(image);
 					if (message.cleanContent.length > 0) embed.addField('message', message.cleanContent);
 
-					starChannel.send(`⭐ ${reaction.emoji.reaction.count} | ${message.id}`, embed);
+					starChannel.send({ content: `⭐ ${reaction.emoji.reaction.count} | ${message.id}`, embeds: [embed] });
 				}
 			}
 		}

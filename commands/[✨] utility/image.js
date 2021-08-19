@@ -28,10 +28,12 @@ module.exports = {
 	description: 'Search images',
 	example: `${bot_prefix}image <image to search>`,
 	run: async (client, message, args) => {
-		if (!message.channel.nsfw) return message.channel.send(`**${message.author.username}**, This command only can be used in nsfw channel.`);
-		if (!args.length) return message.channel.send(`The right syntax is \`${prefix[message.guild.id]}image <image to search>\`.`);
-		const m = await message.channel.send('*Loading...*');
+		if (!message.channel.nsfw) return message.reply({ content: 'This command only can be used in nsfw channel.', allowedMentions: { repliedUser: true } });
+		if (!args.length) return message.reply(`The right syntax is \`${prefix[message.guild.id]}image <image to search>\`.`);
+
+		const m = await message.reply('*Loading...*');
 		const search = args.join(' ');
+
 		const opts = {
 			searchTerm: search,
 			queryStringAddition: '&tbs=ic',
@@ -41,9 +43,11 @@ module.exports = {
 		};
 
 		gis(opts, async (err, res) => {
-			if (err) return message.channel.send('I couldn\'t find it.. Sorry :c');
+			if (err) return message.reply('I couldn\'t find it.. Sorry :c');
+
 			const title = capitalize(search);
 			const pages = [];
+
 			for (let i = 0; i < res.length; i++) {
 				const values = new Discord.MessageEmbed()
 					.setTitle(title)
@@ -53,8 +57,11 @@ module.exports = {
 
 				pages.push(values);
 			}
+
 			const paginated = new PaginateContent.DiscordJS(client, message, pages);
+
 			m.delete();
+
 			await paginated.init();
 		});
 	},

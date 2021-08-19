@@ -25,7 +25,7 @@ module.exports = {
 	usage: '<expressions>',
 	run: async (client, message, args) => {
 
-		if (!args[0]) return message.channel.send(`**${message.author.username}**, Please enter an expressions!`);
+		if (!args[0]) return message.reply(`**${message.author.username}**, Please enter an expressions!`);
 		const limitedEvaluate = math.evaluate;
 		math.import({
 			createUnit: function() { throw new Error('Function createUnit is disabled'); },
@@ -37,11 +37,11 @@ module.exports = {
 		const argument = args.join(' ');
 		try {
 			const result = limitedEvaluate(argument);
-			return message.channel.send(`📝 ${argument} = **${result}**`).catch(err => console.log(err));
+			return message.reply(`📝 ${argument} = **${result}**`).catch(err => console.log(err));
 
 		}
 		catch(e) {
-			return message.channel.send(e.toString());
+			return message.reply(e.toString());
 		}
 
 	},

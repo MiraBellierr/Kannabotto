@@ -39,7 +39,7 @@ module.exports = {
 
 		if (personslap.user.id === message.author.id) {
 
-			message.channel.send(`*slaps ${message.author.username}*`);
+			message.reply(`*slaps ${message.author.username}*`);
 			return;
 		}
 		const embed = new Discord.MessageEmbed()
@@ -47,6 +47,6 @@ module.exports = {
 			.setImage(slapR)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

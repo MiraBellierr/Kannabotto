@@ -16,6 +16,7 @@ const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const Models = require('../../create-model.js');
+const { checkPlayerExist, getUserDataAndCreate } = require('../../functions');
 
 module.exports = {
 	name: 'market',
@@ -25,49 +26,31 @@ module.exports = {
 	run: async (client, message) => {
 		const user = message.author.id;
 
-		const Bag = Models.Bag();
-		const Player = Models.Player();
 		const Economy = Models.Economy();
 
-		if (!await Bag.findOne({ where: { userId: user } })) {
-			await Bag.create({
-				userId: user,
-			});
-		}
-		const bag = await Bag.findOne({ where: { userId: user } });
-
-
-		const player = await Player.findOne({ where: { userId: user } });
-
-
-		if (!await Economy.findOne({ where: { userId: user } })) {
-			await Economy.create({
-				userId: user,
-			});
-		}
-		const economy = await Economy.findOne({ where: { userId: user } });
+		const economy = await getUserDataAndCreate(Economy, user);
 
 		const result = new Discord.MessageEmbed()
 			.setDescription('No profile found 😓')
 			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
-		if (!player) return message.channel.send(result);
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
+		let weapons = [];
+
+		client.weapons.forEach(weapon => {
+			weapons.push(weapon);
+		});
+
+		weapons = weapons.map(element => `**• ${element.emoji} ${element.name}** - <a:jasminecoins:868105109748469780> ${element.price.toLocaleString()} - ${element.ability} ${element.passive ? `\n(${element.passive})` : ''}`);
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.setColor('RANDOM')
-			.setThumbnail(client.user.displayAvatarURL())
-			.setTitle(`Weapon Market - Your balance: ${(economy.get('balance')).toLocaleString()}`)
-			.addFields(
-				{ name: bag.get('sword') === 0 ? '<:sword:868105110100779028> Sword - <a:jasminecoins:868105109748469780> 5,000' : '~~<:sword:868105110100779028> Sword - <a:jasminecoins:868105109748469780> 5,000~~ *Bought*', value: '**• +10 Physical Attack**' },
-				{ name: bag.get('staff') === 0 ? '<:staff:868105110138519582> Staff - <a:jasminecoins:868105109748469780> 5,000' : '~~<:staff:868105110138519582> Staff - <a:jasminecoins:868105109748469780> 5,000~~ *Bought*', value: '**• +10 Magical Attack**' },
-				{ name: bag.get('shield') === 0 ? '🛡️ Shield - <a:jasminecoins:868105109748469780> 8,000' : '~~🛡️ Shield - <a:jasminecoins:868105109748469780> 8,000~~ *Bought*', value: '**• +5 Physical Resistance\n• +5 Magical Resistance**' },
-				{ name: bag.get('bow') === 0 ? '🏹 Bow - <a:jasminecoins:868105109748469780> 10,000' : '~~🏹 Bow - <a:jasminecoins:868105109748469780> 10,000~~ *Bought*', value: '**• +6 Physical Attack\n• +4 physical Resistance\nPassive: Increase 5% speed every turn**' },
-				{ name: bag.get('swordFire') === 0 ? '<a:firesword:868105110176301086> Fire-Sword - <a:jasminecoins:868105109748469780> 10,000' : '~~<a:firesword:868105110176301086> Fire-Sword - <a:jasminecoins:868105109748469780> 10,000~~ *Bought*', value: '**• +5 Physical Attack\n• +5 Magical Attack\nPassive: Deals 80% of your overall damage for the first turn**' },
+			.setTimestamp()
+			.addField(`Kanna Weapon Market - Your balance: <a:jasminecoins:868105109748469780> ${(economy.get('balance')).toLocaleString()}`, weapons.join('\n'))
+			.setThumbnail('https://cdn.discordapp.com/attachments/716107950032420897/723881420585697300/ezgif-3-b250403f94db.gif')
+			.setFooter(client.user.username, client.user.avatarURL({ dynamic: true }));
 
-			);
-
-
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

@@ -38,7 +38,7 @@ module.exports = {
 
 		if (person.user.id === message.author.id) {
 
-			message.channel.send(`*kills ${message.author.username}*`);
+			message.reply(`*kills ${message.author.username}*`);
 			return;
 		}
 
@@ -47,6 +47,6 @@ module.exports = {
 			.setImage(random)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

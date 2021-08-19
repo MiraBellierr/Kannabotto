@@ -24,18 +24,7 @@ module.exports = {
 	description: 'Returns user avatar',
 	usage: '[mention]',
 	run: async (client, message, args) => {
-		if (!args[0]) {
-			const embeduser = new MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle('Your avatar')
-				.setColor('RANDOM')
-				.setImage(message.author.displayAvatarURL({ dynamic: true, size: 4096 }))
-				.setTimestamp()
-				.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
-			return message.channel.send(embeduser);
-		}
-
-		const member = await getMember(message, args.join(' '));
+		const member = await getMember(message, args.join(' ')) || message.member;
 
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
@@ -45,6 +34,6 @@ module.exports = {
 			.setTimestamp()
 			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

@@ -21,7 +21,7 @@ module.exports = {
 	category: '[🛠] moderation',
 	example: `${bot_prefix}snipe`,
 	run: (client, message, args) => {
-		if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('You don\'t have a `MANAGE_MESSAGES` permission to use this command');
+		if (!message.member.permissions.has('MANAGE_MESSAGES')) return message.reply('You don\'t have a `MANAGE_MESSAGES` permission to use this command');
 
 		String.prototype.embedify = function() {
 			return new Discord.MessageEmbed().setColor('RANDOM').setDescription(this);
@@ -29,15 +29,15 @@ module.exports = {
 
 		const snipe = client.snipeMap.get(message.channel.id);
 
-		if (!snipe) return message.channel.send('There\'s nothing to snipe!');
+		if (!snipe) return message.reply('There\'s nothing to snipe!');
 
 		if (args[0] == 'image') {
-			if(!args[1]) return message.channel.send('Please provide a message to retrieve the image from!'.embedify());
+			if(!args[1]) return message.reply('Please provide a message to retrieve the image from!'.embedify());
 			const image = snipe[args[1] - 1];
-			if(!image[1]) return message.channel.send('That message does not have an attached (deleted) image!'.embedify());
+			if(!image[1]) return message.reply('That message does not have an attached (deleted) image!'.embedify());
 			console.log(image[1]);
-			return message.channel.send(new Discord.MessageEmbed().setColor('RANDOM').setImage(image[1]));
+			return message.reply(new Discord.MessageEmbed().setColor('RANDOM').setImage(image[1]));
 		}
-		message.channel.send(`${snipe.map(msg => `${msg[0].content ? `${msg[0].content}${!msg[1] ? '' : '\n[IMAGE WAS DELETED]'}` : (!msg[1] ? '' : '[IMAGE WAS DELETED]')}`).join('\n\n')}`.embedify().setAuthor(`${snipe.map(msg => msg[0].author.tag)}`, `${snipe.map(msg => msg[0].author.displayAvatarURL({ dynamic: true }))}`).setTimestamp().setFooter(client.user.tag, client.user.avatarURL({ dynamic: true })));
+		message.reply(`${snipe.map(msg => `${msg[0].content ? `${msg[0].content}${!msg[1] ? '' : '\n[IMAGE WAS DELETED]'}` : (!msg[1] ? '' : '[IMAGE WAS DELETED]')}`).join('\n\n')}`.embedify().setAuthor(`${snipe.map(msg => msg[0].author.tag)}`, `${snipe.map(msg => msg[0].author.displayAvatarURL({ dynamic: true }))}`).setTimestamp().setFooter(client.user.tag, client.user.avatarURL({ dynamic: true })));
 	},
 };

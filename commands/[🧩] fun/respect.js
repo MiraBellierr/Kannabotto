@@ -21,6 +21,6 @@ module.exports = {
 	example: `${bot_prefix}respect`,
 	category: '[🧩] fun',
 	run: (client, message) => {
-		message.channel.send(`${message.author.username} has paid their respect 💙`);
+		message.reply(`${message.author.username} has paid their respect 💙`);
 	},
 };

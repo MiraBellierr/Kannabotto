@@ -37,7 +37,7 @@ module.exports = {
 
 		if (person.user.id === message.author.id) {
 
-			message.channel.send(`*punches ${message.author.username}*`);
+			message.reply(`*punches ${message.author.username}*`);
 			return;
 		}
 
@@ -46,6 +46,6 @@ module.exports = {
 			.setImage(random)
 			.setColor('RANDOM');
 
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] });
 	},
 };

@@ -102,22 +102,22 @@ module.exports = {
 				defaultValue: 0,
 				allowNull: false,
 			},
-			commonFish: {
+			tuna: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			uncommonFish: {
+			goldfish: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			rareFish: {
+			squid: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			legendaryFish: {
+			whale: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
@@ -127,27 +127,27 @@ module.exports = {
 				defaultValue: 0,
 				allowNull: false,
 			},
-			commonHunt: {
+			rabbit: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			uncommonHunt: {
+			turkey: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			rareHunt: {
+			pig: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			mythicalHunt: {
+			deer: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			legendaryHunt: {
+			dragon: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
@@ -355,12 +355,12 @@ module.exports = {
 				defaultValue: 0,
 				allowNull: false,
 			},
-			fishingRod: {
+			'fishing-rod': {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			huntingRifle: {
+			'hunting-rifle': {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
@@ -380,47 +380,47 @@ module.exports = {
 				defaultValue: 0,
 				allowNull: false,
 			},
-			commonFish: {
+			tuna: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			uncommonFish: {
+			'goldfish': {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			rareFish: {
+			squid: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			legendaryFish: {
+			whale: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			commonHunt: {
+			rabbit: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			uncommonHunt: {
+			turkey: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			rareHunt: {
+			pig: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			mythicalHunt: {
+			deer: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
 			},
-			legendaryHunt: {
+			dragon: {
 				type: Sequelize.BIGINT,
 				defaultValue: 0,
 				allowNull: false,
@@ -578,7 +578,7 @@ module.exports = {
 				defaultValue: 0,
 				allowNull: false,
 			},
-			swordFire: {
+			'fire-sword': {
 				type: Sequelize.INTEGER,
 				defaultValue: 0,
 				allowNull: false,

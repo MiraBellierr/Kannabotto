@@ -16,6 +16,7 @@ const prefixes = require('../../database/prefix.json');
 const Discord = require('discord.js');
 const { PaginateContent } = require('../../Pagination');
 const Models = require('../../create-model.js');
+const { checkPlayerExist, getUserDataAndCreate, createAllDataForNewUser } = require('../../functions');
 
 module.exports = {
 	name: 'images',
@@ -26,17 +27,20 @@ module.exports = {
 	run: async (client, message) => {
 		const user = message.author.id;
 
+		await createAllDataForNewUser(user);
+
 		const Player = Models.Player();
 		const Images = Models.Images();
 		const imagess = await Images.findOne({ where: { id: 1 } });
 		const images = imagess.dataValues.data;
-		const player = await Player.findOne({ where: { userId: user } });
+		const player = await getUserDataAndCreate(Player, user);
 
 		const result = new Discord.MessageEmbed()
 			.setDescription('No profile found 😓')
 			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
-		if (!player) return message.channel.send(result);
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
 		if (!images[message.author.id]) {
 			images[message.author.id] = [
 				{
@@ -46,7 +50,9 @@ module.exports = {
 				},
 			];
 		}
+
 		const pages = [];
+
 		for (let i = 0; i < images[message.author.id].length; i++) {
 			if (player.get('image') === images[message.author.id][i].image) {
 				const content = `${images[message.author.id][i].name} (**Current equipped image**)`;
@@ -59,6 +65,7 @@ module.exports = {
 		}
 		// eslint-disable-next-line prefer-const
 		let k, j, temparray, chunk = 10, page = [];
+
 		for (k = 0, j = pages.length; k < j; k += chunk) {
 			temparray = pages.slice(k, k + chunk);
 			page.push(temparray);
@@ -66,10 +73,12 @@ module.exports = {
 
 
 		const paginatePage = [];
+
 		for (let i = 0; i < page.length; i++) {
 			const img = page[i].map((x) => `**•** ${x}`).join('\n');
 			paginatePage.push(new Discord.MessageEmbed().setAuthor('Your image collection', message.author.displayAvatarURL({ dynamic: true })).setDescription(img).setFooter(`Pages ${i + 1}/${page.length}`));
 		}
+
 		const paginated = new PaginateContent.DiscordJS(client, message, paginatePage);
 		await paginated.init();
 	},

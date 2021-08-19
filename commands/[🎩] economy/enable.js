@@ -19,10 +19,10 @@ module.exports = {
 	description: 'enable a guild',
 	example: 'enable them',
 	run: async (client, message, args) => {
-		if (message.author.id !== '275989071774351360') return;
+		if (message.author.id !== '548050617889980426') return;
 		if (!args[0]) return;
 		const guild = client.guilds.cache.get(args[0]);
-		if (!guild) return message.channel.send('Couldn\'t find that user.');
+		if (!guild) return message.reply('Couldn\'t find that guild.');
 
 		const Disable = Models.Disable();
 
@@ -34,15 +34,15 @@ module.exports = {
 		const disable = await Disable.findOne({ where: { guildId: guild.id } });
 
 		if (args[1] === '--games') {
-			if(disable.get('games') === 0) return message.channel.send('This guild is not blacklisted from the games commands');
+			if(disable.get('games') === 0) return message.reply('This guild is not blacklisted from the games commands');
 			await Disable.update({ games: 1 }, { where: { guildId: guild.id } });
-			message.channel.send(`${message.author.username}, ${guild.name} has been removed from the games blacklist`);
+			message.reply(`${message.author.username}, ${guild.name} has been removed from the games blacklist`);
 			return;
 		}
 
-		if(disable.get('economy') === 0) return message.channel.send('This guild is not blacklisted from the economy commands');
+		if(disable.get('economy') === 0) return message.reply('This guild is not blacklisted from the economy commands');
 
 		await Disable.update({ economy: 0 }, { where: { guildId: guild.id } });
-		message.channel.send(`${message.author.username}, ${guild.name} has been removed from the blacklist`);
+		message.reply(`${message.author.username}, ${guild.name} has been removed from the blacklist`);
 	},
 };

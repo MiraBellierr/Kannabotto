@@ -24,9 +24,9 @@ module.exports = {
 	usage: '<text>',
 	run: async (client, message, args) => {
 		const text = args.join(' ');
-		if (!text) return message.channel.send(`The right syntax is \`${prefix[message.guild.id]}clyde <text>\`.`);
-		if (text.charAt(80)) return message.channel.send('The text can\'t exceed 80 characters.');
-		const m = await message.channel.send('*Loading...*');
+		if (!text) return message.reply(`The right syntax is \`${prefix[message.guild.id]}clyde <text>\`.`);
+		if (text.charAt(80)) return message.reply('The text can\'t exceed 80 characters.');
+		const m = await message.reply('*Loading...*');
 
 		axios({
 			method: 'get',
@@ -39,10 +39,10 @@ module.exports = {
 			},
 		}).then(async res => {
 			const attachment = await new Discord.MessageAttachment(await res.data.message, 'clyde.png');
-			message.channel.send(attachment);
+			message.reply({ files: [attachment] });
 			m.delete();
 		}).catch((err) => {
-			message.channel.send('An error occured, please try again later.');
+			message.reply('An error occured, please try again later.');
 			console.log(err);
 			m.delete();
 		});

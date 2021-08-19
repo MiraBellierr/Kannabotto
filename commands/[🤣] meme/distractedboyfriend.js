@@ -25,18 +25,18 @@ module.exports = {
 	description: 'Distracted boyfriend meme generator',
 	usage: '"<text 1>" "<text 2>" "<text 3>"',
 	run: async (client, message, args) => {
-		if (!args[0]) return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
-		if (!args[1]) return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
+		if (!args[0]) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
+		if (!args[1]) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
 
 		const a = args.join(' ');
 		const content = a.split('"');
 
-		if (content[0] !== '') return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
-		if (content[2] !== ' ') return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
-		if (content[4] !== ' ') return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
-		if (content[6] !== '') return message.channel.send(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
+		if (content[0] !== '') return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
+		if (content[2] !== ' ') return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
+		if (content[4] !== ' ') return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
+		if (content[6] !== '') return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}distractedboyfriend "<text 1>" "<text 2>" "<text 3>"\`.`);
 
-		const m = await message.channel.send('Please wait...');
+		const m = await message.reply('Please wait...');
 
 		axios({
 			method: 'post',
@@ -53,12 +53,11 @@ module.exports = {
 				'boxes[2][text]': content[5],
 			},
 		}).then(async response => {
-			console.log(response);
 			const attachment = new Discord.MessageAttachment(await response.data.data.url, '112126428.png');
 			m.delete();
-			message.channel.send(attachment);
+			message.reply({ files: [attachment] });
 		}).catch(err =>{
-			message.channel.send('An error occurred. Please try again.');
+			message.reply('An error occurred. Please try again.');
 			console.log(err);
 		});
 

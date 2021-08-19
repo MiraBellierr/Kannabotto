@@ -14,7 +14,7 @@
 
 const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
-const { getMember } = require('../../functions');
+const { getMember, checkPlayerExist, getUserDataAndCreate, createAllDataForNewUser } = require('../../functions');
 const prefixes = require('../../database/prefix.json');
 const Models = require('../../create-model.js');
 
@@ -32,26 +32,22 @@ module.exports = {
 		const Bag = Models.Bag();
 		const Player = Models.Player();
 
-		if (!await Bag.findOne({ where: { userId: user } })) {
-			await Bag.create({
-				userId: user,
-			});
-		}
-		const bag = await Bag.findOne({ where: { userId: user } });
+		await createAllDataForNewUser(user);
 
-
-		const player = await Player.findOne({ where: { userId: user } });
+		const bag = await getUserDataAndCreate(Bag, user);
+		const player = await getUserDataAndCreate(Player, user);
 
 		const result = new Discord.MessageEmbed()
 			.setDescription('No profile found 😓')
 			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
-		if (!player) return message.channel.send(result);
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		message.guild.members.fetch().then(async members => {
 			let board = [];
 			const playerList = await Player.findAll({ attributes: ['userId'] });
 			const playerListString = playerList.map(p => p.userId);
+
 			for(let i = 0; i < playerListString.length; i++) {
 				const value = Object.assign({ user: members.get(playerListString[i]) }, await Player.findOne({ where: { UserId: playerListString[i] } }));
 				board.push(value);
@@ -72,7 +68,7 @@ module.exports = {
 				.setImage(player.get('image'))
 				.setTimestamp();
 
-			message.channel.send(profile);
+			message.reply({ embeds: [profile] });
 		});
 	},
 };

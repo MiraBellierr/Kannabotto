@@ -51,7 +51,7 @@ module.exports = {
 				.setColor('RANDOM')
 				.setDescription('You rolled:  ' + newResults);
 
-			message.channel.send(embed);
+			message.reply({ embeds: [embed] });
 		}
 		roll(dice, sides);
 	},

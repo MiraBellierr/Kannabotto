@@ -44,6 +44,6 @@ module.exports = (client, invite) => {
 			.setDescription(`Code: ${invite.code}`)
 			.setTimestamp();
 
-		logChannel.send(embed);
+		logChannel.send({ embeds: [embed] });
 	}
 };

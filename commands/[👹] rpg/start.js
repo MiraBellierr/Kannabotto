@@ -41,7 +41,7 @@ module.exports = {
 				.setTimestamp()
 				.setImage('https://cdn.discordapp.com/attachments/716107950032420897/726607719653703780/rpg.png');
 
-			message.channel.send(embed);
+			message.reply({ embeds: [embed] });
 		}
 		else if (args[0].toLowerCase() === 'warrior') {
 			try {
@@ -60,13 +60,13 @@ module.exports = {
 					speed: 1,
 					image: 'https://cdn.discordapp.com/attachments/716107950032420897/726074544988749924/unnamed.png',
 				});
-				message.channel.send(`You have selected \`Warrior\`. Do \`${prefixes[message.guild.id]}profile\` to see your character profile.`);
+				message.reply(`You have selected \`Warrior\`. Do \`${prefixes[message.guild.id]}profile\` to see your character profile.`);
 			}
 			catch(e) {
 				if (e.name === 'SequelizeUniqueConstraintError') {
-					return message.channel.send(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
+					return message.reply(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
 				}
-				return message.channel.send(`An error occurred: \`${e}\``);
+				return message.reply(`An error occurred: \`${e}\``);
 			}
 		}
 		else if (args[0].toLowerCase() === 'monk') {
@@ -86,13 +86,13 @@ module.exports = {
 					speed: 1,
 					image: 'https://cdn.discordapp.com/attachments/716107950032420897/726074540471615588/unnamed_1.png',
 				});
-				message.channel.send(`You have selected \`Monk\`. Do \`${prefixes[message.guild.id]}profile\` to see your character profile.`);
+				message.reply(`You have selected \`Monk\`. Do \`${prefixes[message.guild.id]}profile\` to see your character profile.`);
 			}
 			catch(e) {
 				if (e.name === 'SequelizeUniqueConstraintError') {
-					return message.channel.send(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
+					return message.reply(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
 				}
-				return message.channel.send(`An error occurred: \`${e}\``);
+				return message.reply(`An error occurred: \`${e}\``);
 			}
 		}
 		else if (args[0].toLowerCase() === 'mage') {
@@ -112,17 +112,17 @@ module.exports = {
 					speed: 1,
 					image: 'https://cdn.discordapp.com/attachments/716107950032420897/726074525967581184/unnamed_2.png',
 				});
-				message.channel.send(`You have selected \`Mage\`. Do \`${prefixes[message.guild.id]}profile\` to see your character profile.`);
+				message.reply(`You have selected \`Mage\`. Do \`${prefixes[message.guild.id]}profile\` to see your character profile.`);
 			}
 			catch(e) {
 				if (e.name === 'SequelizeUniqueConstraintError') {
-					return message.channel.send(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
+					return message.reply(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
 				}
-				return message.channel.send(`An error occurred: \`${e}\``);
+				return message.reply(`An error occurred: \`${e}\``);
 			}
 		}
 		else {
-			message.channel.send(`**${message.author.username}**, That class is not in the list.`);
+			message.reply(`**${message.author.username}**, That class is not in the list.`);
 		}
 	},
 };

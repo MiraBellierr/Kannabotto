@@ -11,6 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+const Models = require('./create-model');
+const Disable = Models.Disable();
+const Blacklist = Models.Blacklist();
+const Economy = Models.Economy();
+const Inventory = Models.Inventory();
+const Bag = Models.Bag();
+const Achievement = Models.Achievement();
+const Cooldown = Models.Cooldown();
+const Player = Models.Player();
+const Discord = require('discord.js');
+const prefixes = require('./database/prefix.json');
+const fs = require('fs');
 
 module.exports = {
 	getMember: async function(message, toFind = '') {
@@ -73,7 +85,7 @@ module.exports = {
 
 		// And of course, await the reactions
 		return message
-			.awaitReactions(filter, { max: 1, time: time })
+			.awaitReactions({ filter, max: 1, time: time })
 			.then(collected => collected.first() && collected.first().emoji.name);
 
 	},
@@ -381,5 +393,982 @@ module.exports = {
 		const crime = crimes[Math.floor(Math.random() * crimes.length)];
 
 		return crime;
+	},
+
+	welcomeAndLeaveMessageCollector: async (client, message, command, file) => {
+		const channel = message.mentions.channels.first();
+
+		if (!message.guild.me.permissionsIn(channel).has('SEND_MESSAGES')) return message.reply('I do not have a permission to send a message in that channel.');
+
+		if (channel.type !== 'GUILD_TEXT') return message.reply('Only Text channel is accepted');
+
+		if (!file[message.guild.id]) {
+			file[message.guild.id] = {
+				channelID: null,
+				switch: 'off',
+				authorText: null,
+				authorLink: null,
+				titleText: null,
+				titleLink: null,
+				colorCode: null,
+				thumbnailLink: null,
+				descriptionText: null,
+				imageLink: null,
+				footerText: null,
+				footerLink: null,
+			};
+		}
+
+		const embed = new Discord.MessageEmbed();
+
+		const example = new Discord.MessageEmbed()
+			.setAuthor('Author', 'https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png')
+			.setThumbnail('https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png')
+			.setColor('#36393F')
+			.setImage('https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png')
+			.setTitle('Title')
+			.setDescription('Description')
+			.setFooter('Footer', 'https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png');
+
+		await message.reply({ embeds: [example] });
+
+		let authorText = null;
+		let authorLink = null;
+		let titleText = null;
+		let titleLink = null;
+		let colorCode = null;
+		let thumbnailLink = null;
+		let descriptionText = null;
+		let imageLink = null;
+		let footerText = null;
+		let footerLink = null;
+
+		const filter = m => m.author.id === message.author.id;
+
+		await setTimeout(function() {
+			message.reply({ embeds: [new Discord.MessageEmbed().setDescription('Please provide a text for `author` slot\n`skip` to skip\n`cancel` to cancel\n`{username}` - username of the joined member\n`{tag}` - user tag of the joined member\n`{server}` - your server name\n`{membercount}` - your server member count')] });
+		}, 1000);
+
+		const author = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 180000,
+		});
+
+		if (!author.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (author.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else if (author.first().content.toLowerCase() === 'cancel') {
+			return message.reply('canceled');
+		}
+		else {
+			authorText = author.first().content;
+
+			if (authorText.length > 256) return message.reply('The input is exceeding 256 characters. Command stopped.');
+
+			const authorText2 = authorText.replace('{username}', message.author.username);
+			const authorText3 = authorText2.replace('{tag}', message.author.tag);
+			const authorText4 = authorText3.replace('{server}', message.guild.name);
+			const authorText5 = authorText4.replace('{membercount}', message.guild.memberCount);
+
+			await message.reply({ embeds: [new Discord.MessageEmbed().setDescription('Please type what the `author icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n`skip` to skip\n`cancel` to cancel')] });
+
+			const authorIcon = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 180000,
+			});
+
+			if (!authorIcon.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+
+			if (authorIcon.first().attachments.first()) {
+				embed.setAuthor(authorText5, authorIcon.first().attachments.first().url);
+
+				authorLink = authorIcon.first().attachments.first().url;
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'server icon') {
+				embed.setAuthor(authorText5, message.guild.iconURL());
+
+				authorLink = authorIcon.first().content.toLowerCase();
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'kanna avatar') {
+				embed.setAuthor(authorText5, client.user.avatarURL());
+
+				authorLink = authorIcon.first().content.toLowerCase();
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'user avatar') {
+				embed.setAuthor(authorText5, message.author.displayAvatarURL({ dynamic: true }));
+
+				authorLink = authorIcon.first().content.toLowerCase();
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'skip') {
+				embed.setAuthor(authorText5);
+			}
+			else {
+				return message.reply('Canceled.');
+			}
+		}
+
+		await message.reply({ embeds: [new Discord.MessageEmbed().setDescription('Please provide a text for `title` slot.\n`skip` to skip\n`cancel` to cancel\n`{username}` - username of the joined member\n`{tag}` - user tag of the joined member\n`{server}` - your server name\n`{membercount}` - your server member count')] });
+
+		const title = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 180000,
+		});
+
+		if (!title.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+		if (title.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else if (title.first().content.toLowerCase() === 'cancel') {
+			return message.reply('Canceled');
+		}
+		else {
+			if (title.first().content.length > 256) return message.reply('The input is exceeding 256 characters. Command stopped.');
+
+			await message.reply('any link you want to put? please send a link.\n`skip` to skip\n`cancel` to cancel');
+
+			const url = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 30000,
+			});
+
+			if (!url.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+			if (url.first().content.toLowerCase() === 'skip') {
+				titleText = title.first().content;
+
+				const titleText2 = titleText.replace('{username}', message.author.username);
+				const titleText3 = titleText2.replace('{tag}', message.author.tag);
+				const titleText4 = titleText3.replace('{server}', message.guild.name);
+				const titleText5 = titleText4.replace('{membercount}', message.guild.memberCount);
+
+				embed.setTitle(titleText5);
+
+				message.reply('skipped');
+			}
+			else if (url.first().content.toLowerCase() === 'cancel') {
+				return message.reply('canceled');
+			}
+			else {
+				titleText = title.first().content;
+
+				if (titleText.length > 256) return message.reply('The input is exceeding 256 characters. Command stopped.');
+
+				const titleText2 = titleText.replace('{username}', message.author.username);
+				const titleText3 = titleText2.replace('{tag}', message.author.tag);
+				const titleText4 = titleText3.replace('{server}', message.guild.name);
+				const titleText5 = titleText4.replace('{membercount}', message.guild.memberCount);
+
+				embed.setTitle(titleText5);
+				embed.setURL(url.first().content);
+
+				titleLink = url.first().content;
+			}
+		}
+
+		await message.reply({ embeds: [new Discord.MessageEmbed().setDescription('Please provide a text for `description` slot.\n`skip` to skip\n`cancel` to cancel\n`{username}` - username of the joined member\n`{tag}` - user tag of the joined member\n`{mention}` - a mention of the joined member\n`{server}` - your server name\n`{membercount}` - your server member count')] });
+
+		const description = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 300000,
+		});
+
+		if (!description.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (description.first().content === 'skip') {
+			message.reply('skipped');
+		}
+		else if (description.first().content === 'cancel') {
+			return message.reply('canceled');
+		}
+		else {
+			descriptionText = description.first().content;
+
+			if (descriptionText.length > 2048) return message.reply('The input is exceeding 2048 characters. Command stopped.');
+
+			const descriptionText2 = descriptionText.replace('{username}', message.author.username);
+			const descriptionText3 = descriptionText2.replace('{tag}', message.author.tag);
+			const descriptionText4 = descriptionText3.replace('{mention}', message.author);
+			const descriptionText5 = descriptionText4.replace('{server}', message.guild.name);
+			const descriptionText6 = descriptionText5.replace('{membercount}', message.guild.memberCount);
+
+			embed.setDescription(descriptionText6);
+		}
+
+		await message.reply({ embeds: [embed] });
+
+		await setTimeout(function() {
+			message.reply({ embeds: [new Discord.MessageEmbed().setDescription('Please provide a text for `footer` slot.\n`skip` to skip\n`cancel` to cancel\n`{username}` - username of the joined member\n`{tag}` - user tag of the joined member\n`{server}` - your server name\n`{membercount}` - your server member count')] });
+		}, 1000);
+
+		const footer = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 180000,
+		});
+
+		if (!footer.size) {
+			return message.reply('Time is up.');
+		}
+
+		if (footer.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else if (footer.first().content.toLowerCase() === 'canceled') {
+			return message.reply('canceled');
+		}
+		else {
+			footerText = footer.first().content;
+
+			if (footerText.length > 2048) return message.reply('The input is exceeding 2048 characters. Command stopped.');
+
+			const footerText2 = footerText.replace('{username}', message.author.username);
+			const footerText3 = footerText2.replace('{tag}', message.author.tag);
+			const footerText4 = footerText3.replace('{server}', message.guild.name);
+			const footerText5 = footerText4.replace('{membercount}', message.guild.memberCount);
+
+			await message.reply({ embeds: [ new Discord.MessageEmbed().setDescription('Please type what the `footer icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n`skip` to skip\n`cancel` to cancel')] });
+
+			const footerIcon = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 180000,
+			});
+
+			if (!footerIcon.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+
+			if (footerIcon.first().attachments.first()) {
+				embed.setFooter(footerText5, footerIcon.first().attachments.first().url);
+
+				footerLink = footerIcon.first().attachments.first().url;
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'server icon') {
+				embed.setFooter(footerText5, message.guild.iconURL());
+
+				footerLink = footerIcon.first().content.toLowerCase();
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'kanna avatar') {
+				embed.setFooter(footerText5, client.user.avatarURL());
+
+				footerLink = footerIcon.first().content.toLowerCase();
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'user avatar') {
+				embed.setFooter(footerText5, message.author.displayAvatarURL({ dynamic: true }));
+
+				footerLink = footerIcon.first().content.toLowerCase();
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'skip') {
+				embed.setFooter(footerText5);
+			}
+			else {
+				return message.reply('Canceled.');
+			}
+		}
+
+		await message.reply({ embeds: [embed] });
+
+		await setTimeout(function() {
+			message.reply({ embeds: [new Discord.MessageEmbed().setDescription('What image on the `thumbnail` would be?\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can send any attachment (picture)\n `skip` to skip\n`cancel` to cancel')] });
+		}, 1000);
+
+		const thumbnail = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 180000,
+		});
+
+		if (!thumbnail.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (thumbnail.first().attachments.first()) {
+			embed.setThumbnail(thumbnail.first().attachments.first().url);
+
+			thumbnailLink = thumbnail.first().attachments.first().url;
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'server icon') {
+			embed.setThumbnail(message.guild.iconURL());
+
+			thumbnailLink = thumbnail.first().content.toLowerCase();
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'kanna avatar') {
+			embed.setThumbnail(client.user.avatarURL());
+
+			thumbnailLink = thumbnail.first().content.toLowerCase();
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'user avatar') {
+			embed.setThumbnail(message.author.displayAvatarURL({ dynamic: true }));
+
+			thumbnailLink = thumbnail.first().content.toLowerCase();
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			return message.reply('Canceled');
+		}
+
+		await message.reply({ embeds: [embed] });
+
+		await setTimeout(function() {
+			message.reply({ embeds: [new Discord.MessageEmbed().setDescription('What image you want to put? Attach an attachment to set it.\n`skip` to skip\n`cancel` to cancel')] });
+		}, 1000);
+
+		const image = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 180000,
+		});
+
+		if (!image.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (image.first().attachments.first()) {
+			embed.setImage(image.first().attachments.first().url);
+
+			imageLink = image.first().attachments.first().url;
+		}
+		else if (image.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			return message.reply('Canceled.');
+		}
+
+		await message.reply({ embeds: [embed] });
+
+		await setTimeout(function() {
+			message.reply({ embeds: [new Discord.MessageEmbed().setDescription('What color you want to put?\n`skip` to skip\n`cancel` to cancel').setImage('https://cdn.discordapp.com/attachments/736516166801162240/807973179392786462/color.png')] });
+
+		}, 1000);
+
+		const color = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 180000,
+		});
+
+		if (!color.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+		if (color.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else if (color.first().content.toLowerCase() === 'cancel') {
+			return message.reply('skipped');
+		}
+		else {
+			embed.setColor(color.first().content.toUpperCase());
+
+			colorCode = color.first().content.toUpperCase();
+		}
+
+		await message.reply({ embeds: [embed] });
+
+		await setTimeout(function() {
+			message.reply('This is okay? (yes) (no)');
+		}, 1000);
+
+		const confirm = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 30000,
+		});
+
+		if (!confirm.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (confirm.first().content.toLowerCase() === 'yes') {
+			file[message.guild.id] = {
+				channelID: channel.id,
+				switch: 'off',
+				authorText: authorText,
+				authorLink: authorLink,
+				titleText: titleText,
+				titleLink: titleLink,
+				colorCode: colorCode,
+				thumbnailLink: thumbnailLink,
+				descriptionText: descriptionText,
+				imageLink: imageLink,
+				footerText: footerText,
+				footerLink: footerLink,
+			};
+
+			fs.writeFile('./database/welcome.json', JSON.stringify(file, null, 2), err => {
+				if (err) return message.reply('An error occured!');
+
+				message.reply(`${command.commandName} message has been set! Type \`${prefixes[message.guild.id]}${command.command} on\` to turn on the welcome message`);
+			});
+		}
+		else if (confirm.first().content.toLowerCase() === 'no') {
+			return message.reply('Canceled.');
+		}
+		else {
+			await message.reply('Last Attempt. This is okay? (yes) (no)');
+
+			const confirm2 = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 30000,
+			});
+
+			if (!confirm2.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+
+			if (confirm2.first().content.toLowerCase() === 'yes') {
+				file[message.guild.id] = {
+					channelID: channel.id,
+					switch: 'off',
+					authorText: authorText,
+					authorLink: authorLink,
+					titleText: titleText,
+					titleLink: titleLink,
+					colorCode: colorCode,
+					thumbnailLink: thumbnailLink,
+					descriptionText: descriptionText,
+					imageLink: imageLink,
+					footerText: footerText,
+					footerLink: footerLink,
+				};
+
+				fs.writeFile('./database/welcome.json', JSON.stringify(file, null, 2), err => {
+					if (err) return message.reply('An error occured!');
+
+					message.reply(`${command.commandName} message has been set! Type \`${prefixes[message.guild.id]}${command.command} on\` to turn on the welcome message`);
+				});
+			}
+			else if (confirm2.first().content.toLowerCase() === 'no') {
+				return message.reply('Canceled.');
+			}
+			else {
+				return message.reply('Canceled.');
+			}
+		}
+	},
+
+	announceMessageCollector: async (client, message) => {
+		const channel = message.mentions.channels.first();
+
+		if (!message.guild.me.permissionsIn(channel).has('SEND_MESSAGES')) return message.reply({ content: 'I do not have a permission to send a message in that channel', allowedMentions: { repliedUser: true } });
+		if (!channel || !message.guild.channels.cache.get(channel.id) || channel.type !== 'GUILD_TEXT') return message.reply({ content: 'Please mention a valid #channel.', allowedMentions: { repliedUser: true } });
+
+		const embed = new Discord.MessageEmbed();
+
+		embed.setColor('#36393F');
+
+		await message.reply('An example where the certain slot will be placed');
+
+		const example = new Discord.MessageEmbed()
+			.setAuthor('Author', 'https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png')
+			.setThumbnail('https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png')
+			.setColor('#36393F')
+			.setImage('https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png')
+			.setTitle('Title')
+			.setDescription('Description')
+			.setFooter('Footer', 'https://www.femtoscientific.com/wp-content/uploads/2014/12/default_image_01.png');
+
+		await message.reply({ embeds: [example] });
+
+		let authorText;
+		let footerText;
+
+		const filter = m => m.author.id === message.author.id;
+
+		await setTimeout(function() {
+			message.reply('Limit: 256 characters\nTime: 30 seconds\nPlease provide a text for `author` slot. `skip` if you want to skip.');
+		}, 1000);
+
+		const author = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 30000,
+		});
+
+		if (!author.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (author.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			authorText = author.first().content;
+
+			if (authorText.length > 256) return message.reply('The character is exceeding 256 characters. Command stopped.');
+
+			await message.reply('Please type what the `author icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n\nType `Skip` to skip.');
+
+			const authorIcon = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 30000,
+			});
+
+			if (!authorIcon.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+
+			if (authorIcon.first().attachments.first()) {
+				embed.setAuthor(authorText, authorIcon.first().attachments.first().url);
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'server icon') {
+				embed.setAuthor(authorText, message.guild.iconURL());
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'kanna avatar') {
+				embed.setAuthor(authorText, client.user.avatarURL());
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'user avatar') {
+				embed.setAuthor(authorText, message.author.displayAvatarURL({ dynamic: true }));
+			}
+			else if (authorIcon.first().content.toLowerCase() === 'skip') {
+				embed.setAuthor(authorText);
+			}
+			else {
+				return message.reply('Incorrect input. Stopped.');
+			}
+		}
+
+		await message.reply('Limit: 256 characters\nTime: 30 seconds\nPlease provide a text for `title` slot. `skip` if you want to skip.');
+
+		const title = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 30000,
+		});
+
+		if (!title.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (title.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			if (title.first().content.length > 256) return message.reply('The character is exceeding 256 characters. Command stopped.');
+
+			await message.reply('any link you want to put? please send a link or type `skip` if you want to skip');
+
+			const url = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 30000,
+			});
+
+			if (!url.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+
+			if (url.first().content.toLowerCase() === 'skip') {
+				embed.setTitle(title.first().content);
+
+				message.reply('skipped');
+			}
+			else {
+				embed.setTitle(title.first().content);
+				try {
+					embed.setURL(url.first().content);
+				}
+				catch {
+					message.reply('invalid URL');
+				}
+			}
+		}
+
+		await message.reply('Limit: 2048 characters\nTime: 5 minutes\nPlease provide a text for `description` slot. `skip` if you want to skip.');
+
+		const description = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 300000,
+		});
+
+		if (!description.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (description.first().content === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			if (description.first().content.length > 2048) return message.reply('The character is exceeding 2048 characters. Command stopped.');
+
+			embed.setDescription(description.first().content);
+		}
+
+		await message.reply({ embeds: [embed] });
+		await message.reply('Limit: 2048 characters\nTime: 30 seconds\nPlease provide a text for `footer` slot. `skip` if you want to skip.');
+
+		const footer = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 30000,
+		});
+
+		if (!footer.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (footer.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			footerText = footer.first().content;
+
+			if (footerText .length > 2048) return message.reply('The character is exceeding 2048 characters. Command stopped.');
+
+			await message.reply('Please type what the `footer icon` would be.\n`Server Icon`, `Kanna Avatar`, `User Avatar` or you can attach any `attachment` (picture)?\n\nType `Skip` to skip.');
+
+			const footerIcon = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 30000,
+			});
+
+			if (!footerIcon.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+
+			if (footerIcon.first().attachments.first()) {
+				embed.setFooter(footerText, footerIcon.first().attachments.first().url);
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'server icon') {
+				embed.setFooter(footerText, message.guild.iconURL());
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'kanna avatar') {
+				embed.setFooter(footerText, client.user.avatarURL());
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'user avatar') {
+				embed.setFooter(footerText, message.author.displayAvatarURL({ dynamic: true }));
+			}
+			else if (footerIcon.first().content.toLowerCase() === 'skip') {
+				embed.setFooter(footerText);
+			}
+			else {
+				return message.reply('Incorrect input. Stopped.');
+			}
+		}
+
+		await message.reply({ embeds: [embed] });
+		await message.reply('What image on the `thumbnail` would be?\n`Server Icon`, `Kanna Avatar`, `User Icon` or you can send any attachment (picture)\n `skip` if you want to skip.');
+
+		const thumbnail = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 90000,
+		});
+
+		if (!thumbnail.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (thumbnail.first().attachments.first()) {
+			embed.setThumbnail(thumbnail.first().attachments.first().url);
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'server icon') {
+			embed.setThumbnail(message.guild.iconURL());
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'kanna avatar') {
+			embed.setThumbnail(client.user.avatarURL());
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'user avatar') {
+			embed.setThumbnail(message.author.displayAvatarURL({ dynamic: true }));
+		}
+		else if (thumbnail.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			return message.reply('Incorrect input. Stopped.');
+		}
+
+		await message.reply({ embeds: [embed] });
+		await message.reply('What image you want to put?\nAttach an attachment to set it or `skip` if you want to skip.');
+
+		const image = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 90000,
+		});
+
+		if (!image.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (image.first().attachments.first()) {
+			embed.setImage(image.first().attachments.first().url);
+		}
+		else if (image.first().content.toLowerCase() === 'skip') {
+			message.reply('skipped');
+		}
+		else {
+			return message.reply('Incorrect input. stopped.');
+		}
+
+		await message.reply({ embeds: [embed] });
+		await message.reply('This is okay? (yes) (no)');
+
+		const confirm = await message.channel.awaitMessages({
+			filter,
+			max: 1,
+			time: 30000,
+		});
+
+		if (!confirm.size) {
+			return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+		}
+
+		if (confirm.first().content.toLowerCase() === 'yes') {
+			message.reply('Alright');
+
+			channel.send({ embeds: [embed] }).catch(() => message.reply('I can\'t send a message to that channel.'));
+		}
+		else if (confirm.first().content.toLowerCase() === 'no') {
+			message.reply('Deleted.');
+		}
+		else {
+			await message.reply('Last Attempt. This is okay? (yes) (no)');
+
+			const confirm2 = await message.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 30000,
+			});
+
+			if (!confirm2.size) {
+				return message.reply({ content: 'Time is up.', allowedMentions: { repliedUser: true } });
+			}
+
+			if (confirm2.first().content.toLowerCase() === 'yes') {
+				message.reply(`Alright. Sending it to ${channel}.`);
+
+				channel.reply({ embeds: [embed] }).catch(() => message.reply('I can\'t send a message to that channel.'));
+			}
+			else if (confirm2.first().content.toLowerCase() === 'no') {
+				message.reply('Deleted.');
+			}
+			else {
+				message.reply('Deleted.');
+			}
+		}
+	},
+
+	checkGuildDisable: async (message, value) => {
+
+		if (!await Disable.findOne({ where: { guildId: message.guild.id } })) {
+			await Disable.create({
+				guildId: message.guild.id,
+			});
+		}
+
+		const disable = await Disable.findOne({ where: { guildId: message.guild.id } });
+
+		if (disable.get(value) === 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	},
+
+	checkBlacklist: async (message, value) => {
+		const blacklist = await module.exports.getUserDataAndCreate(Blacklist, message.author.id);
+
+		if (blacklist.get(value) === 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	},
+
+	guildDisableMessage: async (message) => {
+		const embed = new Discord.MessageEmbed()
+			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+			.setTitle('This command is disabled for this guild')
+			.setDescription('This is most likely because this guild has broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
+			.setTimestamp();
+
+		return message.reply({ embeds: [embed] });
+	},
+
+	blacklistMessage: async (message) => {
+		const embed = new Discord.MessageEmbed()
+			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+			.setTitle('You have been blacklisted from this command')
+			.setDescription('This is most likely because you have broken one of our rules.\n To appeal: [click here](https://forms.gle/Fj2322CcFAsTn6pr6)')
+			.setTimestamp();
+
+		return message.reply({ embeds: [embed] });
+	},
+
+	buyItem: async (message, item, price, amount, emoji) => {
+		const economy = await module.exports.getUserDataAndCreate(Economy, message.author.id);
+		const inventory = await module.exports.getUserDataAndCreate(Inventory, message.author.id);
+
+		const itemObject = {};
+
+		itemObject[item] = inventory.get(item) + 1;
+
+		if (economy.get('balance') < price * amount) return message.reply(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
+
+		await Economy.update({ balance: economy.get('balance') - price * amount }, { where: { userId: message.author.id } });
+		await Inventory.update(itemObject, { where: { userId: message.author.id } });
+
+		message.reply(`**${message.author.username}**, You have bought **${amount}** ${emoji} **${item}**!`);
+	},
+
+	sellItem: async (message, item, price, amount, emoji) => {
+		const economy = await module.exports.getUserDataAndCreate(Economy, message.author.id);
+		const inventory = await module.exports.getUserDataAndCreate(Inventory, message.author.id);
+
+		const itemObject = {};
+
+		itemObject[item] = inventory.get(item) - 1;
+
+		if (inventory.get(item) < amount) return message.reply(`**${message.author.username}**, You don't have enough item to sell!`);
+
+		await Economy.update({ balance: economy.get('balance') + price * amount }, { where: { userId: message.author.id } });
+		await Inventory.update(itemObject, { where: { userId: message.author.id } });
+
+		const earn = price * amount;
+
+		message.reply(`**${message.author.username}**, You have sold **${amount}** ${emoji} **${item}** and earned <a:jasminecoins:868105109748469780> **${earn.toLocaleString()}** from it!`);
+	},
+
+	buyWeapon: async (client, message, weapon, price, emoji) => {
+		const bag = await module.exports.getUserDataAndCreate(Bag, message.author.id);
+		const economy = await module.exports.getUserDataAndCreate(Economy, message.author.id);
+		const playerExist = await module.exports.checkPlayerExist(message.author.id);
+
+		const weaponObject = {};
+
+		weaponObject[weapon] = 1;
+
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!playerExist) return message.reply({ embeds: [result] });
+		if (bag.get(weapon) === 1) return;
+		if (economy.get('balance') < price) return message.reply(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
+
+		await Economy.update({ balance: economy.get('balance') - price }, { where: { userId: message.author.id } });
+		await Bag.update(weaponObject, { where: { userId: message.author.id } });
+
+		message.reply(`**${message.author.username}**, You have bought ${emoji} **${weapon}**! Do \`${prefixes[message.guild.id]}equip\` to equip a weapon`);
+	},
+
+	getUserDataAndCreate: async (Model, userId) => {
+		if (!await Model.findOne({ where: { userId } })) {
+			await Model.create({
+				userId,
+			});
+		}
+		return await Model.findOne({ where: { userId } });
+	},
+
+	createAllDataForNewUser: async (userId) => {
+		if (!await Achievement.findOne({ where: { userId } })) {
+			await Achievement.create({
+				userId,
+			});
+		}
+
+		if (!await Economy.findOne({ where: { userId } })) {
+			await Economy.create({
+				userId,
+			});
+		}
+
+		if (!await Inventory.findOne({ where: { userId } })) {
+			await Inventory.create({
+				userId,
+			});
+		}
+
+		if (!await Cooldown.findOne({ where: { userId } })) {
+			await Cooldown.create({
+				userId,
+			});
+		}
+	},
+
+	cooldown: async (doc, userId, timeOut) => {
+		const ms = await import('parse-ms');
+		const cooldown = await module.exports.getUserDataAndCreate(Cooldown, userId);
+
+		const timer = await cooldown.get(doc);
+
+		if (timer !== null && timeOut - (Date.now() - timer) > 0) {
+			const timeObj = ms.default(timeOut - (Date.now() - timer));
+			return { bool: true, seconds: timeObj.seconds, minutes: timeObj.minutes, hours: timeObj.hours, days: timeObj.days };
+		}
+		else {
+			return false;
+		}
+	},
+	checkPlayerExist: async (userId) => {
+		const player = await module.exports.getUserDataAndCreate(Player, userId);
+
+		if (player.get('start') === 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	},
+	equipWeapon: async (message, weapon, emoji, ability) => {
+		const userId = message.author.id;
+		const bag = await module.exports.getUserDataAndCreate(Bag, userId);
+		const player = await module.exports.getUserDataAndCreate(Player, userId);
+
+		if (bag.get(weapon) === 0) return message.reply(`**${message.author.username}**, You don't have this weapon.`);
+		if (bag.get('weapon') === weapon) return message.reply(`**${message.author.username}**, You are currently equipped this weapon!`);
+
+		if (bag.get('weapon') === 'sword') {
+			await Player.update({ physicalAttack: player.get('physicalAttack') - 10 }, { where: { userId } });
+		}
+		else if (bag.get('weapon') === 'staff') {
+			await Player.update({ magicalAttack: player.get('magicalAttack') - 10 }, { where: { userId } });
+		}
+		else if (bag.get('weapon') === 'shield') {
+			await Player.update({ physicalResistance: player.get('physicalResistance') - 5 }, { where: { userId } });
+			await Player.update({ magicalResistance: player.get('magicalResistance') - 5 }, { where: { userId } });
+		}
+		else if (bag.get('weapon') === 'bow') {
+			await Player.update({ physicalAttack: player.get('physicalAttack') - 6 }, { where: { userId } });
+			await Player.update({ physicalResistance: player.get('physicalResistance') - 4 }, { where: { userId } });
+		}
+		else if (bag.get('weapon') === 'fire-sword') {
+			await Player.update({ physicalAttack: player.get('physicalAttack') - 5 }, { where: { userId } });
+			await Player.update({ magicalAttack: player.get('magicalAttack') - 5 }, { where: { userId } });
+		}
+		else {
+			message.reply(`**${message.author.username}**, You are currently equipped this weapon!`);
+		}
+
+		await Bag.update({ weapon }, { where: { userId } });
+		await Player.update(ability, { where: { userId } });
+
+		message.reply(`**${message.author.username}**, you have equipped ${emoji} ${weapon} to ${player.get('name')}!`);
 	},
 };
