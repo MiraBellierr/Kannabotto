@@ -23,8 +23,8 @@ module.exports = {
 	example: `${bot_prefix}eval <code to eval>`,
 	usage: '<code to eval>',
 	run: async (client, message, args) => {
-		const clientApp = await client.fetchApplication();
-		const owner = clientApp.owner.id;
+		const clientApplication = await client.application.fetch(client.user.id);
+		const owner = clientApplication.owner.id;
 
 		if (message.author.id !== owner) {
 			return message.reply('You\'re not the owner of me!!')
