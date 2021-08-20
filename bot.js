@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const { Client, Collection, MessageEmbed } = require('discord.js');
-const { TOKEN, bot_prefix } = require('./config.json');
+const { TOKEN, bot_prefix, authtopggwebhook } = require('./config.json');
 const fs = require('fs');
 const timeoutxp = new Set();
 const prefixes = require('./database/prefix.json');
@@ -84,7 +84,7 @@ const { createAllDataForNewUser, getUserDataAndCreate, checkGuildDisable, checkB
 
 const app = express();
 
-const webhook = new Topgg.Webhook('656432');
+const webhook = new Topgg.Webhook(authtopggwebhook);
 
 app.post('/dblwebhook', webhook.listener(async vote => {
 	const Economy = Models.Economy();
@@ -113,7 +113,7 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 
 }));
 
-app.listen(8000);
+app.listen(81);
 
 client.on('messageCreate', async message => {
 	if (message.author.bot) return;
