@@ -54,10 +54,9 @@ module.exports = {
 			await Economy.update({ balance: economy.get('balance') - 20 }, { where: { userId: user } });
 
 			let xpAdd = Math.floor(Math.random() * 300) + 1;
-			const timeOut2 = 3.6e+6;
-			const lastbear = await cooldown.get('bear');
+			const bearTimer = await cooldown('bear', user, 3.6e+6);
 
-			if (lastbear !== null && timeOut2 - (Date.now() - lastbear) > 0) {
+			if (bearTimer.bool) {
 				const xpAdd2 = Math.floor(Math.random() * 300) + 1;
 				xpAdd = ((50 / 100) * xpAdd2) + xpAdd2;
 			}

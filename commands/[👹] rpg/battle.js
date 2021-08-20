@@ -269,10 +269,8 @@ module.exports = {
 							enemyHealth;
 
 							let xpAdd = 10;
-							const timeOut2 = 3.6e+6;
-							const lastbear = await cooldown.get('bear');
 
-							if (lastbear !== null && timeOut2 - (Date.now() - lastbear) > 0) {
+							if (bearTimer.bool) {
 								xpAdd = ((50 / 100) * 10) + 10;
 							}
 
@@ -287,10 +285,7 @@ module.exports = {
 
 							let xpAdd = 10;
 
-							const timeOut2 = 3.6e+6;
-							const lastbear = await cooldown.get('bear');
-
-							if (lastbear !== null && timeOut2 - (Date.now() - lastbear) > 0) {
+							if (bearTimer.bool) {
 								xpAdd = ((50 / 100) * 10) + 10;
 							}
 
@@ -1025,10 +1020,7 @@ module.exports = {
 					playerHealth = 0;
 					xpAdd = 10;
 
-					const timeOut2 = 3.6e+6;
-					const lastbear = await cooldown.get('bear');
-
-					if (lastbear !== null && timeOut2 - (Date.now() - lastbear) > 0) {
+					if (bearTimer.bool) {
 						xpAdd = ((50 / 100) * 10) + 10;
 					}
 
