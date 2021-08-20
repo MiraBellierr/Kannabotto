@@ -29,15 +29,16 @@ const pollEmbed = async (msg, title, options, emojiList = defEmojiList.slice()) 
 	}
 	const usedEmojis = Object.keys(emojiInfo);
 
-	const poll = await msg.reply({ embeds: [embedBuilder(title, msg.author.tag).setDescription(text)] });
+	const poll = await msg.reply({ embeds: [embedBuilder(title, msg.author.tag, text)] });
 	for (const emoji of usedEmojis) await poll.react(emoji);
 };
 
-const embedBuilder = (title, author) => {
+const embedBuilder = (title, author, text) => {
 	return new MessageEmbed()
 		.setColor('RANDOM')
 		.setTitle(`Poll - ${title}`)
-		.setFooter(`Poll created by ${author}`);
+		.setFooter(`Poll created by ${author}`)
+		.setDescription(text);
 };
 
 module.exports = pollEmbed;
