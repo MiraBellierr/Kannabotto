@@ -23,4 +23,8 @@ module.exports = async client => {
 
 	loadItems(client);
 	loadWeapons(client);
+
+	const channel = client.channels.cache.get('865525377458634762');
+
+	channel.send(`${client.user.username} has been restarted. Maybe there was an error.`);
 };
