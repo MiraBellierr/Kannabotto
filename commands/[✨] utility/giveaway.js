@@ -27,7 +27,7 @@ module.exports = {
 	run: async (client, message, args) => {
 		const prefix = prefixes[message.guild.id];
 
-		if (!message.member.permissions.has('MANAGE_MESSAGES')) return message.reply('You don\'t have `MANAGE_MESSAGES` permission to use this command.');
+		if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry you don\'t have manage channels permission to use this command.');
 
 		if (!args[0]) {
 			const embed = new Discord.MessageEmbed()
