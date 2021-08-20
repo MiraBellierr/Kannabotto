@@ -25,8 +25,8 @@ module.exports = {
 	example: `${bot_prefix}unban <mention | id> [reason]`,
 	usage: '<mention | id> [reason]',
 	run: async (client, message, args) => {
-		if (!message.guild.me.permissions.has('BAN_MEMBERS')) return message.reply('i don\'t have ban permission for me to unban this user').then(m => m.delete({ timeout: 5000 }));
-		if (!message.member.permissions.has('BAN_MEMBERS')) return message.reply('You don\'t have ban permission to use this command.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.guild.me.permissions.has('BAN_MEMBERS')) return message.reply('I don\'t have ban permission. Please enable it for me to be able to unban users.');
+		if (!message.member.permissions.has('BAN_MEMBERS')) return message.reply('Sorry you don\'t have ban permission to use this command.');
 
 		const unbanned = message.mentions.users.first() || client.users.cache.get(args[0]);
 		const reason = args.slice(1).join(' ');

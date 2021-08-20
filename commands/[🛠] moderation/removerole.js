@@ -24,8 +24,8 @@ module.exports = {
 	usage: '<mention | id | username> <role>',
 	run: async (client, message, args) => {
 
-		if (!message.member.permissions.has('MANAGE_ROLES')) return message.reply('You don\'t have `MANAGE_ROLES` permission to do that!').then(m => m.delete({ timeout: 5000 }));
-		if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.reply('I don\'t have `MANAGE_ROLES` permission to assign a member a role.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.permissions.has('MANAGE_ROLES')) return message.reply('Sorry you don\'t have manage roles permission to use this command.');
+		if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.reply('I don\'t have manage roles permission. Please enable it for me to be able to assign roles');
 		const rMember = await getMember(message, args[0]);
 		if (!args[0]) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}removerole <mention | id | user> <role>\`.`);
 		if (!rMember) return message.reply('The user can\'t be found.');

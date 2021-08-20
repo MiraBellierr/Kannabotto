@@ -29,8 +29,8 @@ module.exports = {
 	example: `${bot_prefix}mute <mention | id | username> <duration> [reason]`,
 	usage: '<mention | id | username> <duration> [reason]',
 	run: async (client, message, args) => {
-		if (!message.member.permissions.has('KICK_MEMBERS')) return message.reply('Sorry, you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
-		if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.reply('I don\'t have `MANAGE_ROLES` permission for me to be able to mute someone.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.permissions.has('KICK_MEMBERS')) return message.reply('Sorry, you don\'t have kick members permission to use this command.');
+		if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.reply('I don\'t have manage roles permission. Please enable it for me to be able to mute members.');
 		if (!args.length) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}mute <mention | id | username> <duration> [reason]\`.`);
 
 		const tomute = await getMember(message, args[0]);

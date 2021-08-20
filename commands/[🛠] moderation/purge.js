@@ -28,17 +28,17 @@ module.exports = {
 
 		// Member doesn't have permissions
 		if (!message.member.permissions.has('MANAGE_MESSAGES')) {
-			return message.reply('You don\'t have `MANAGE_MASSAGES` permission').then(m => m.delete({ timeout: 5000 }));
+			return message.reply('Sorry you don\'t have manage messages permission to use this command.');
 		}
 
 		// Check if args[0] is a number
 		if (isNaN(args[0]) || parseInt(args[0]) <= 0) {
-			return message.reply('Yeah.... That\'s not a number? I also can\'t delete 0 messages btw.').then(m => m.delete({ timeout: 5000 }));
+			return message.reply('Yeah.... That\'s not a number? I also can\'t delete 0 messages btw.');
 		}
 
 		// Maybe the bot can't delete messages
 		if (!message.guild.me.permissions.has('MANAGE_MESSAGES')) {
-			return message.reply('Sorry... I can\'t delete messages. Make sure to check my `MANAGE_MESSAGES` permission').then(m => m.delete({ timeout: 5000 }));
+			return message.reply('Sorry... I can\'t delete messages. Make sure to check my `MANAGE_MESSAGES` permission');
 		}
 
 		let deleteAmount;

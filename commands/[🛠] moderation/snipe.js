@@ -21,7 +21,7 @@ module.exports = {
 	category: '[🛠] moderation',
 	example: `${bot_prefix}snipe`,
 	run: (client, message, args) => {
-		if (!message.member.permissions.has('MANAGE_MESSAGES')) return message.reply('You don\'t have a `MANAGE_MESSAGES` permission to use this command');
+		if (!message.member.permissions.has('MANAGE_MESSAGES')) return message.reply('Sorry you don\'t have manage messages permission to use this command');
 
 		String.prototype.embedify = function() {
 			return new Discord.MessageEmbed().setColor('RANDOM').setDescription(`${this}`);

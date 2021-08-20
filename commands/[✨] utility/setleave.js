@@ -29,7 +29,7 @@ module.exports = {
 	example: `${bot_prefix}setleave <#channel | on | off>`,
 	usage: '<#channel | on | off>',
 	run: async (client, message, args) => {
-		if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('You don\'t have `MANAGE_CHANNELS` permission to run this command.');
+		if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry you don\'t have manage channels permission to use this command.');
 
 		if (message.mentions.channels.first()) {
 			await welcomeAndLeaveMessageCollector(client, message, command, file);

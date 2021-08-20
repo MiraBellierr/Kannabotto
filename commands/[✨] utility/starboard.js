@@ -24,6 +24,8 @@ module.exports = {
 	description: 'A :star: starboard channel for the server',
 	example: `${bot_prefix}starboard`,
 	run: async (client, message, args) => {
+		if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry, You don\'t have manage channels permission to use this command!');
+
 		const prefix = prefixes[message.guild.id];
 		const option = args.join(' ');
 
@@ -46,7 +48,6 @@ module.exports = {
 			message.reply({ embeds: [embed1] });
 		}
 		else if (option.match('set')) {
-			if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry, You need `MANAGE_CHANNELS` permission to use this command!');
 
 			const inputmessage = message.mentions.channels.first();
 
@@ -69,8 +70,6 @@ module.exports = {
 			}
 		}
 		else if (option.match('star')) {
-			if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry, You need `MANAGE_CHANNELS` permission to use this command!');
-
 			const inputmessage = parseInt(args[1]);
 
 			if (!args[1]) return message.reply(`The right syntax is \`${prefix}starboard star <number>\`.`);
@@ -96,7 +95,6 @@ module.exports = {
 		}
 
 		if (option.match('on')) {
-			if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry, You need `MANAGE_CHANNELS` permission to use this command!');
 			if (starboard[message.guild.id].channel === 'none') return message.reply('The channel has not been set yet for this guild.');
 
 			starboard[message.guild.id].checker = 1;
@@ -114,7 +112,6 @@ module.exports = {
 			message.reply({ embeds: [embed3] });
 		}
 		if (option.match('off')) {
-			if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry, You need `MANAGE_CHANNELS` permission to use this command!');
 			if (starboard[message.guild.id].channel === 'none') return message.reply('The channel has not been set yet for this guild.');
 
 			starboard[message.guild.id].checker = 0;

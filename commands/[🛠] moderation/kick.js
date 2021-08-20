@@ -26,14 +26,14 @@ module.exports = {
 	example: `${bot_prefix}kick <mention | id | username> [reason]`,
 	usage: '<mention | id | username> [reason]',
 	run: async (client, message, args) => {
-		if (!message.member.permissions.has('KICK_MEMBERS')) return message.reply('Sorry you don\'t have `KICK_MEMBERS` permission to use this!').then(m => m.delete({ timeout: 5000 }));
-		if (!message.guild.me.permissions.has('KICK_MEMBERS')) return message.reply('I don\'t have `KICK_MEMBERS` permission to kick members.').then(m => m.delete({ timeout: 5000 }));
+		if (!message.member.permissions.has('KICK_MEMBERS')) return message.reply('Sorry you don\'t have kick members permission to use this command.');
+		if (!message.guild.me.permissions.has('KICK_MEMBERS')) return message.reply('I don\'t have kick members permission. Please enable it for me to be able to kick members');
 		if (!args[0]) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}kick <mention | id | username> [reason]\`.`);
 
 		const member = await getMember(message, args[0]);
 
 		if (!member) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}kick <mention | id | username> [reason]\`.`);
-		if (!member.kickable) return message.reply('Seems like I can\'t kick that user or I don\'t have a kick permission');
+		if (!member.kickable) return message.reply('Seems like I can\'t kick that user');
 		if (member.user.id === '275989071774351360') return message.reply('Seems like I can\'t kick my owner!');
 		if (member.user.id === message.author.id) return message.reply('Seems like you can\'t kick yourself');
 		if (member.user.id === client.user.id) return message.reply('Seems like I can\'t kick myself');

@@ -38,7 +38,7 @@ module.exports = {
 		}
 
 		if (!args[0]) return message.reply(`My prefix for this guild is **${prefixes[message.guild.id]}**. To change a prefix, do \`${prefixes[message.guild.id]}prefix <new prefix>\``);
-		if (!message.member.permissions.has('MANAGE_GUILD')) return message.reply(`**${message.author.username}**, You don't have \`MANAGE_SERVER\` permission to use this command.`);
+		if (!message.member.permissions.has('MANAGE_GUILD')) return message.reply(`**${message.author.username}**, Sorry you don't have manage server permission to use this command.`);
 		if (regex.test(args[0]) || regex2.test(args[0]) || regex3.test(args[0]) || regex4.test(args[0]) || regex5.test(args[0]) || regex6.test(args[0]) || regex7.test(args[0]) || regex8.test(args[0]) || regex9.test(args[0]) || args[0] === '@everyone' || args[0] === '@here' || args[0] === '@!everyone' || args[0] === '@!everyone') return message.reply('I am unable to change to that prefix.');
 
 		prefixes[message.guild.id] = args[0];
