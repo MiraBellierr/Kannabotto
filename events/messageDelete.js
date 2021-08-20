@@ -27,7 +27,7 @@ module.exports = (client, message) => {
 
 	if (message.author.bot) return;
 
-	const image = message.attachments.size > 0 ? extension(message.attachments.array()[0].proxyURL) : false;
+	const image = message.attachments.size > 0 ? extension(message.attachments.first().proxyURL) : false;
 
 	message.content.replace('\n', '');
 
