@@ -29,7 +29,7 @@ module.exports = {
 		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
 		queue.songs = [];
-		queue.connection.destroy();
+		queue.connection._state.subscription.player.stop();
 		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** stopped the music!`).setColor('RANDOM')] }).catch(console.error);
 	},
 };

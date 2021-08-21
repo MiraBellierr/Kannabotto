@@ -109,7 +109,7 @@ module.exports = {
 
 				const queue = message.client.queue.get(message.guild.id);
 
-				queue.connection.destroy();
+				queue.connection._state.subscription.player.stop();
 
 				message.client.queue.delete(message.guild.id);
 
