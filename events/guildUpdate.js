@@ -68,7 +68,7 @@ module.exports = async (client, oldGuild, newGuild) => {
 
 			logChannel.send({ embeds: [embed] });
 		}
-		else if (newGuild.owner.user.id !== oldGuild.owner.user.id) {
+		else if (newGuild.ownerId !== oldGuild.ownerId) {
 			const embed = new MessageEmbed()
 				.setColor(color)
 				.setAuthor('Guild Owner Updated', newGuild.iconURL({ dynamic: true }))
