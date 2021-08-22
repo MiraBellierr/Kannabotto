@@ -17,7 +17,7 @@ const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const yts = require('yt-search');
 const Discord = require('discord.js');
-const { joinVoiceChannel } = require('@discordjs/voice');
+const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 
 module.exports = {
 	name: 'play',
@@ -94,11 +94,13 @@ module.exports = {
 			client.queue.set(message.guild.id, queueConstruct);
 
 			try {
-				queueConstruct.connection = await joinVoiceChannel({
+				joinVoiceChannel({
 					channelId: channel.id,
 					guildId: channel.guild.id,
 					adapterCreator: channel.guild.voiceAdapterCreator,
 				});
+
+				queueConstruct.connection = getVoiceConnection(channel.guild.id);
 
 				play(queueConstruct.songs[0], message);
 
