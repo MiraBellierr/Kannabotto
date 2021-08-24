@@ -29,6 +29,12 @@ module.exports = {
 		const member = await getMember(message, args.join(' '));
 		const user = member.user.id;
 
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
 		const Bag = Models.Bag();
 		const Player = Models.Player();
 
@@ -36,12 +42,6 @@ module.exports = {
 
 		const bag = await getUserDataAndCreate(Bag, user);
 		const player = await getUserDataAndCreate(Player, user);
-
-		const result = new Discord.MessageEmbed()
-			.setDescription('No profile found 😓')
-			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		message.guild.members.fetch().then(async members => {
 			let board = [];

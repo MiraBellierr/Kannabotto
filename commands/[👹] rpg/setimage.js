@@ -27,6 +27,12 @@ module.exports = {
 	run: async (client, message, args) => {
 		const user = message.author.id;
 
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
 		const Player = Models.Player();
 		const Images = Models.Images();
 		const imagess = await Images.findOne({ where: { id: 1 } });
@@ -35,12 +41,6 @@ module.exports = {
 		await createAllDataForNewUser(user);
 
 		const player = await getUserDataAndCreate(Player, user);
-
-		const result = new Discord.MessageEmbed()
-			.setDescription('No profile found 😓')
-			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		if (!images[message.author.id]) {
 			images[message.author.id] = [

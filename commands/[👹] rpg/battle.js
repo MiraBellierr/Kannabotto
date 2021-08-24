@@ -32,6 +32,12 @@ module.exports = {
 	run: async (client, message, args) => {
 		const user = message.author.id;
 
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
 		const Inventory = Models.Inventory();
 		const Economy = Models.Economy();
 		const Bag = Models.Bag();
@@ -51,12 +57,6 @@ module.exports = {
 		let emoji = '';
 
 		if (bag.get('weapon') !== 'No Weapon') emoji = client.weapons.get(bag.get('weapon')).emoji;
-
-		const result = new Discord.MessageEmbed()
-			.setDescription('No profile found 😓')
-			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		const timer = await cooldown('battle', user, 15000);
 		const bearTimer = await cooldown('bear', user, 3.6e+6);

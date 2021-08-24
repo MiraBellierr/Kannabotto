@@ -26,6 +26,12 @@ module.exports = {
 	run: async (client, message) => {
 		const user = message.author.id;
 
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
 		const Cooldown = Models.Cooldown();
 		const Player = Models.Player();
 		const Economy = Models.Economy();
@@ -34,13 +40,6 @@ module.exports = {
 
 		const player = await getUserDataAndCreate(Player, user);
 		const economy = await getUserDataAndCreate(Economy, user);
-
-
-		const result = new Discord.MessageEmbed()
-			.setDescription('No profile found 😓')
-			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		if (economy.get('balance') < 20) return message.reply(`**${message.author.username}**, you don't have enough coins in your pocket to train your character.`);
 

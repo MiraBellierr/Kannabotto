@@ -28,15 +28,15 @@ module.exports = {
 	run: async (client, message, args) => {
 		const user = message.author.id;
 
-		const Player = Models.Player();
-
-		await createAllDataForNewUser(user);
-
 		const result = new Discord.MessageEmbed()
 			.setDescription('No profile found 😓')
 			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
-		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
+		const Player = Models.Player();
+
+		await createAllDataForNewUser(user);
 
 		if (!args[0]) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}setname <name>\`.`);
 

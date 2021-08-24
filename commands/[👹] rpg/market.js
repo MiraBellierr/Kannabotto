@@ -26,15 +26,15 @@ module.exports = {
 	run: async (client, message) => {
 		const user = message.author.id;
 
-		const Economy = Models.Economy();
-
-		const economy = await getUserDataAndCreate(Economy, user);
-
 		const result = new Discord.MessageEmbed()
 			.setDescription('No profile found 😓')
 			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
 		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
+		const Economy = Models.Economy();
+
+		const economy = await getUserDataAndCreate(Economy, user);
 
 		let weapons = [];
 

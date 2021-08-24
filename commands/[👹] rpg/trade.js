@@ -30,6 +30,12 @@ module.exports = {
 	run: async (client, message, args) => {
 		const user = message.author.id;
 
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
 		if (args.length < 1) return message.reply(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
 		const otherUser = await getMember(message, args[0]);
@@ -37,19 +43,14 @@ module.exports = {
 		if (!otherUser) return message.reply(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 		if (otherUser.user.id === message.author.id) return message.reply(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
+		if (!checkPlayerExist(otherUser.user.id)) return message.reply('The person that you want to trade with doesn\'t have a profile. do `J.start` to create a profile.');
+
 		const Player = Models.Player();
 		const Images = Models.Images();
 		const imagess = await Images.findOne({ where: { id: 1 } });
 		const images = imagess.dataValues.data;
 		const player = await getUserDataAndCreate(Player, user);
 		const mentionedPlayer = await getUserDataAndCreate(Player, otherUser.user.id);
-
-		const result = new Discord.MessageEmbed()
-			.setDescription('No profile found 😓')
-			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
-		if (!checkPlayerExist(otherUser.user.id)) return message.reply('The person that you want to trade with doesn\'t have a profile. do `J.start` to create a profile.');
 
 		if (!images[message.author.id]) {
 			images[message.author.id] = [

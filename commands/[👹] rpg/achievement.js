@@ -28,6 +28,13 @@ module.exports = {
 	example: `${bot_prefix}achievement`,
 	run: async (client, message) => {
 		const user = message.author.id;
+
+		const result = new Discord.MessageEmbed()
+			.setDescription('No profile found 😓')
+			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
+
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
+
 		const m = await message.reply('Please wait...');
 		const Player = Models.Player();
 		const Economy = Models.Economy();
@@ -40,13 +47,6 @@ module.exports = {
 		const economy = await getUserDataAndCreate(Economy, user);
 		const achievement = await getUserDataAndCreate(Achievement, user);
 		const inventory = await getUserDataAndCreate(Inventory, user);
-
-		const result = new Discord.MessageEmbed()
-			.setDescription('No profile found 😓')
-			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
-
 
 		const embed2 = new Discord.MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))

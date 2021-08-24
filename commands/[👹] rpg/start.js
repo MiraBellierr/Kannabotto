@@ -66,7 +66,7 @@ module.exports = {
 				if (e.name === 'SequelizeUniqueConstraintError') {
 					return message.reply(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
 				}
-				return message.reply(`An error occurred: \`${e}\``);
+				return message.reply(`An error occurred: \`${e.name}\``);
 			}
 		}
 		else if (args[0].toLowerCase() === 'monk') {
@@ -92,7 +92,7 @@ module.exports = {
 				if (e.name === 'SequelizeUniqueConstraintError') {
 					return message.reply(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
 				}
-				return message.reply(`An error occurred: \`${e}\``);
+				return message.reply(`An error occurred: \`${e.name}\``);
 			}
 		}
 		else if (args[0].toLowerCase() === 'mage') {
@@ -118,7 +118,7 @@ module.exports = {
 				if (e.name === 'SequelizeUniqueConstraintError') {
 					return message.reply(`**${message.author.username}**, You have already selected your class. do \`${prefixes[message.guild.id]}profile\` to see your character profile`);
 				}
-				return message.reply(`An error occurred: \`${e}\``);
+				return message.reply(`An error occurred: \`${e.name}\``);
 			}
 		}
 		else {
