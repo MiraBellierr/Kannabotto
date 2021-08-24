@@ -40,12 +40,27 @@ module.exports = (client, oldMessage, newMessage) => {
 		if(!logChannel) return;
 
 		if (newMessage !== oldMessage) {
+
+			const oldContent = Discord.Util.splitMessage(oldMessage.content, {
+				maxLength: 1024,
+				char: '\n',
+				prepend: '',
+				append: '',
+			});
+
+			const newContent = Discord.Util.splitMessage(newMessage.content, {
+				maxLength: 1024,
+				char: '\n',
+				prepend: '',
+				append: '',
+			});
+
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Message Edited', newMessage.guild.iconURL({ dynamic: true }))
 				.setColor('RANDOM')
 				.setDescription(`User: <@${newMessage.author.id}>\nChannel: <#${newMessage.channel.id}>`)
-				.addField('Before:', oldMessage.content)
-				.addField('After:', newMessage.content)
+				.addField('Before:', oldContent[0])
+				.addField('After:', newContent[0])
 				.setTimestamp()
 				.setFooter(`ID: ${newMessage.id}`);
 
