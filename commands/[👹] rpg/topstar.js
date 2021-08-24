@@ -14,9 +14,7 @@
 
 const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
-const prefixes = require('../../database/prefix.json');
 const Models = require('../../create-model.js');
-const { createAllDataForNewUser, checkPlayerExist } = require('../../functions');
 
 module.exports = {
 	name: 'topstar',
@@ -27,18 +25,9 @@ module.exports = {
 	run: async (client, message) => {
 
 		message.guild.members.fetch().then(async members => {
-			const user = message.author.id;
 			const m = await message.reply('*Loading...*');
 
 			const Player = Models.Player();
-
-			await createAllDataForNewUser(user);
-
-			const result = new Discord.MessageEmbed()
-				.setDescription('No profile found 😓')
-				.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-			if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 			let board = [];
 			const playerList = await Player.findAll({ attributes: ['userId'] });
