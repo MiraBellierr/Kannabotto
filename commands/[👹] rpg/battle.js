@@ -17,7 +17,7 @@ const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const fs = require('fs');
 const prefixes = require('../../database/prefix.json');
-const { getMember, promptMessage, getUserDataAndCreate, checkPlayerExist, cooldown, createAllDataForNewUser } = require('../../functions');
+const { getMember, promptMessage, getUserDataAndCreate, checkPlayerExist, cooldown, createAllDataForNewUser, xpGain } = require('../../functions');
 const randomcharacter = require('../../database/randomCharacter.json');
 const redirect = require('../../database/redirect.json');
 const Models = require('../../create-model.js');
@@ -38,7 +38,6 @@ module.exports = {
 
 		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
-		const Inventory = Models.Inventory();
 		const Economy = Models.Economy();
 		const Bag = Models.Bag();
 		const Cooldown = Models.Cooldown();
@@ -57,7 +56,6 @@ module.exports = {
 
 		await createAllDataForNewUser(user);
 
-		const inventory = await getUserDataAndCreate(Inventory, user);
 		const economy = await getUserDataAndCreate(Economy, user);
 		const bag = await getUserDataAndCreate(Bag, user);
 		const player = await getUserDataAndCreate(Player, user);
@@ -134,7 +132,7 @@ module.exports = {
 					const enemySpeed = enemy[0].speed + enemyLevel;
 
 					let i, half;
-					const random = Math.floor(((Math.random() * 30) + 3) * inventory.get('bunny'));
+					let gainedcoins = enemyLevel;
 					const array = [0, 1];
 					const random2 = array[Math.floor(Math.random() * array.length)];
 					const random3 = array[Math.floor(Math.random() * array.length)];
@@ -200,26 +198,22 @@ module.exports = {
 						else if (enemyHealth < 1) {
 							const curBal = economy.get('balance');
 
-							await Economy.update({ balance: curBal + random }, { where: { userId: user } });
+							let coinsGain = enemyLevel;
+
+							await Economy.update({ balance: curBal + coinsGain }, { where: { userId: user } });
 
 							enemyHealth = 0;
 							playerHealth;
-							let xpAdd = 100;
+							let xpAdd = xpGain(player.get('level'), enemyLevel);
 
 							if (bearTimer.bool) {
-								xpAdd = ((50 / 100) * 100) + 100;
+								xpAdd = ((50 / 100) * xpAdd) + xpAdd;
 							}
 
-							if (player.get('level') < enemyLevel) {
-								xpAdd = 100 * (enemyLevel - player.get('level'));
-								if (bearTimer.bool) {
-									const xpAdd2 = 100 * (enemyLevel - player.get('level'));
-									xpAdd = ((50 / 100) * xpAdd2) + xpAdd2;
-								}
-							}
 							const curxp = player.get('xp');
 
 							await Player.update({ xp: curxp + xpAdd }, { where: { userId: user } });
+
 
 							if (!images[message.author.id]) {
 								images[message.author.id] = [
@@ -246,8 +240,9 @@ module.exports = {
 									if (images[message.author.id][i].name === enemy[0].name) {
 										// eslint-disable-next-line no-shadow
 										const curBal = economy.get('balance');
-
-										await Economy.update({ balance: curBal + 1000 }, { where: { userId: user } });
+										coinsGain = enemyLevel + 1000;
+										gainedcoins += coinsGain;
+										await Economy.update({ balance: curBal + coinsGain }, { where: { userId: user } });
 										return;
 									}
 								}
@@ -455,7 +450,7 @@ module.exports = {
 						else if (enemyHealth < 1) {
 							battle3.addField(`${player.get('name')} - :trophy: Winner`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 							battle3.addField(enemy[0].name, `**• Level:** ${enemyLevel}\n**• Weapon:** None\n**• Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
-							battle3.setFooter(`Round ${i + 1}. You won. ${player.get('name')} gained 100 xp and ${random.toLocaleString()} coins`);
+							battle3.setFooter(`Round ${i + 1}. You won. ${player.get('name')} gained 100 xp and ${gainedcoins} coins`);
 						}
 						else if (playerHealth < 1) {
 							battle3.addField(`${player.get('name')}`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
@@ -946,10 +941,9 @@ module.exports = {
 			if (bagEnemy.get('weapon') === 'fire-sword') enemyDamage2 = Math.floor(((80 / 100) * enemyDamage2) + enemyDamage2);
 
 			let i;
-			let xpAdd = 100;
+			let xpAdd = xpGain(player.get('level'), playerEnemy.get('level'));
 			let half;
 			let starAdd = Math.floor(Math.random() * 10) + 1;
-			const random = Math.floor(((Math.random() * 30) + 3) * inventory.get('bunny'));
 			const array = [0, 1];
 			const random3 = array[Math.floor(Math.random() * array.length)];
 			const random4 = array[Math.floor(Math.random() * array.length)];
@@ -1043,23 +1037,17 @@ module.exports = {
 
 					const curBal = economy.get('balance');
 
-					await Economy.update({ balance: curBal + random }, { where: { userId: user } });
+					await Economy.update({ balance: curBal + playerEnemy.get('level') }, { where: { userId: user } });
 
 					enemyHealth = 0;
 					playerHealth;
 
+
 					if (bearTimer.bool) {
-						xpAdd = ((50 / 100) * 100) + 100;
+						xpAdd = ((50 / 100) * xpAdd) + xpAdd;
 					}
 
 					if (player.get('level') < playerEnemy.get('level')) {
-						xpAdd = 100 * (playerEnemy.get('level') - player.get('level'));
-
-						if (bearTimer.bool) {
-							const xpAdd2 = 100 * (playerEnemy.get('level') - player.get('level'));
-							xpAdd = ((50 / 100) * xpAdd2) + xpAdd2;
-						}
-
 						starAdd = 10 * (playerEnemy.get('level') - player.get('level'));
 					}
 
@@ -1328,7 +1316,7 @@ module.exports = {
 				else if (enemyHealth < 1) {
 					battle4.addField(`${player.get('name')} - :trophy: Winner`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 					battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
-					battle4.setFooter(`Round ${i + 1}/${i + 1}. You won. ${player.get('name')} gained ${xpAdd} xp, ${starAdd} 🌟 and ${random.toLocaleString()} coins`);
+					battle4.setFooter(`Round ${i + 1}/${i + 1}. You won. ${player.get('name')} gained ${xpAdd} xp, ${starAdd} 🌟 and ${playerEnemy.get('level')} coins`);
 				}
 				else if (i === 999) {
 					battle4.addField(`${player.get('name')}`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
