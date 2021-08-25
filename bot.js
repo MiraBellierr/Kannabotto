@@ -118,6 +118,7 @@ app.listen(81);
 client.on('messageCreate', async message => {
 
 	if (message.author.bot) return;
+	if (!message.guild) return;
 
 	const redirectChannel = require('./database/redirect.json');
 	const characters = require('./database/characters.json');
