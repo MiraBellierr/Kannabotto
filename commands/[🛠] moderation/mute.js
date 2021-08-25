@@ -127,7 +127,7 @@ module.exports = {
 					.setTimestamp()
 					.setFooter(`ID: ${tomute.user.id}`);
 
-				logChannel.send({ embeds: [embed] });
+				logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 			}
 		}, timeOut);
 
@@ -151,7 +151,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(`ID: ${tomute.user.id}`);
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 	},
 };

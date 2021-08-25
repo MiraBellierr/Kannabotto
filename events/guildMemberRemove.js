@@ -126,7 +126,7 @@ module.exports = async (client, member) => {
 
 		if (!channel) return;
 
-		channel.send({ embeds: [embed] });
+		channel.send({ embeds: [embed] }).catch(e => console.log(e));
 	}
 
 	const log = JSON.parse(fs.readFileSync('./database/logging.json', 'utf8'));
@@ -155,6 +155,6 @@ module.exports = async (client, member) => {
 			.setTimestamp()
 			.setFooter(`ID: ${member.user.id}`);
 
-		logChannel.send({ embeds: [embed] });
+		logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 	}
 };

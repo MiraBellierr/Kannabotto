@@ -44,6 +44,6 @@ module.exports = (client, invite) => {
 			.setDescription(`inviter: ${invite.inviter}\nCode: ${invite.code}\nChannel: ${invite.channel}\nMax Uses: ${invite.maxUses}\nExpired After: ${invite.maxAge / 30} Minutes\nTemporary: ${invite.temporary ? 'On' : 'Off'}`)
 			.setTimestamp();
 
-		logChannel.send({ embeds: [embed] });
+		logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 	}
 };

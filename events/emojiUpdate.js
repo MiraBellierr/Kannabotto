@@ -43,6 +43,6 @@ module.exports = (client, oldEmoji, newEmoji) => {
 			.setTimestamp()
 			.setFooter(`ID: ${newEmoji.id}`);
 
-		logChannel.send({ embeds: [embed] });
+		logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 	}
 };

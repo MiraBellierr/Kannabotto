@@ -15,7 +15,6 @@
 const { Client, Collection, MessageEmbed } = require('discord.js');
 const { TOKEN, bot_prefix, authtopggwebhook } = require('./config.json');
 const fs = require('fs');
-const timeoutxp = new Set();
 const prefixes = require('./database/prefix.json');
 const Sequelize = require('sequelize');
 new Sequelize('database', 'user', 'password', {
@@ -80,7 +79,7 @@ setInterval(function() {
 
 const Topgg = require('@top-gg/sdk');
 const express = require('express');
-const { createAllDataForNewUser, getUserDataAndCreate, checkGuildDisable, checkBlacklist } = require('./functions');
+const { createAllDataForNewUser, getUserDataAndCreate } = require('./functions');
 
 const app = express();
 
@@ -107,7 +106,7 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 			.setDescription(`\`${user.tag} (${vote.user})\` just voted!\n${user.tag} received <a:jasminecoins:868105109748469780> 500\n\nYou can vote on top.gg [here](https://top.gg/bot/867048396358549544/vote) every 12 hours!`)
 			.setFooter('Thank you for your support!');
 		channel.send({ embeds: [embed] });
-		user.send('Thank for voting! You have received <a:jasminecoins:868105109748469780> 500!').catch(console.error);
+		user.send('Thank for voting! You have received <a:jasminecoins:868105109748469780> 500!').catch((e) => console.log(e));
 	});
 
 
@@ -115,40 +114,7 @@ app.post('/dblwebhook', webhook.listener(async vote => {
 
 app.listen(81);
 
-client.on('messageCreate', async message => {
-	if (message.author.bot) return;
-
-	if (await checkGuildDisable(message, 'economy')) return;
-	if (await checkBlacklist(message, 'blacklist')) return;
-
-	const Economy = Models.Economy();
-
-	const economy = await getUserDataAndCreate(Economy, message.author.id);
-	const xpAdd = Math.floor(Math.random() * 1) + 1;
-
-	if (timeoutxp.has(message.author.id)) return;
-
-	const Level = Models.Level();
-
-	const level = await getUserDataAndCreate(Level, message.author.id);
-
-	const curxp = level.get('xp');
-	const curlvl = level.get('level');
-	const nxtLvl = level.get('level') * 500;
-	const levelupReward = economy.get('balance') + 1000;
-
-	await Level.update({ xp: curxp + xpAdd }, { where: { userId: message.author.id } });
-
-	if(nxtLvl <= level.get('xp')) {
-		await Level.update({ level: curlvl + 1 }, { where: { userId: message.author.id } });
-		await Economy.update({ balance: levelupReward }, { where: { userId: message.author.id } });
-	}
-
-	timeoutxp.add(message.author.id);
-
-	setTimeout(() => timeoutxp.delete(message.author.id), 20000);
-});
-
+// boss spawner
 client.on('messageCreate', async message => {
 
 	if (message.author.bot) return;
@@ -190,7 +156,7 @@ client.on('messageCreate', async message => {
 			random_character[message.guild.id].defeat = false;
 
 			fs.writeFile('./database/randomCharacter.json', JSON.stringify(random_character, null, 2), (err) => {
-				if (err) return channel.send(`An error occured \`${err}\``);
+				if (err) return channel.send(`An error occured \`${err}\``).catch(e => console.log(e));
 			});
 
 			if (!prefixes[message.guild.id]) {
@@ -205,7 +171,7 @@ client.on('messageCreate', async message => {
 				.setImage(character.image)
 				.setFooter(`Type "${prefixes[message.guild.id]}battle boss" to challenge this boss`);
 
-			channel.send({ embeds: [embed] });
+			channel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 		else {
 			return;

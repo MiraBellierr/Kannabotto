@@ -56,7 +56,7 @@ module.exports = async (client, oldGuild, newGuild) => {
 				.setDescription(`[Old Icon](${oldGuild.iconURL({ dynamic: true })}) -> [New Icon](${newGuild.iconURL({ dynamic: true })})`)
 				.setFooter(`ID: ${newGuild.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 		else if (newGuild.name !== oldGuild.name) {
 			const embed = new MessageEmbed()
@@ -66,7 +66,7 @@ module.exports = async (client, oldGuild, newGuild) => {
 				.addField('After', newGuild.name)
 				.setFooter(`ID: ${newGuild.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 		else if (newGuild.ownerId !== oldGuild.ownerId) {
 			const embed = new MessageEmbed()
@@ -76,7 +76,7 @@ module.exports = async (client, oldGuild, newGuild) => {
 				.addField('After', newGuild.owner.user)
 				.setFooter(`ID: ${newGuild.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 		else if(newGuild.region !== oldGuild.region) {
 			const embed = new MessageEmbed()
@@ -86,7 +86,7 @@ module.exports = async (client, oldGuild, newGuild) => {
 				.addField('After', newGuild.region)
 				.setFooter(`ID: ${newGuild.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 		else if (newGuild.explicitContentFilter !== oldGuild.explicitContentFilter) {
 			const embed = new MessageEmbed()
@@ -96,7 +96,7 @@ module.exports = async (client, oldGuild, newGuild) => {
 				.addField('After', verlvl2[newGuild.explicitContentFilter])
 				.setFooter(`ID: ${newGuild.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 		else if (newGuild.verificationLevel !== oldGuild.verificationLevel) {
 			const embed = new MessageEmbed()
@@ -106,7 +106,7 @@ module.exports = async (client, oldGuild, newGuild) => {
 				.addField('After', verlvl[newGuild.verificationLevel])
 				.setFooter(`ID: ${newGuild.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 	}
 };

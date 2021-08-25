@@ -42,7 +42,7 @@ module.exports = (client, role) => {
 			.setTimestamp()
 			.setFooter(`ID: ${role.id}`);
 
-		logChannel.send({ embeds: [embed] });
+		logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 	}
 
 };

@@ -52,7 +52,7 @@ module.exports = async (client, oldMember, newMember) => {
 				.addField('After', newMember.displayName)
 				.setFooter(`ID: ${newMember.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 		else if (newRoles !== oldRoles) {
 			const embed = new MessageEmbed()
@@ -63,7 +63,7 @@ module.exports = async (client, oldMember, newMember) => {
 				.addField('After', `${newRoles}`)
 				.setFooter(`ID: ${newMember.id}`).setTimestamp();
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 	}
 };

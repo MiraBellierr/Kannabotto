@@ -76,7 +76,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(`ID ${toMute.user.id}`);
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 	},
 };

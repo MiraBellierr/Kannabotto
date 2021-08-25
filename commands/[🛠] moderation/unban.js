@@ -81,7 +81,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(`Unbanned member ID: ${member.id}`);
 
-			logChannel.send({ embeds: [embed] });
+			logChannel.send({ embeds: [embed] }).catch(e => console.log(e));
 		}
 	},
 };

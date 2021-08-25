@@ -16,12 +16,14 @@ const { bot_prefix } = require('../config.json');
 const timeoutxp = new Set();
 const prefixes = require('../database/prefix.json');
 const Models = require('../create-model');
-const { getUserDataAndCreate } = require('../functions');
+const { getUserDataAndCreate, checkGuildDisable, checkBlacklist } = require('../functions');
 
 module.exports = async (client, message) => {
 	if (!prefixes[message.guild.id]) {
 		prefixes[message.guild.id] = bot_prefix;
 	}
+
+	if (!message.guild.me.permissions.has('SEND_MESSAGES')) return;
 
 	if (message.mentions.users.first() === client.user) message.reply(`My prefix for this guild is \`${prefixes[message.guild.id]}\`. Type \`${prefixes[message.guild.id]}help\` for more info about me. `);
 
@@ -49,16 +51,33 @@ module.exports = async (client, message) => {
 		message.reply(`there was an error trying to execute that command! \n\`${error}\` Report it by joining our server: https://discord.gg/NcPeGuNEdc`);
 	}
 
-	const totalBankAdd = Math.floor(Math.random() * 1) + 5;
-	if (timeoutxp.has(message.author.id)) return;
+	if (await checkGuildDisable(message, 'economy')) return;
+	if (await checkBlacklist(message, 'blacklist')) return;
 
 	const Economy = Models.Economy();
 
 	const economy = await getUserDataAndCreate(Economy, message.author.id);
+	const xpAdd = Math.floor(Math.random() * 1) + 1;
 
-	const curTotalBank = economy.get('totalBank');
-	await Economy.update({ totalBank: curTotalBank + totalBankAdd }, { where: { userId: message.author.id } });
+	if (timeoutxp.has(message.author.id)) return;
+
+	const Level = Models.Level();
+
+	const level = await getUserDataAndCreate(Level, message.author.id);
+
+	const curxp = level.get('xp');
+	const curlvl = level.get('level');
+	const nxtLvl = level.get('level') * 500;
+	const levelupReward = economy.get('balance') + 1000;
+
+	await Level.update({ xp: curxp + xpAdd }, { where: { userId: message.author.id } });
+
+	if(nxtLvl <= level.get('xp')) {
+		await Level.update({ level: curlvl + 1 }, { where: { userId: message.author.id } });
+		await Economy.update({ balance: levelupReward }, { where: { userId: message.author.id } });
+	}
 
 	timeoutxp.add(message.author.id);
-	setTimeout(() => timeoutxp.delete(message.author.id), 60000);
+
+	setTimeout(() => timeoutxp.delete(message.author.id), 20000);
 };
