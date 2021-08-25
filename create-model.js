@@ -275,7 +275,7 @@ module.exports = {
 			},
 			totalXp: {
 				type: Sequelize.BIGINT,
-				defaultValue: 500,
+				defaultValue: 100,
 				allowNull: false,
 			},
 			rank: {

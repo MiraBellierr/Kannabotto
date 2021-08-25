@@ -70,7 +70,7 @@ module.exports = {
 		const player1 = await Player.findOne({ where: { userId: user } });
 
 		if (player1.get('totalXp') < player1.get('xp')) {
-			await Player.update({ totalXp: 100 * Math.pow(player.get('level'), 3) }, { where: { userId: message.author.id } });
+			await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: message.author.id } });
 			await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
 			await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
 			await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });

@@ -44,7 +44,15 @@ module.exports = {
 		const Cooldown = Models.Cooldown();
 		const Player = Models.Player();
 		const Images = Models.Images();
+
+		if (!await Images.findOne({ where: { id: 1 } })) {
+			await Images.create({
+				data: {},
+			});
+		}
+
 		const imagess = await Images.findOne({ where: { id: 1 } });
+
 		const images = imagess.dataValues.data;
 
 		await createAllDataForNewUser(user);
@@ -464,7 +472,7 @@ module.exports = {
 					}, 2000);
 					setTimeout(async function() {
 						if (player.get('totalXp') < player.get('xp')) {
-							await Player.update({ totalXp: Math.floor(player.get('level') * 2.5 * 500) }, { where: { userId: user } });
+							await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: user } });
 							await Player.update({ level: player.get('level') + 1 }, { where: { userId: user } });
 							await Player.update({ health: player.get('health') + 1 }, { where: { userId: user } });
 							await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: user } });
@@ -1334,7 +1342,7 @@ module.exports = {
 			const player1 = await Player.findOne({ where: { userID: user } });
 
 			if (player1.get('totalXp') < player1.get('xp')) {
-				await Player.update({ totalXp: 100 * Math.pow(player.get('level'), 3) }, { where: { userId: message.author.id } });
+				await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: message.author.id } });
 				await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
 				await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
 				await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
