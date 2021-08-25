@@ -1373,4 +1373,19 @@ module.exports = {
 
 		message.reply(`**${message.author.username}**, you have equipped ${emoji} ${weapon} to ${player.get('name')}!`);
 	},
+	xpGain: (level, enemyLevel) => {
+		let xpGain = Math.floor(100 / (level - enemyLevel));
+
+		if (level - enemyLevel > 100) {
+			xpGain = 1;
+		}
+		else if (xpGain === Infinity) {
+			xpGain = 150;
+		}
+		else if (xpGain < 1) {
+			xpGain = 100 + Math.floor(100 * (enemyLevel - level));
+		}
+
+		return xpGain;
+	},
 };
