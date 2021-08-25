@@ -1329,7 +1329,9 @@ module.exports = {
 	checkPlayerExist: async (userId) => {
 		const player = await Player.findOne({ where: { userId } });
 
-		if (player !== null || player.get('start') === 1) {
+		if (!player) return false;
+
+		if (player.get('start') === 1) {
 			return true;
 		}
 		else {
