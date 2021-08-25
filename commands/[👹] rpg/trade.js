@@ -34,7 +34,7 @@ module.exports = {
 			.setDescription('No profile found 😓')
 			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
 
-		if (!checkPlayerExist(user)) return message.reply({ embeds: [result] });
+		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		if (args.length < 1) return message.reply(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
@@ -43,7 +43,7 @@ module.exports = {
 		if (!otherUser) return message.reply(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 		if (otherUser.user.id === message.author.id) return message.reply(`The right syntax is \`${bot_prefix}trade <mentions> "<your image>" "<other person image>"\``);
 
-		if (!checkPlayerExist(otherUser.user.id)) return message.reply('The person that you want to trade with doesn\'t have a profile. do `J.start` to create a profile.');
+		if (!await checkPlayerExist(otherUser.user.id)) return message.reply('The person that you want to trade with doesn\'t have a profile. do `J.start` to create a profile.');
 
 		const Player = Models.Player();
 		const Images = Models.Images();

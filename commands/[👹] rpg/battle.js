@@ -500,7 +500,7 @@ module.exports = {
 
 					const playerEnemy = await getUserDataAndCreate(Player, enemy);
 
-					if (!checkPlayerExist(enemy)) return message.reply(`**${message.author.username}**, There is no player with this name in my database. Do \`${prefixes[message.guild.id]}start\` to create a profile.`);
+					if (!await checkPlayerExist(enemy)) return message.reply(`**${message.author.username}**, There is no player with this name in my database. Do \`${prefixes[message.guild.id]}start\` to create a profile.`);
 
 					const prompt = new Discord.MessageEmbed()
 						.setTitle(`${message.author.username} challenges ${member.user.username} in battle!`)
