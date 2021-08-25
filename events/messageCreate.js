@@ -71,7 +71,7 @@ module.exports = async (client, message) => {
 	const levelupReward = economy.get('balance') + 1000;
 
 	await Level.update({ xp: curxp + xpAdd }, { where: { userId: message.author.id } });
-	await Economy.update({ bank: economy.get('bank') + 1 }, { where: { userId: message.author.id } });
+	await Economy.update({ totalBank: economy.get('totalBank') + 1 }, { where: { userId: message.author.id } });
 
 	if(nxtLvl <= level.get('xp')) {
 		await Level.update({ level: curlvl + 1 }, { where: { userId: message.author.id } });
