@@ -19,6 +19,9 @@ const Models = require('../create-model');
 const { getUserDataAndCreate, checkGuildDisable, checkBlacklist } = require('../functions');
 
 module.exports = async (client, message) => {
+
+	if (!message.guild) return;
+
 	if (!prefixes[message.guild.id]) {
 		prefixes[message.guild.id] = bot_prefix;
 	}
@@ -29,7 +32,6 @@ module.exports = async (client, message) => {
 
 	const prefix = prefixes[message.guild.id];
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
-	if (!message.guild) return;
 	if (message.author.bot) return;
 	if (!message.member) message.member = await message.guild.fetchMember(message);
 
