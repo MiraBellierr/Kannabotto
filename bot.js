@@ -132,9 +132,13 @@ client.on('messageCreate', async message => {
 		return;
 	}
 	else {
+		const Player = Models.Player();
+		const findPlayersLevel = await Player.findAll({ order: [['level', 'DESC']], limit: 1, attributes: ['level'] });
+		const highestLevelplayer = findPlayersLevel[0];
+
 		// 3% chance to spawn a boss in this guild
 		const spawnSuccess = Math.random() < 0.03;
-		const randomLevel = Math.floor((Math.random() * 200) + 1);
+		const randomLevel = Math.floor((Math.random() * highestLevelplayer.get('level')) + 1);
 		const channel = message.guild.channels.cache.get(redirectChannel[message.guild.id].channel);
 
 		if (!channel) return;
