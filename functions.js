@@ -1391,4 +1391,10 @@ module.exports = {
 		}
 		return chunks;
 	},
+	chance: (percentage) => {
+		if (percentage <= 0) return false;
+		if (percentage >= 1) return true;
+
+		return (Math.random() < percentage);
+	}
 };
