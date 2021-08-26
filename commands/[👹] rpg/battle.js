@@ -893,16 +893,16 @@ module.exports = {
 
 			let enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
 
+			while (enemy === user) {
+				enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
+			}
+
 			const bagEnemy = await getUserDataAndCreate(Bag, enemy);
 			const playerEnemy = await getUserDataAndCreate(Player, enemy);
 
 			let enemyWeaponEmoji = '';
 
 			if (bagEnemy.get('weapon') !== 'No Weapon') enemyWeaponEmoji = client.weapons.get(bagEnemy.get('weapon')).emoji;
-
-			while (enemy === user || !checkPlayerExist(enemy)) {
-				enemy = charactersArr[Math.floor(Math.random() * charactersArr.length)];
-			}
 
 			let playerHealth = player.get('health') * 100;
 			let playerHealth2 = player.get('health') * 100;
