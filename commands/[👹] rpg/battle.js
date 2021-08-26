@@ -1316,7 +1316,7 @@ module.exports = {
 				else if (enemyHealth < 1) {
 					battle4.addField(`${player.get('name')} - :trophy: Winner`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 					battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
-					battle4.setFooter(`Round ${i + 1}/${i + 1}. You won. ${player.get('name')} gained ${xpAdd} xp, ${starAdd} 🌟 and ${playerEnemy.get('level')} coins`);
+					battle4.setFooter(`Round ${i + 1}/${i + 1}. You won. ${player.get('name')} gained ${xpAdd} xp, ${starAdd} stars and ${playerEnemy.get('level')} coins`);
 				}
 				else if (i === 999) {
 					battle4.addField(`${player.get('name')}`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);

@@ -62,7 +62,7 @@ module.exports = {
 			const profile = new Discord.MessageEmbed()
 				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 				.setTitle(`Level ${player.get('level')} ${player.get('name')}`)
-				.setDescription(`**• Rank:** ${rank}\n**• Stars:** ⭐ ${player.get('rank')}\n**• Total Battles:** ${player.get('battle')}\n**• Win rate:** ${isNaN((player.get('won') / player.get('battle')) * 100) ? '0.00%' : `${((player.get('won') / player.get('battle')) * 100).toFixed(2)}%`}`)
+				.setDescription(`**• Rank:** ${rank}\n**• Stars:** <:hdstar:880340055619694632> ${player.get('rank')}\n**• Total Battles:** ${player.get('battle')}\n**• Win rate:** ${isNaN((player.get('won') / player.get('battle')) * 100) ? '0.00%' : `${((player.get('won') / player.get('battle')) * 100).toFixed(2)}%`}`)
 				.setColor('RANDOM')
 				.addField('Stats', `**• Class:** ${player.get('class')}\n**• XP:** ${player.get('xp')}/${player.get('totalXp')}\n**• Health:** ${(100 * player.get('health')).toLocaleString()}\n**• Physical Attack:** ${player.get('physicalAttack')}\n**• Magical Attack:** ${player.get('magicalAttack')}\n**• Physical Resistance:** ${player.get('physicalResistance')}\n**• Magical Resistance:** ${player.get('magicalResistance')}\n**• Speed:** ${player.get('speed')}\n**• Weapon:** ${bag.get('weapon')}`)
 				.setImage(player.get('image'))

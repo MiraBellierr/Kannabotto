@@ -53,7 +53,7 @@ module.exports = {
 		if (input === 'rpg') {
 			const filterBoard = board.filter(x => x);
 			const sortedBoard = filterBoard.sort((a, b) => b.dataValues.level - a.dataValues.level);
-			const mappedBoard = sortedBoard.map((x, i) => `[${i + 1}] **${x.user.username}** - Level ${x.dataValues.level} `);
+			const mappedBoard = sortedBoard.map((x, i) => `[${i + 1}] ${x.user.username} - **Level ${x.dataValues.level}**`);
 			const chunks = splitArrayIntoChunksOfLen(mappedBoard, 10);
 			const leaderboardPages = [];
 
@@ -77,7 +77,7 @@ module.exports = {
 		else if (input === 'star') {
 			const filterBoard = board.filter(x => x);
 			const sortedBoard = filterBoard.sort((a, b) => b.dataValues.rank - a.dataValues.rank);
-			const mappedBoard = sortedBoard.map((x, i) => `[${i + 1}] **${x.user.username}** - ${x.dataValues.rank} ⭐`);
+			const mappedBoard = sortedBoard.map((x, i) => `[${i + 1}] ${x.user.username} - **<:hdstar:880340055619694632> ${x.dataValues.rank} **`);
 			const chunks = splitArrayIntoChunksOfLen(mappedBoard, 10);
 			const leaderboardPages = [];
 
@@ -87,7 +87,7 @@ module.exports = {
 					.setColor('RANDOM')
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${chunks.length}`)
-					.setDescription(`**⚔ | Star leaderboard**\n\n${e.join('\n')}`);
+					.setDescription(`**⭐ | Star leaderboard**\n\n${e.join('\n')}`);
 
 				leaderboardPages.push(embed);
 			});
@@ -118,7 +118,7 @@ module.exports = {
 
 			board2 = board2.filter(x => x.user);
 			board2 = board2.sort((a, b) => b.dataValues.xp - a.dataValues.xp);
-			const top = board2.map((x, i) => `[${i + 1}] ${x.user} - Level: **${x.dataValues.level.toLocaleString()}** | XP: **${x.dataValues.xp.toLocaleString()}**`);
+			const top = board2.map((x, i) => `[${i + 1}] ${x.user} - **Level: ${x.dataValues.level.toLocaleString()} | XP: ${x.dataValues.xp.toLocaleString()}**`);
 			const chunks = splitArrayIntoChunksOfLen(top, 10);
 			const leaderboardPages = [];
 
@@ -128,7 +128,7 @@ module.exports = {
 					.setColor('RANDOM')
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${chunks.length}`)
-					.setDescription(`**⚔ | Kanna Usage leaderboard For This Server**\n\n${e.join('\n')}`);
+					.setDescription(`**📝 | Kanna Usage leaderboard For This Server**\n\n${e.join('\n')}`);
 
 				leaderboardPages.push(embed);
 			});
@@ -163,7 +163,7 @@ module.exports = {
 					.setColor('RANDOM')
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${chunks.length}`)
-					.setDescription(`**⚔ | Economy leaderboard**\n\n${e.join('\n')}`);
+					.setDescription(`**💰 | Economy leaderboard**\n\n${e.join('\n')}`);
 
 				leaderboardPages.push(embed);
 			});
