@@ -1344,7 +1344,7 @@ module.exports = {
 		const player = await module.exports.getUserDataAndCreate(Player, userId);
 
 		if (bag.get(weapon) === 0) return message.reply(`**${message.author.username}**, You don't have this weapon.`);
-		if (bag.get('weapon') === weapon) return message.reply(`**${message.author.username}**, You are currently equipped this weapon!`);
+		if (bag.get('weapon') === weapon && bag.get('weapon') !== 'No Weapon') return message.reply(`**${message.author.username}**, You are currently equipped this weapon!`);
 
 		if (bag.get('weapon') === 'sword') {
 			await Player.update({ physicalAttack: player.get('physicalAttack') - 10 }, { where: { userId } });
