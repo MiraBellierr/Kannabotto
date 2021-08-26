@@ -59,121 +59,134 @@ function Paginate(client, message, pages, options = {
 	};
 
 	this.init = async function() {
-		let page = 1;
-		const row = new MessageActionRow()
-			.addComponents([
-				new MessageButton()
-					.setCustomId('backward')
-					.setLabel('Back')
-					.setStyle('PRIMARY')
-					.setEmoji(this.emojis.backward),
-				new MessageButton()
-					.setCustomId('stop')
-					.setLabel('Stop')
-					.setStyle('DANGER')
-					.setEmoji(this.emojis.stop),
-				new MessageButton()
-					.setCustomId('forward')
-					.setLabel('Next')
-					.setStyle('PRIMARY')
-					.setEmoji(this.emojis.forward),
-			]);
+		if (this.pages.length < 2) {
+			let msg;
+			if (typeof this.pages[0] == 'object') {
+				msg = await this.message.reply({ embeds: [this.pages[0]] });
+			}
+			else {
+				msg = await this.message.reply({ content: `${[this.pages[0]]}` });
+			}
 
-		let msg;
-
-		if (typeof this.pages[page - 1] == 'object') {
-			msg = await this.message.reply({ embeds: [this.pages[page - 1]], components: [row] });
+			return msg;
 		}
 		else {
-			msg = await this.message.reply({ content: `${[this.pages[page - 1]]}`, components: [row] });
+			let page = 1;
+			const row = new MessageActionRow()
+				.addComponents([
+					new MessageButton()
+						.setCustomId('backward')
+						.setLabel('Back')
+						.setStyle('PRIMARY')
+						.setEmoji(this.emojis.backward),
+					new MessageButton()
+						.setCustomId('stop')
+						.setLabel('Stop')
+						.setStyle('DANGER')
+						.setEmoji(this.emojis.stop),
+					new MessageButton()
+						.setCustomId('forward')
+						.setLabel('Next')
+						.setStyle('PRIMARY')
+						.setEmoji(this.emojis.forward),
+				]);
+
+			let msg;
+
+			if (typeof this.pages[page - 1] == 'object') {
+				msg = await this.message.reply({ embeds: [this.pages[page - 1]], components: [row] });
+			}
+			else {
+				msg = await this.message.reply({ content: `${[this.pages[page - 1]]}`, components: [row] });
+			}
+
+			const backwardFilter = (inter) => inter.customId === 'backward' && inter.user.id === this.message.author.id;
+			const stopFilter = (inter) => inter.customId === 'stop' && inter.user.id === this.message.author.id;
+			const forwardFilter = (inter) => inter.customId === 'forward' && inter.user.id === this.message.author.id;
+
+			const backward = msg.createMessageComponentCollector({
+				filter: backwardFilter,
+				time: this.options.time,
+				type: 'BUTTON',
+			});
+
+			const stop = msg.createMessageComponentCollector({
+				filter: stopFilter,
+				time: this.options.time,
+				componentType: 'BUTTON',
+			});
+
+			const forward = msg.createMessageComponentCollector({
+				filter: forwardFilter,
+				time: this.options.time,
+				componentType: 'BUTTON',
+			});
+
+			backward.on('collect', async (i) => {
+
+				if (page === 1) return;
+				page--;
+
+				if (typeof this.pages[page - 1] == 'object') {
+					await i.update({
+						embeds: [this.pages[page - 1]],
+						components: [row],
+					});
+				}
+				else {
+					await i.update({
+						content: this.pages[page - 1],
+						components: [row],
+					});
+				}
+			});
+
+			stop.on('collect', async () => {
+
+				backward.stop('ENDED');
+				forward.stop('ENDED');
+				stop.stop('ENDED');
+
+				await msg.delete();
+			});
+
+			forward.on('collect', async (i) => {
+
+				if (page === this.pages.length) return;
+				page++;
+
+				if (typeof this.pages[page - 1] == 'object') {
+					await i.update({
+						embeds: [this.pages[page - 1]],
+						components: [row],
+					});
+				}
+				else {
+					await i.update({
+						content: this.pages[page - 1],
+						components: [row],
+					});
+				}
+			});
+
+			backward.on('end', (collected, reason) => {
+				if (reason != 'time' && reason != 'ENDED') throw new TypeError(reason);
+			});
+
+			stop.on('end', (collected, reason) => {
+				if (reason != 'time' && reason != 'ENDED') throw new Error(reason);
+			});
+
+			forward.on('end', (collected, reason) => {
+				if (reason != 'time' && reason != 'ENDED') throw new Error(reason);
+			});
+
+			return {
+				backwardCollector: backward,
+				stopCollector: stop,
+				forwardCollector: forward,
+			};
 		}
-
-		const backwardFilter = (inter) => inter.customId === 'backward' && inter.user.id === this.message.author.id;
-		const stopFilter = (inter) => inter.customId === 'stop' && inter.user.id === this.message.author.id;
-		const forwardFilter = (inter) => inter.customId === 'forward' && inter.user.id === this.message.author.id;
-
-		const backward = msg.createMessageComponentCollector({
-			filter: backwardFilter,
-			time: this.options.time,
-			type: 'BUTTON',
-		});
-
-		const stop = msg.createMessageComponentCollector({
-			filter: stopFilter,
-			time: this.options.time,
-			componentType: 'BUTTON',
-		});
-
-		const forward = msg.createMessageComponentCollector({
-			filter: forwardFilter,
-			time: this.options.time,
-			componentType: 'BUTTON',
-		});
-
-		backward.on('collect', async (i) => {
-
-			if (page === 1) return;
-			page--;
-
-			if (typeof this.pages[page - 1] == 'object') {
-				await i.update({
-					embeds: [this.pages[page - 1]],
-					components: [row],
-				});
-			}
-			else {
-				await i.update({
-					content: this.pages[page - 1],
-					components: [row],
-				});
-			}
-		});
-
-		stop.on('collect', async () => {
-
-			backward.stop('ENDED');
-			forward.stop('ENDED');
-			stop.stop('ENDED');
-
-			await msg.delete();
-		});
-
-		forward.on('collect', async (i) => {
-
-			if (page === this.pages.length) return;
-			page++;
-
-			if (typeof this.pages[page - 1] == 'object') {
-				await i.update({
-					embeds: [this.pages[page - 1]],
-					components: [row],
-				});
-			}
-			else {
-				await i.update({
-					content: this.pages[page - 1],
-					components: [row],
-				});
-			}
-		});
-
-		backward.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new TypeError(reason);
-		});
-
-		stop.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new Error(reason);
-		});
-
-		forward.on('end', (collected, reason) => {
-			if (reason != 'time' && reason != 'ENDED') throw new Error(reason);
-		});
-
-		return {
-			backwardCollector: backward,
-			stopCollector: stop,
-			forwardCollector: forward,
-		};
 	};
 
 
