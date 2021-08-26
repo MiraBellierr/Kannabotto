@@ -57,7 +57,7 @@ module.exports = {
 			res = reason;
 		}
 
-		member.send(`You have been banned in **${message.guild.name}** for **${res}**`).catch((err) => (console.log(err)));
+		member.send(`You have been banned in **${message.guild.name}** for **${res}**`).catch((err) => (console.log(err))).catch(e => console.log(e.name));
 		await member.ban({ reason: reason, days: 7 }).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 		message.reply(`Successfully banned **${member.user.username}** for a reason **${res}**, by **${message.author.username}**.`);
 

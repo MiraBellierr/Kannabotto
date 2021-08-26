@@ -57,7 +57,7 @@ module.exports = {
 			res = reason;
 		}
 
-		member.send(`Hi there, you have been kicked from **${message.guild.name}** for **${res}**`);
+		member.send(`Hi there, you have been kicked from **${message.guild.name}** for **${res}**`).catch(e => console.log(e.name));
 		await member.kick(reason).catch(e => console.log(`[WARN] ${e.message} in ${e.filename} [${e.lineNumber}, ${e.columnNumber}]`));
 		message.reply(`Successfully kicked **${member.user.username}** for a reason **${res}**, by **${message.author.username}**.`);
 
