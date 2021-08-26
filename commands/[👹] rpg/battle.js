@@ -17,7 +17,7 @@ const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const fs = require('fs');
 const prefixes = require('../../database/prefix.json');
-const { getMember, promptMessage, getUserDataAndCreate, checkPlayerExist, cooldown, createAllDataForNewUser, xpGain } = require('../../functions');
+const { getMember, promptMessage, getUserDataAndCreate, checkPlayerExist, cooldown, createAllDataForNewUser, xpGain, chance } = require('../../functions');
 const randomcharacter = require('../../database/randomCharacter.json');
 const redirect = require('../../database/redirect.json');
 const Models = require('../../create-model.js');
@@ -133,9 +133,9 @@ module.exports = {
 
 					let i, half;
 					let gainedcoins = enemyLevel;
-					const array = [0, 1];
-					const random2 = array[Math.floor(Math.random() * array.length)];
-					const random3 = array[Math.floor(Math.random() * array.length)];
+					
+					const chance_1 = chance(0.5);
+					const chance_2 = chance(0.5);
 
 					for (i = 0; i < 1000; i++) {
 						if (bag.get('weapon') === 'bow') {
@@ -160,7 +160,7 @@ module.exports = {
 						}
 						else {
 
-							if (random2 === 1) {
+							if (chance_1) {
 								if (bag.get('weapon') === 'fire-sword') {
 									if (i === 0) {
 										enemyHealth -= playerDamage2;
@@ -314,7 +314,7 @@ module.exports = {
 							}
 						}
 						else {
-							if (random3 === 1) {
+							if (chance_2) {
 								playerHealth -= enemyDamage;
 							}
 							else {
@@ -354,7 +354,7 @@ module.exports = {
 						}
 						else {
 
-							if (random2 === 1) {
+							if (chance_1) {
 								if (bag.get('weapon') === 'fire-sword') {
 									if (i === 0) {
 										enemyHealth2 -= playerDamage2;
@@ -396,7 +396,7 @@ module.exports = {
 							}
 						}
 						else {
-							if (random3 === 1) {
+							if (chance_2) {
 								playerHealth2 -= enemyDamage;
 							}
 							else {
@@ -554,9 +554,8 @@ module.exports = {
 						if (bagEnemy.get('weapon') === 'fire-sword') enemyDamage2 = Math.floor(((80 / 100) * enemyDamage2) + enemyDamage2);
 
 						let i, half;
-						const array = [0, 1];
-						const random = array[Math.floor(Math.random() * array.length)];
-						const random2 = array[Math.floor(Math.random() * array.length)];
+						const chance_1 = chance(0.5);
+						const chance_2 = chance(0.5);
 
 						for (i = 0; i < 1000; i++) {
 							if (bag.get('weapon') === 'bow') {
@@ -594,7 +593,7 @@ module.exports = {
 							}
 							else {
 								// eslint-disable-next-line no-lonely-if
-								if (random === 1) {
+								if (chance_1) {
 									if (bag.get('weapon') === 'fire-sword') {
 										if (i === 0) {
 											enemyHealth -= playerDamage2;
@@ -672,7 +671,7 @@ module.exports = {
 							}
 							else {
 								// eslint-disable-next-line no-lonely-if
-								if (random2 === 1) {
+								if (chance_2) {
 									if (bagEnemy.get('weapon') === 'fire-sword') {
 										if (i === 0) {
 											playerHealth -= enemyDamage2;
@@ -735,7 +734,7 @@ module.exports = {
 							}
 							else {
 								// eslint-disable-next-line no-lonely-if
-								if (random === 1) {
+								if (chance_1) {
 									if (bag.get('weapon') === 'fire-sword') {
 										if (i === 0) {
 											enemyHealth2 -= playerDamage2;
@@ -797,7 +796,7 @@ module.exports = {
 							}
 							else {
 								// eslint-disable-next-line no-lonely-if
-								if (random2 === 1) {
+								if (chance_2) {
 									if (bagEnemy.get('weapon') === 'fire-sword') {
 										if (i === 0) {
 											playerHealth2 -= enemyDamage2;
@@ -944,9 +943,8 @@ module.exports = {
 			let xpAdd = xpGain(player.get('level'), playerEnemy.get('level'));
 			let half;
 			let starAdd = Math.floor(Math.random() * 10) + 1;
-			const array = [0, 1];
-			const random3 = array[Math.floor(Math.random() * array.length)];
-			const random4 = array[Math.floor(Math.random() * array.length)];
+			const chance_1 = chance(0.5);
+			const chance_2 = chance(0.5);
 
 			for (i = 0; i < 1000; i++) {
 				if (bag.get('weapon') === 'bow') {
@@ -983,7 +981,7 @@ module.exports = {
 				}
 				else {
 					// eslint-disable-next-line no-lonely-if
-					if (random3 === 1) {
+					if (chance_1) {
 						if (bag.get('weapon') === 'fire-sword') {
 							if (i === 0) {
 								enemyHealth -= playerDamage2;
@@ -1121,7 +1119,7 @@ module.exports = {
 				}
 				else {
 					// eslint-disable-next-line no-lonely-if
-					if (random4 === 1) {
+					if (chance_2) {
 						if (bagEnemy.get('weapon') === 'fire-sword') {
 							if (i === 0) {
 								playerHealth -= enemyDamage2;
@@ -1184,7 +1182,7 @@ module.exports = {
 				}
 				else {
 					// eslint-disable-next-line no-lonely-if
-					if (random3 === 1) {
+					if (chance_1) {
 						if (bag.get('weapon') === 'fire-sword') {
 							if (i === 0) {
 								enemyHealth2 -= playerDamage2;
@@ -1246,7 +1244,7 @@ module.exports = {
 				}
 				else {
 					// eslint-disable-next-line no-lonely-if
-					if (random4 === 1) {
+					if (chance_2) {
 						if (bagEnemy.get('weapon') === 'fire-sword') {
 							if (i === 0) {
 								playerHealth2 -= enemyDamage2;
