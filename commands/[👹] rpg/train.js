@@ -52,12 +52,11 @@ module.exports = {
 			await Cooldown.update({ train: Date.now() }, { where: { userId: user } });
 			await Economy.update({ balance: economy.get('balance') - 20 }, { where: { userId: user } });
 
-			let xpAdd = Math.floor(Math.random() * 300) + 1;
+			let xpAdd = Math.floor(Math.random() * 300 - 100) + 100;
 			const bearTimer = await cooldown('bear', user, 3.6e+6);
 
 			if (bearTimer.bool) {
-				const xpAdd2 = Math.floor(Math.random() * 300) + 1;
-				xpAdd = ((50 / 100) * xpAdd2) + xpAdd2;
+				xpAdd = ((50 / 100) * xpAdd) + xpAdd;
 			}
 
 			const curxp = player.get('xp');
