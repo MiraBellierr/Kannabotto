@@ -1242,7 +1242,7 @@ module.exports = {
 
 		const itemObject = {};
 
-		itemObject[item] = inventory.get(item) - 1;
+		itemObject[item] = inventory.get(item) - amount;
 
 		if (inventory.get(item) < amount) return message.reply(`**${message.author.username}**, You don't have enough item to sell!`);
 
