@@ -27,7 +27,7 @@ module.exports = {
 		const queue = message.client.queue.get(message.guild.id);
 
 		if (!song) {
-			message.client.queue.get(message.guild.id).connection.destroy();
+			queue.connection.destroy().catch(e => console.log(e));
 
 			message.client.queue.delete(message.guild.id);
 
@@ -59,28 +59,30 @@ module.exports = {
 		const resource = createAudioResource(stream, { inputType: type, inlineVolume: true });
 		player.play(resource);
 
-		const dispatcher = queue.connection
-			.subscribe(player)
-			.player.on(AudioPlayerStatus.Idle, () => {
-				if (queue.loop) {
+		let dispatcher = queue.connection.subscribe(player);
+
+		if (!dispatcher) return message.reply('Couldn\'t connect to the music player.');
+
+		dispatcher = dispatcher.player.on(AudioPlayerStatus.Idle, () => {
+			if (queue.loop) {
 				// if loop is on, push the song back at the end of the queue
 				// so it can repeat endlessly
-					const lastSong = queue.songs.shift();
-					queue.songs.push(lastSong);
-					module.exports.play(queue.songs[0], message);
-				}
-				else {
+				const lastSong = queue.songs.shift();
+				queue.songs.push(lastSong);
+				module.exports.play(queue.songs[0], message);
+			}
+			else {
 				// Recursively play the next song
-					queue.songs.shift();
-					module.exports.play(queue.songs[0], message);
-				}
-			}).on('unsubscribe', () => {
-				message.client.queue.delete(message.guild.id);
-			}).on('error', (err) => {
-				console.error(err);
 				queue.songs.shift();
 				module.exports.play(queue.songs[0], message);
-			});
+			}
+		}).on('unsubscribe', () => {
+			message.client.queue.delete(message.guild.id);
+		}).on('error', (err) => {
+			console.error(err);
+			queue.songs.shift();
+			module.exports.play(queue.songs[0], message);
+		});
 
 		dispatcher._state.resource.volume.setVolume(queue.volume / 100);
 
