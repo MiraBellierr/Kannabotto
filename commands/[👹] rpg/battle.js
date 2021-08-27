@@ -260,11 +260,7 @@ module.exports = {
 
 								await Images.update({ data: images }, { where: { id: 1 } });
 
-								message.reply(`Congratulations, you get **${enemy[0].name}** image`);
-
-								const embed = new Discord.MessageEmbed()
-									.setImage(enemy[0].image);
-								message.reply({ embeds: [embed] });
+								message.reply(`Congratulations, you have captured **${enemy[0].name}**`);
 							}, 4100);
 							break;
 						}
@@ -1309,7 +1305,7 @@ module.exports = {
 				}
 				else if (playerHealth < 1) {
 					battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-					battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__ - :trophy: Winner' : `__${playerEnemy.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+					battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__ - :trophy: Winner' : `__${playerEnemy.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 					battle4.setFooter(`Round ${i + 1}/${i + 1}. You lost. ${player.get('name')} gained 10 xp`);
 				}
 				else if (enemyHealth < 1) {
