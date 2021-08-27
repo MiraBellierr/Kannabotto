@@ -462,19 +462,6 @@ module.exports = {
 
 						setTimeout(() => thisMes.edit({ embeds: [battle3] }), 2000);
 					}, 2000);
-					setTimeout(async function() {
-						if (player.get('totalXp') < player.get('xp')) {
-							await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: user } });
-							await Player.update({ level: player.get('level') + 1 }, { where: { userId: user } });
-							await Player.update({ health: player.get('health') + 1 }, { where: { userId: user } });
-							await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: user } });
-							await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: user } });
-							await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: user } });
-							await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: user } });
-							await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: user } });
-							message.reply(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
-						}
-					}, 4000);
 					return;
 				}
 				else {
@@ -1321,22 +1308,22 @@ module.exports = {
 
 				setTimeout(() => thisMes.edit({ embeds: [battle4] }), 2000);
 			}, 2000);
+		}
 
-			const player1 = await Player.findOne({ where: { userID: user } });
+		const player1 = await Player.findOne({ where: { userID: user } });
 
-			if (player1.get('totalXp') < player1.get('xp')) {
-				await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: message.author.id } });
-				await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
-				await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
-				await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
-				await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
-				await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
-				await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
-				await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
-				setTimeout(async function() {
-					message.reply(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
-				}, 4000);
-			}
+		if (player1.get('totalXp') < player1.get('xp')) {
+			await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: message.author.id } });
+			await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
+			await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
+			await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
+			await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
+			await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
+			await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
+			await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
+			setTimeout(async function() {
+				message.reply(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
+			}, 4000);
 		}
 	},
 };
