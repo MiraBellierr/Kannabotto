@@ -16,7 +16,6 @@ const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const characters = require('../../database/characters.json');
-const { checkPlayerExist } = require('../../functions');
 
 module.exports = {
 	name: 'info',
@@ -25,13 +24,6 @@ module.exports = {
 	example: `${bot_prefix}info <boss name | boss ID>`,
 	usage: '<boss name | boss ID>',
 	run: async (client, message, args) => {
-		const user = message.author.id;
-
-		const result = new Discord.MessageEmbed()
-			.setDescription('No profile found 😓')
-			.setFooter(`If you haven't create a profile yet, do \`${prefixes[message.guild.id]}start\` to create one`, client.user.avatarURL({ dynamic: true }));
-
-		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		if (!args.length) return message.reply(`**${message.author.username}**, The right syntax is \`${prefixes[message.guild.id]}info <boss name | boss ID>\`.`);
 
