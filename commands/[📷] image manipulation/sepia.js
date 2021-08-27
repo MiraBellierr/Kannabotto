@@ -37,7 +37,7 @@ module.exports = {
 				return i
 					.sepia()
 					.write(`./images/${member.user.id}-sepia.png`);
-			}).catch(e => message.reply(e.message));
+			}).catch(e => console.log(e));
 
 		setTimeout(function() {
 			message.reply({ files: [`./images/${member.user.id}-sepia.png`] }).then(() => m.delete());

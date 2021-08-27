@@ -40,7 +40,7 @@ module.exports = {
 				return i
 					.blur(parseInt(args[0]))
 					.write(`./images/${member.user.id}-blur.png`);
-			}).catch(e => message.reply(e.message));
+			}).catch(e => console.log(e));
 
 		setTimeout(function() {
 			message.reply({ files: [`./images/${member.user.id}-blur.png`] }).then(() => m.delete());

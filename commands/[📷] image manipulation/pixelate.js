@@ -38,7 +38,7 @@ module.exports = {
 				return i
 					.pixelate(parseInt(args[0]))
 					.write(`./images/${member.user.id}-pixelate.png`);
-			}).catch(e => message.reply(e.message));
+			}).catch(e => console.log(e));
 
 		setTimeout(function() {
 			message.reply({ files: [`./images/${member.user.id}-pixelate.png`] }).then(() => m.delete());

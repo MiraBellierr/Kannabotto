@@ -36,7 +36,7 @@ module.exports = {
 				return i
 					.invert()
 					.write(`./images/${member.user.id}-invert.png`);
-			}).catch(e => message.reply(e.message));
+			}).catch(e => console.log(e));
 
 		setTimeout(function() {
 			message.reply({ files: [`./images/${member.user.id}-invert.png`] }).then(() => m.delete());
