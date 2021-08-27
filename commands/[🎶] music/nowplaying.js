@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Util } = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 
 module.exports = {
@@ -27,7 +27,12 @@ module.exports = {
 		if (!queue) return message.reply(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
 
 		const song = queue.songs[0];
-		const nowPlaying = new MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setURL(song.url).addFields({ name: 'Title', value: song.title, inline: true }, { name: 'URL', value: song.url, inline: true }, { name: 'Description', value: song.description, inline: true }, { name: 'Duration', value: song.duration, inline: true }, { name: 'Created', value: song.created, inline: true }).setColor('RANDOM').setImage(song.image);
+
+		const description = Util.splitMessage(song.description, {
+			maxLength: 1024,
+		});
+
+		const nowPlaying = new MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setURL(song.url).addFields({ name: 'Title', value: song.title, inline: true }, { name: 'URL', value: song.url, inline: true }, { name: 'Description', value: description[0], inline: true }, { name: 'Duration', value: song.duration, inline: true }, { name: 'Created', value: song.created, inline: true }).setColor('RANDOM').setImage(song.image);
 
 		return message.reply({ embeds: [nowPlaying] });
 	},
