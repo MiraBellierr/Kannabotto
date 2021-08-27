@@ -48,7 +48,7 @@ module.exports = {
 		if (!permissions.has('CONNECT')) {return message.reply(`**${message.author.username}**, I'm missing \`CONNECT\` permission.`);}
 		if (!permissions.has('SPEAK')) {return message.reply(`**${message.author.username}**, I'm missing \`SPEAK\` permission.`);}
 
-		const m = await message.reply('*Please wait...*');
+		message.reply('*Please wait...*').catch(e => console.log(e));
 
 		yts(args.join(' '), async (err, res) => {
 			if (err) return message.reply('No video found.');
@@ -84,7 +84,6 @@ module.exports = {
 
 			if (serverQueue) {
 				serverQueue.songs.push(song);
-				m.delete();
 				return serverQueue.textChannel
 					.send({ embeds: [new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('RANDOM').setImage(song.image)] })
 					.catch(console.error);
@@ -104,7 +103,6 @@ module.exports = {
 
 				play(queueConstruct.songs[0], message);
 
-				m.delete();
 			}
 			catch (error) {
 				console.error(`Could not join voice channel: ${error}`);
