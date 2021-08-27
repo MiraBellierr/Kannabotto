@@ -55,11 +55,11 @@ module.exports = {
 
 		for (let i = 0; i < images[message.author.id].length; i++) {
 			if (player.get('image') === images[message.author.id][i].image) {
-				const content = `${images[message.author.id][i].name} (**Current equipped image**)`;
+				const content = `[${images[message.author.id][i].name}](${images[message.author.id][i].image}) (**Current equipped image**)`;
 				pages.push(content);
 			}
 			else {
-				const content = images[message.author.id][i].name;
+				const content = `[${images[message.author.id][i].name}](${images[message.author.id][i].image})`;
 				pages.push(content);
 			}
 		}
