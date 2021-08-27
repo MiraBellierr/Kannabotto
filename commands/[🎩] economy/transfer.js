@@ -27,6 +27,7 @@ module.exports = {
 	run: async (client, message, args) => {
 		const Economy = Models.Economy();
 		const Achievement = Models.Achievement();
+		const Blacklist = Models.Blacklist();
 
 		if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
 		if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
@@ -36,7 +37,7 @@ module.exports = {
 		const member = await getMember(message, args[0]);
 		const user = member.user;
 
-		const blacklist = await getUserDataAndCreate('Blacklist', user.id);
+		const blacklist = await getUserDataAndCreate(Blacklist, user.id);
 
 		if (blacklist.get('blacklist') === 1) return message.reply(`**${message.author.username}**, this user (${user.username}) is a blacklisted user.`);
 
