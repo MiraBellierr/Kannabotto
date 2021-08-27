@@ -27,6 +27,8 @@ module.exports = async client => {
 	const channel = client.channels.cache.get('865525377458634762');
 	const errorChannel = client.channels.cache.get('879702885670211595');
 
+	if (!channel || !errorChannel) return;
+
 	channel.send(`${client.user.username} has been restarted. Maybe there was an error.`);
 	errorChannel.send({ content: 'error.log', files: ['./error.log'] });
 };
