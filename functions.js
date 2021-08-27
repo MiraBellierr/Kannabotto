@@ -1396,5 +1396,5 @@ module.exports = {
 		if (percentage >= 1) return true;
 
 		return (Math.random() < percentage);
-	}
+	},
 };
