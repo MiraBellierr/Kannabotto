@@ -110,7 +110,7 @@ function loadItems(client) {
 	});
 
 	// whale
-	client.items.set('squid', {
+	client.items.set('whale', {
 		name: 'whale',
 		price: undefined,
 		emoji: '🐋',
