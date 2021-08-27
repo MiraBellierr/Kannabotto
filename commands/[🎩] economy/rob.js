@@ -33,10 +33,12 @@ module.exports = {
 		if (await checkGuildDisable(message, 'economy')) return guildDisableMessage(message);
 		if (await checkBlacklist(message, 'blacklist')) return blacklistMessage(message);
 
-		await createAllDataForNewUser(user);
+		await createAllDataForNewUser(message.author.id);
 
 		const member = await getMember(message, args.join(' '));
 		const user = member.user;
+
+		await createAllDataForNewUser(user.id);
 
 		if (!await Blacklist.findOne({ where: { userId: user.id } })) {
 			await Blacklist.create({
