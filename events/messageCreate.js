@@ -26,9 +26,9 @@ module.exports = async (client, message) => {
 		prefixes[message.guild.id] = bot_prefix;
 	}
 
-	if (!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+	if (!message.guild.me.permissions.has('SEND_MESSAGES') || !message.guild.me.permissionsIn(message.channel).has('SEND_MESSAGES')) return;
 
-	if (message.mentions.users.first() === client.user) message.reply(`My prefix for this guild is \`${prefixes[message.guild.id]}\`. Type \`${prefixes[message.guild.id]}help\` for more info about me. `);
+	if (message.mentions.users.first() === client.user) message.reply(`My prefix for this guild is \`${prefixes[message.guild.id]}\`. Type \`${prefixes[message.guild.id]}help\` for more info about me. `).catch(e => console.log(e));
 
 	const prefix = prefixes[message.guild.id];
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
