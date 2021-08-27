@@ -1397,4 +1397,12 @@ module.exports = {
 
 		return (Math.random() < percentage);
 	},
+	getProgbar: (current, max, length) => {
+		const curBer = Math.floor((current / max) * length);
+		let str = '';
+		for(let i = 0; i < length; i++) {
+			str += i < curBer ? '■' : '□';
+		}
+		return str;
+	},
 };
