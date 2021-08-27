@@ -17,6 +17,7 @@ const { bot_prefix } = require('../../config.json');
 const { getMember, checkPlayerExist, getUserDataAndCreate, createAllDataForNewUser } = require('../../functions');
 const prefixes = require('../../database/prefix.json');
 const Models = require('../../create-model.js');
+const characters = require('../../database/characters.json');
 
 module.exports = {
 	name: 'profile',
@@ -37,38 +38,42 @@ module.exports = {
 
 		const Bag = Models.Bag();
 		const Player = Models.Player();
+		const Images = Models.Images();
+
+		const images = await Images.findOne({ where: { id: 1 } });
+
+		const playerImages = images.dataValues.data[user];
 
 		await createAllDataForNewUser(user);
 
 		const bag = await getUserDataAndCreate(Bag, user);
 		const player = await getUserDataAndCreate(Player, user);
 
-		message.guild.members.fetch().then(async members => {
-			let board = [];
-			const playerList = await Player.findAll({ attributes: ['userId'] });
-			const playerListString = playerList.map(p => p.userId);
+		const members = await message.guild.members.fetch();
+		let board = [];
+		const playerList = await Player.findAll({ attributes: ['userId'] });
+		const playerListString = playerList.map(p => p.userId);
 
-			for(let i = 0; i < playerListString.length; i++) {
-				const value = Object.assign({ user: members.get(playerListString[i]) }, await Player.findOne({ where: { UserId: playerListString[i] } }));
-				board.push(value);
-			}
+		for(let i = 0; i < playerListString.length; i++) {
+			const value = Object.assign({ user: members.get(playerListString[i]) }, await Player.findOne({ where: { UserId: playerListString[i] } }));
+			board.push(value);
+		}
 
-			board = board.filter(x => x.user);
-			board = board.sort((a, b) => b.dataValues.rank - a.dataValues.rank);
-			const map = board.map((x) => x.user.id);
-			const index = map.indexOf(user);
-			const rank = index + 1;
+		board = board.filter(x => x.user);
+		board = board.sort((a, b) => b.dataValues.rank - a.dataValues.rank);
+		const map = board.map((x) => x.user.id);
+		const index = map.indexOf(user);
+		const rank = index + 1;
 
-			const profile = new Discord.MessageEmbed()
-				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle(`Level ${player.get('level')} ${player.get('name')}`)
-				.setDescription(`**• Rank:** ${rank}\n**• Stars:** <:hdstar:880340055619694632> ${player.get('rank')}\n**• Total Battles:** ${player.get('battle')}\n**• Win rate:** ${isNaN((player.get('won') / player.get('battle')) * 100) ? '0.00%' : `${((player.get('won') / player.get('battle')) * 100).toFixed(2)}%`}`)
-				.setColor('RANDOM')
-				.addField('Stats', `**• Class:** ${player.get('class')}\n**• XP:** ${player.get('xp')}/${player.get('totalXp')}\n**• Health:** ${(100 * player.get('health')).toLocaleString()}\n**• Physical Attack:** ${player.get('physicalAttack')}\n**• Magical Attack:** ${player.get('magicalAttack')}\n**• Physical Resistance:** ${player.get('physicalResistance')}\n**• Magical Resistance:** ${player.get('magicalResistance')}\n**• Speed:** ${player.get('speed')}\n**• Weapon:** ${bag.get('weapon')}`)
-				.setImage(player.get('image'))
-				.setTimestamp();
+		const profile = new Discord.MessageEmbed()
+			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+			.setTitle(`Level ${player.get('level')} ${player.get('name')}`)
+			.addField('__User Stats__', `**• 👑 Rank:** ${rank}\n**• <:hdstar:880340055619694632> Stars:** ${player.get('rank')}\n**• ⚔ Total Battles:** ${player.get('battle')}\n**• 🤺 Win rate:** ${isNaN((player.get('won') / player.get('battle')) * 100) ? '0.00%' : `${((player.get('won') / player.get('battle')) * 100).toFixed(2)}%`}\n**• 💀 Boss Captured:** ${playerImages.length}/${characters.length}`, true)
+			.setColor('RANDOM')
+			.addField('__Character Stats__', `**• <:class:880658124246237254> Class:** ${player.get('class')}\n**• <:xp:880655736261206036> XP:** ${player.get('xp')}/${player.get('totalXp')}\n**• <:health:880655864523014155> Health:** ${(100 * player.get('health')).toLocaleString()}\n**• <:pa:880665943959797811> Physical Attack:** ${player.get('physicalAttack')}\n**• <:ma:880664129487138826> Magical Attack:** ${player.get('magicalAttack')}\n**• <:pr:880665272535642162> Physical Resistance:** ${player.get('physicalResistance')}\n**• <:mr:880667328671518731> Magical Resistance:** ${player.get('magicalResistance')}\n**• <:speed:880668456066891826> Speed:** ${player.get('speed')}\n**• <:weapon:880669056024317963> Weapon:** ${bag.get('weapon')}`, true)
+			.setImage(player.get('image'))
+			.setTimestamp();
 
-			message.reply({ embeds: [profile] });
-		});
+		message.reply({ embeds: [profile] });
 	},
 };

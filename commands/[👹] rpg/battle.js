@@ -21,6 +21,7 @@ const { getMember, promptMessage, getUserDataAndCreate, checkPlayerExist, cooldo
 const randomcharacter = require('../../database/randomCharacter.json');
 const redirect = require('../../database/redirect.json');
 const Models = require('../../create-model.js');
+const emojis = require('../../database/emojis.json');
 
 module.exports = {
 	name: 'battle',
@@ -133,7 +134,7 @@ module.exports = {
 
 					let i, half;
 					let gainedcoins = enemyLevel;
-					
+
 					const chance_1 = chance(0.5);
 					const chance_2 = chance(0.5);
 
@@ -420,8 +421,8 @@ module.exports = {
 						.setImage(enemy[0].image)
 						.setFooter(`Round 0/${i + 1}`)
 						.setColor('#DDA0DD')
-						.addField(player.get('name'), `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerFullHealth}/${playerFullHealth}\n${getProgbar(playerFullHealth, playerFullHealth, 20)}`)
-						.addField(enemy[0].name, `**• Level:** ${enemyLevel}\n**• Weapon:** None\n**• Health:** ${(enemy[0].health + enemyLevel) * 100}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar((enemy[0].health + enemyLevel) * 100, (enemy[0].health + enemyLevel) * 100, 20)}`);
+						.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerFullHealth}/${playerFullHealth}\n${getProgbar(playerFullHealth, playerFullHealth, 20)}`)
+						.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${(enemy[0].health + enemyLevel) * 100}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar((enemy[0].health + enemyLevel) * 100, (enemy[0].health + enemyLevel) * 100, 20)}`);
 
 					const thisMes = await message.reply({ embeds: [battle] });
 					if (i > 0) {
@@ -430,8 +431,8 @@ module.exports = {
 							.setThumbnail(player.get('image'))
 							.setImage(enemy[0].image)
 							.setColor('#DDA0DD')
-							.addField(player.get('name'), `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth2}/${playerFullHealth}\n${getProgbar(playerHealth2, playerFullHealth, 20)}`)
-							.addField(enemy[0].name, `**• Level:** ${enemyLevel}\n**• Weapon:** None\n**• Health:** ${enemyHealth2}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth2, (enemy[0].health + enemyLevel) * 100, 20)}`)
+							.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth2}/${playerFullHealth}\n${getProgbar(playerHealth2, playerFullHealth, 20)}`)
+							.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth2}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth2, (enemy[0].health + enemyLevel) * 100, 20)}`)
 							.setFooter(`Round ${Math.floor(i / 2) + 1}/${i + 1}`);
 
 						setTimeout(() => thisMes.edit({ embeds: [battle2] }), 2000);
@@ -443,23 +444,23 @@ module.exports = {
 							.setImage(enemy[0].image)
 							.setColor('#DDA0DD');
 						if (enemyHealth < 1 && playerHealth < 1) {
-							battle3.addField(player.get('name'), `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-							battle3.addField(enemy[0].name, `**• Level:** ${enemyLevel}\n**• Weapon:** None\n**• Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
+							battle3.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+							battle3.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 							battle3.setFooter(`Round ${i + 1}/${i + 1}. Tie. ${player.get('name')} gained 10 xp`);
 						}
 						else if (enemyHealth < 1) {
-							battle3.addField(`${player.get('name')} - :trophy: Winner`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-							battle3.addField(enemy[0].name, `**• Level:** ${enemyLevel}\n**• Weapon:** None\n**• Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
+							battle3.addField(`__${player.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+							battle3.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 							battle3.setFooter(`Round ${i + 1}. You won. ${player.get('name')} gained 100 xp and ${gainedcoins} coins`);
 						}
 						else if (playerHealth < 1) {
-							battle3.addField(`${player.get('name')}`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-							battle3.addField(`${enemy[0].name} - :trophy: Winner`, `**• Level:** ${enemyLevel}\n**• Weapon:** None\n**• Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
+							battle3.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+							battle3.addField(`__${enemy[0].name}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 							battle3.setFooter(`Round ${i + 1}/${i + 1}. You lost. ${player.get('name')} gained 10 xp`);
 						}
 						else if (i === 999) {
-							battle3.addField(player.get('name'), `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-							battle3.addField(enemy[0].name, `**• Level:** ${enemyLevel}\n**• Weapon:** None\n**• Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
+							battle3.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+							battle3.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 							battle3.setFooter(`Round ${i + 1}/10000. No winner. ${player.get('name')} gained 10 xp`);
 						}
 
@@ -512,8 +513,8 @@ module.exports = {
 
 					const m = await message.reply({ embeds: [prompt] });
 
-					const emojis = ['✅', '❎'];
-					const reacted = await promptMessage(m, enemyPlayer.user, 300000, emojis);
+					const emojis2 = ['✅', '❎'];
+					const reacted = await promptMessage(m, enemyPlayer.user, 300000, emojis2);
 
 					if (reacted === '✅') {
 						m.delete();
@@ -829,8 +830,8 @@ module.exports = {
 							.setImage(playerEnemy.get('image'))
 							.setThumbnail(player.get('image'))
 							.setColor('#DDA0DD')
-							.addField(player.get('name'), `**• Level:** ${player.get('level')}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerFullHealth}/${playerFullHealth}\n${getProgbar(playerFullHealth, playerFullHealth, 20)}`)
-							.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${playerEnemy.get('health') * 100}/${playerEnemy.get('health') * 100}\n${getProgbar(playerEnemy.get('health') * 100, playerEnemy.get('health') * 100, 20)}`);
+							.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerFullHealth}/${playerFullHealth}\n${getProgbar(playerFullHealth, playerFullHealth, 20)}`)
+							.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${playerEnemy.get('health') * 100}/${playerEnemy.get('health') * 100}\n${getProgbar(playerEnemy.get('health') * 100, playerEnemy.get('health') * 100, 20)}`);
 
 						const thisMes = await message.reply({ embeds: [battle] });
 						if (i > 0) {
@@ -839,8 +840,8 @@ module.exports = {
 								.setImage(playerEnemy.get('image'))
 								.setThumbnail(player.get('image'))
 								.setColor('#DDA0DD')
-								.addField(player.get('name'), `**• Level:** ${player.get('level')}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth2}/${playerFullHealth}\n${getProgbar(playerHealth2, playerFullHealth, 20)}`)
-								.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth2}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth2, playerEnemy.get('health') * 100, 20)}`)
+								.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth2}/${playerFullHealth}\n${getProgbar(playerHealth2, playerFullHealth, 20)}`)
+								.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth2}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth2, playerEnemy.get('health') * 100, 20)}`)
 								.setFooter(`Round ${Math.floor(i / 2) + 1}/${i + 1}`);
 
 							setTimeout(() => thisMes.edit({ embeds: [battle2] }), 2000);
@@ -852,23 +853,23 @@ module.exports = {
 								.setImage(playerEnemy.get('image'))
 								.setColor('#DDA0DD');
 							if (playerHealth < 1 && enemyHealth < 1) {
-								battle4.addField(player.get('name'), `**• Level:** ${player.get('level')}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-								battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+								battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+								battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 								battle4.setFooter(`Round ${i + 1}/${i + 1}. Tie`);
 							}
 							else if (playerHealth < 1) {
-								battle4.addField(player.get('name'), `**• Level:** ${player.get('level')}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-								battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character - :trophy: Winner' : `${playerEnemy.get('name')} - :trophy: Winner`, `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+								battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+								battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__ - :trophy: Winner' : `__${playerEnemy.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 								battle4.setFooter(`Round ${i + 1}/${i + 1}. ${playerEnemy.get('name')} won`);
 							}
 							else if (enemyHealth < 1) {
-								battle4.addField(`${player.get('name')} - :trophy: Winner`, `**• Level:** ${player.get('level')}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-								battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+								battle4.addField(`__${player.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+								battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 								battle4.setFooter(`Round ${i + 1}/${i + 1}. ${player.get('name')} won`);
 							}
 							else if (i === 999) {
-								battle4.addField(player.get('name'), `**• Level:** ${player.get('level')}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-								battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+								battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+								battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 								battle4.setFooter(`Round ${i + 1}/10000. No winner`);
 							}
 							setTimeout(() => thisMes.edit({ embeds: [battle4] }), 2000);
@@ -1279,8 +1280,8 @@ module.exports = {
 				.setThumbnail(player.get('image'))
 				.setColor('#DDA0DD')
 				.setFooter(`Round 0/${i + 1}`)
-				.addField(player.get('name'), `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerFullHealth}/${playerFullHealth}\n${getProgbar(playerFullHealth, playerFullHealth, 20)}`)
-				.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${playerEnemy.get('health') * 100}/${playerEnemy.get('health') * 100}\n${getProgbar(playerEnemy.get('health') * 100, playerEnemy.get('health') * 100, 20)}`);
+				.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerFullHealth}/${playerFullHealth}\n${getProgbar(playerFullHealth, playerFullHealth, 20)}`)
+				.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${playerEnemy.get('health') * 100}/${playerEnemy.get('health') * 100}\n${getProgbar(playerEnemy.get('health') * 100, playerEnemy.get('health') * 100, 20)}`);
 
 			const thisMes = await message.reply({ embeds: [battle] });
 			if (i > 0) {
@@ -1289,8 +1290,8 @@ module.exports = {
 					.setColor('#DDA0DD')
 					.setImage(playerEnemy.get('image'))
 					.setThumbnail(player.get('image'))
-					.addField(player.get('name'), `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth2}/${playerFullHealth}\n${getProgbar(playerHealth2, playerFullHealth, 20)}`)
-					.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth2}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth2, playerEnemy.get('health') * 100, 20)}`)
+					.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth2}/${playerFullHealth}\n${getProgbar(playerHealth2, playerFullHealth, 20)}`)
+					.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth2}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth2, playerEnemy.get('health') * 100, 20)}`)
 					.setFooter(`Round ${Math.floor(i / 2) + 1}/${i + 1}`);
 
 				setTimeout(() => thisMes.edit({ embeds: [battle3] }), 2000);
@@ -1302,23 +1303,23 @@ module.exports = {
 					.setThumbnail(player.get('image'))
 					.setColor('#DDA0DD');
 				if (playerHealth < 1 && enemyHealth < 1) {
-					battle4.addField(`${player.get('name')}`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-					battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+					battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+					battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 					battle4.setFooter(`Round ${i + 1}/${i + 1}. Tie. ${player.get('name')} gained 10 xp`);
 				}
 				else if (playerHealth < 1) {
-					battle4.addField(player.get('name'), `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-					battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character - :trophy: Winner' : `${playerEnemy.get('name')} - :trophy: Winner`, `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+					battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+					battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__ - :trophy: Winner' : `__${playerEnemy.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 					battle4.setFooter(`Round ${i + 1}/${i + 1}. You lost. ${player.get('name')} gained 10 xp`);
 				}
 				else if (enemyHealth < 1) {
-					battle4.addField(`${player.get('name')} - :trophy: Winner`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-					battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+					battle4.addField(`__${player.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+					battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 					battle4.setFooter(`Round ${i + 1}/${i + 1}. You won. ${player.get('name')} gained ${xpAdd} xp, ${starAdd} stars and ${playerEnemy.get('level')} coins`);
 				}
 				else if (i === 999) {
-					battle4.addField(`${player.get('name')}`, `**• Level:** ${playerLevel}\n**• Weapon:** ${emoji} ${bag.get('weapon')}\n**• Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
-					battle4.addField(playerEnemy.get('name') === 'Your Character' ? 'Enemy Character' : playerEnemy.get('name'), `**• Level:** ${playerEnemy.get('level')}\n**• Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
+					battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
+					battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 					battle4.setFooter(`Round ${i + 1}/10000. No winner. ${player.get('name')} gained 10 xp`);
 				}
 

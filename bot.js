@@ -24,6 +24,7 @@ new Sequelize('database', 'user', 'password', {
 	storage: './database/database.sqlite',
 });
 const Models = require('./create-model');
+const emojis = require('./database/emojis.json');
 
 const { GiveawaysManager } = require('./discord-giveaways/index');
 const PrivilegedIntents = {
@@ -181,7 +182,7 @@ client.on('messageCreate', async message => {
 				.setAuthor('A wild boss appears!', message.author.displayAvatarURL({ dynamic: true }))
 				.setColor('RANDOM')
 				.setTitle(`Level ${randomLevel} ${character.name}`)
-				.addField('Stats', `**• Health:** ${(character.health + randomLevel) * 100}\n**• Physical Attack:** ${character.physical_attack + randomLevel}\n**• Magical Attack:** ${character.magical_attack + randomLevel}\n**• physical Resistance:** ${character.physical_resistance + randomLevel}\n**• Magical Resistance:** ${character.magical_resistance + randomLevel}\n**• Speed:** ${character.speed + randomLevel}`)
+				.addField('__Character Stats__', `**• ${emojis.health} Health:** ${(character.health + randomLevel) * 100}\n**• ${emojis.pa} Physical Attack:** ${character.physical_attack + randomLevel}\n**• ${emojis.ma} Magical Attack:** ${character.magical_attack + randomLevel}\n**• ${emojis.pr} physical Resistance:** ${character.physical_resistance + randomLevel}\n**• ${emojis.mr} Magical Resistance:** ${character.magical_resistance + randomLevel}\n**• ${emojis.speed} Speed:** ${character.speed + randomLevel}`)
 				.setImage(character.image)
 				.setFooter(`Type "${prefixes[message.guild.id]}battle boss" to challenge this boss`);
 
