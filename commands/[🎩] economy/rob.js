@@ -66,7 +66,7 @@ module.exports = {
 			message.reply(`**${message.author.username}**, Please wait **${timer.minutes}m ${timer.seconds}s** until you can rob again.`);
 		}
 		else {
-			const timerVictim = await cooldown('doc', user.id, 1.8e+6);
+			const timerVictim = await cooldown('gotRobbed', user.id, 1.8e+6);
 
 			if (timerVictim.bool) {
 				message.reply(`**${message.author.username}**, This user has already been robbed in the past 30 minutes.`);
@@ -74,10 +74,9 @@ module.exports = {
 			else {
 				if (economy.get('balance') < 200) return message.reply(`**${message.author.username}**, You need atleast <a:jasminecoins:868105109748469780> 200 in your pocket to rob someone`);
 
-				const timeOut = 4.32e+7;
-				const lastGuard = await cooldown.get('guard');
+				const guardTimer = await cooldown('guard', user.id, 4.32e+7);
 
-				if (lastGuard !== null && timeOut - (Date.now() - lastGuard) > 0) return message.reply(`**${message.author.username}**, there is a guard watching over ${user.username}! You can't rob them.`);
+				if (guardTimer.bool) return message.reply(`**${message.author.username}**, there is a guard watching over ${user.username}! You can't rob them.`);
 
 				await Cooldown.update({ rob: Date.now() }, { where: { userId: message.author.id } });
 
