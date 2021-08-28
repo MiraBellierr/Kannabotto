@@ -88,7 +88,8 @@ module.exports = {
 
 					const filter = m => m.author.id === message.author.id;
 
-					const input = await message.channel.awaitMessages(filter, {
+					const input = await message.channel.awaitMessages({
+						filter,
 						max: 1,
 						time: 30000,
 					});
