@@ -27,7 +27,7 @@ module.exports = {
 		const queue = message.client.queue.get(message.guild.id);
 
 		if (!song) {
-			message.client.queue.get(message.guild.id).connection.destroy();
+			if (queue.connection) queue.connection.destroy();
 
 			message.client.queue.delete(message.guild.id);
 
