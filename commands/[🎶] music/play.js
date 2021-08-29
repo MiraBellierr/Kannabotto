@@ -27,10 +27,6 @@ module.exports = {
 	example: `${bot_prefix}play <YouTube URL>`,
 	usage: '<YouTube URL>',
 	run: async (client, message, args) => {
-		if (message.deletable) {
-			message.delete();
-		}
-
 		const { channel } = message.member.voice;
 
 		const serverQueue = message.client.queue.get(message.guild.id);
@@ -48,7 +44,7 @@ module.exports = {
 		if (!permissions.has('CONNECT')) {return message.reply(`**${message.author.username}**, I'm missing \`CONNECT\` permission.`);}
 		if (!permissions.has('SPEAK')) {return message.reply(`**${message.author.username}**, I'm missing \`SPEAK\` permission.`);}
 
-		message.reply('*Please wait...*').catch(e => console.log(e));
+		const m = message.channel.send('*Please wait...*');
 
 		yts(args.join(' '), async (err, res) => {
 			if (err) return message.reply('No video found.');
@@ -102,6 +98,7 @@ module.exports = {
 				queueConstruct.connection = getVoiceConnection(channel.guild.id);
 
 				play(queueConstruct.songs[0], message);
+				m.delete();
 
 			}
 			catch (error) {
@@ -113,7 +110,7 @@ module.exports = {
 
 				message.client.queue.delete(message.guild.id);
 
-
+				m.delete();
 				return message.reply(`Could not join the channel: ${error}`).catch(console.error);
 			}
 		});
