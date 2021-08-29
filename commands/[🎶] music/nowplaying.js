@@ -30,6 +30,7 @@ module.exports = {
 
 		const description = Util.splitMessage(song.description, {
 			maxLength: 1024,
+			char: '',
 		});
 
 		const nowPlaying = new MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setURL(song.url).addFields({ name: 'Title', value: song.title, inline: true }, { name: 'URL', value: song.url, inline: true }, { name: 'Description', value: description[0], inline: true }, { name: 'Duration', value: song.duration, inline: true }, { name: 'Created', value: song.created, inline: true }).setColor('RANDOM').setImage(song.image);

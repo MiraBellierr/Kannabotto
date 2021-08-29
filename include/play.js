@@ -27,7 +27,7 @@ module.exports = {
 		const queue = message.client.queue.get(message.guild.id);
 
 		if (!song) {
-			queue.connection.destroy();
+			message.client.queue.get(message.guild.id).connection.destroy();
 
 			message.client.queue.delete(message.guild.id);
 
@@ -38,7 +38,7 @@ module.exports = {
 
 		try {
 			if (song.url.includes('youtube.com')) {
-				stream = await ytdlDiscord(song.url, { filter: 'audioonly', opusEncoded: true, encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200'] });
+				stream = ytdlDiscord(song.url, { filter: 'audioonly', opusEncoded: true, encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200'] });
 			}
 		}
 		catch (error) {
@@ -89,6 +89,7 @@ module.exports = {
 		try {
 			const description = Discord.Util.splitMessage(song.description, {
 				maxLength: 1024,
+				char: '',
 			});
 
 			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: `${song.title}`, inline: true }, { name: 'URL', value: `${song.url}`, inline: true }, { name: 'Description', value: `${description[0]}` }, { name: 'Duration', value: `${song.duration}` }, { name: 'Created', value: `${song.created}`, inline: true }).setColor('RANDOM').setImage(song.image)] });
