@@ -44,7 +44,7 @@ module.exports = {
 		if (!permissions.has('CONNECT')) {return message.reply(`**${message.author.username}**, I'm missing \`CONNECT\` permission.`);}
 		if (!permissions.has('SPEAK')) {return message.reply(`**${message.author.username}**, I'm missing \`SPEAK\` permission.`);}
 
-		const m = message.channel.send('*Please wait...*');
+		const m = await message.channel.send('*Please wait...*');
 
 		yts(args.join(' '), async (err, res) => {
 			if (err) return message.reply('No video found.');
