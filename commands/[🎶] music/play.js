@@ -17,7 +17,7 @@ const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const yts = require('yt-search');
 const Discord = require('discord.js');
-const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
+const { joinVoiceChannel } = require('@discordjs/voice');
 
 module.exports = {
 	name: 'play',
@@ -89,13 +89,13 @@ module.exports = {
 			client.queue.set(message.guild.id, queueConstruct);
 
 			try {
-				joinVoiceChannel({
+				queueConstruct.connection = joinVoiceChannel({
 					channelId: channel.id,
 					guildId: channel.guild.id,
 					adapterCreator: channel.guild.voiceAdapterCreator,
 				});
 
-				queueConstruct.connection = getVoiceConnection(channel.guild.id);
+				console.log(queueConstruct);
 
 				play(queueConstruct.songs[0], message);
 				m.delete();
@@ -107,8 +107,6 @@ module.exports = {
 				const queue = message.client.queue.get(message.guild.id);
 
 				queue.connection._state.subscription.player.stop();
-
-				message.client.queue.delete(message.guild.id);
 
 				m.delete();
 				return message.reply(`Could not join the channel: ${error}`).catch(console.error);

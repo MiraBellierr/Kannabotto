@@ -14,20 +14,16 @@
 
 const ytdlDiscord = require('discord-ytdl-core');
 const Discord = require('discord.js');
-const { createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
-const player = createAudioPlayer({
-	behaviors: {
-		noSubscriber: NoSubscriberBehavior.Pause,
-	},
-});
-
+const { createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 
 module.exports = {
 	async play(song, message) {
 		const queue = message.client.queue.get(message.guild.id);
+		console.log(message.channel.name, message.guild.name);
 
 		if (!song) {
-			if (queue.connection) queue.connection.destroy();
+
+			queue.connection.destroy();
 
 			message.client.queue.delete(message.guild.id);
 
@@ -44,7 +40,7 @@ module.exports = {
 		catch (error) {
 			if (queue) {
 				queue.songs.shift();
-				module.exports.play(queue.songs[0], message);
+				return module.exports.play(queue.songs[0], message);
 			}
 
 			console.error(error);
@@ -52,11 +48,16 @@ module.exports = {
 			return message.reply(`Error: ${error.message ? error.message : error}`);
 		}
 
-		queue.connection.on(VoiceConnectionStatus.Disconnected, () => message.client.queue.delete(message.guild.id));
-
 		const type = song.url.includes('youtube.com') ? 'opus' : 'ogg/opus';
 
 		const resource = createAudioResource(stream, { inputType: type, inlineVolume: true });
+
+		const player = createAudioPlayer({
+			behaviors: {
+				noSubscriber: NoSubscriberBehavior.Pause,
+			},
+		});
+
 		player.play(resource);
 
 		let dispatcher = queue.connection.subscribe(player);
@@ -76,10 +77,8 @@ module.exports = {
 				queue.songs.shift();
 				module.exports.play(queue.songs[0], message);
 			}
-		}).on('unsubscribe', () => {
-			message.client.queue.delete(message.guild.id);
 		}).on('error', (err) => {
-			console.error(err);
+			console.log(err);
 			queue.songs.shift();
 			module.exports.play(queue.songs[0], message);
 		});
