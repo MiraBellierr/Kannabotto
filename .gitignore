@@ -1,6 +1,6 @@
 node_modules
 config.json
-database
+database.sqlite
 images
 .env
 ecosystem.config.js
