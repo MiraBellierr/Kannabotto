@@ -19,7 +19,7 @@ module.exports = (client, channel, time) => {
 	const log = JSON.parse(fs.readFileSync('./database/logging.json', 'utf8'));
 	const logsetting = JSON.parse(fs.readFileSync('./database/logonoff.json', 'utf8'));
 
-	if (channel.type === 'dm') return;
+	if (channel.type === 'DM') return;
 
 	if(!logsetting[channel.guild.id]) {
 		logsetting[channel.guild.id] = {

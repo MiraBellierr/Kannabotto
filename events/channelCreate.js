@@ -19,7 +19,7 @@ module.exports = (client, channel) => {
 	const log = JSON.parse(fs.readFileSync('./database/logging.json', 'utf8'));
 	const logsetting = JSON.parse(fs.readFileSync('./database/logonoff.json', 'utf8'));
 
-	if (channel.type === 'dm') return;
+	if (channel.type === 'DM') return;
 
 	if(!logsetting[channel.guild.id]) {
 		logsetting[channel.guild.id] = {
@@ -38,7 +38,7 @@ module.exports = (client, channel) => {
 		if(!logChannel) return;
 
 		const embed = new Discord.MessageEmbed()
-			.setAuthor('Channel Created', channel.guild.iconURL)
+			.setAuthor('Channel Created', channel.guild.iconURL({ dynamic: true }))
 			.setColor('RANDOM')
 			.setDescription(`**Channel:** <#${channel.id}>`)
 			.setTimestamp()
