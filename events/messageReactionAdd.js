@@ -36,7 +36,7 @@ module.exports = async (client, reaction) => {
 			if (reaction.emoji.name === '⭐') {
 				const starChannel = message.guild.channels.cache.get(starboard[message.guild.id].channel);
 				const fetch = await starChannel.messages.fetch();
-				const image = message.attachments.size > 0 ? await extension(reaction, message.attachments.array()[0].url) : '';
+				const image = message.attachments.size > 0 ? await extension(reaction, message.attachments.first().proxyURL) : '';
 				const stars = fetch.find(m => m.content.startsWith('⭐') && m.content.endsWith(message.id));
 				if (stars) {
 					// eslint-disable-next-line no-useless-escape
@@ -46,8 +46,8 @@ module.exports = async (client, reaction) => {
 						.setColor(foundStar.color)
 						.setThumbnail(foundStar.thumbnail.url)
 						.setDescription(foundStar.description)
-						.addField(foundStar.fields[0].name, foundStar.fields[0].value, true)
-						.addField(foundStar.fields[1].name, foundStar.fields[1].value, true)
+						.addField(`${foundStar.fields[0].name}`, `${foundStar.fields[0].value}`, true)
+						.addField(`${foundStar.fields[1].name}`, `${foundStar.fields[1].value}`, true)
 						.setTimestamp(foundStar.timestamp);
 					if (foundStar.fields[2]) embed.addField(foundStar.fields[2].name, foundStar.fields[2].value);
 					if (foundStar.image) embed.setImage(foundStar.image.url);
@@ -62,8 +62,8 @@ module.exports = async (client, reaction) => {
 						.setColor('RANDOM')
 						.setDescription(`**[Jump to message!](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id})**`)
 						.setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
-						.addField('Author', message.author, true)
-						.addField('Channel', message.channel, true)
+						.addField('Author', message.author.toString(), true)
+						.addField('Channel', message.channel.toString(), true)
 						.setTimestamp()
 						.setImage(image);
 					if (message.cleanContent.length > 0) embed.addField('message', message.cleanContent);
