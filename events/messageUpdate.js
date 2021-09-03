@@ -39,7 +39,7 @@ module.exports = (client, oldMessage, newMessage) => {
 		const logChannel = newMessage.guild.channels.cache.get(`${log[newMessage.guild.id].channel}`);
 		if(!logChannel) return;
 
-		if (newMessage !== oldMessage) {
+		if (newMessage.content !== oldMessage.content) {
 
 			const oldContent = Discord.Util.splitMessage(oldMessage.content, {
 				maxLength: 1024,
