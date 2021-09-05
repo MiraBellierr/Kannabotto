@@ -116,7 +116,7 @@ exports.GiveawaysManagerOptions = {};
  */
 exports.defaultManagerOptions = {
 	storage: './giveaways.json',
-	updateCountdownEvery: 5000,
+	updateCountdownEvery: 500,
 	endedGiveawaysLifetime: null,
 	hasGuildMemberIntent: false,
 	default: {
@@ -128,7 +128,7 @@ exports.defaultManagerOptions = {
 		reaction: '🎉',
 		lastChance: {
 			enabled: false,
-			content: '⚠️ **LAST CHANCE TO ENTER !** ⚠️',
+			content: '⚠️ **! LAST CHANCE TO ENTER !** ⚠️',
 			secondsBeforeLastChance: 5000,
 			embedColor: '#FF0000',
 		},
@@ -176,25 +176,25 @@ exports.GiveawayEditOptions = {};
  * Raw giveaway object (used to store giveaways in the database).
  * @typedef GiveawayData
  *
- * @property {number} startAt The start date of the giveaway
- * @property {number} endAt The end date of the giveaway
- * @property {number} winnerCount The number of winners of the giveaway
- * @property {Discord.Snowflake[]} winnerIDs winnerIDs The winner IDs of the giveaway after it ended
- * @property {GiveawayMessages} messages The giveaway messages
- * @property {boolean} ended Whether the giveaway is ended
- * @property {string} prize The prize of the giveaway
- * @property {Discord.Snowflake} channelID The ID of the channel
- * @property {Discord.Snowflake} guildID The ID of the guild
- * @property {Discord.Snowflake?} [messageID] The ID of the message
- * @property {Discord.EmojiIdentifierResolvable} [reaction] The reaction of the giveaway
- * @property {boolean} [botsCanWin] Whether the bots can win the giveaway
- * @property {Discord.PermissionResolvable[]} [exemptPermissions] Members with any of these permissions won't be able to win the giveaway
- * @property {string?} [exemptMembers] Filter function to exempt members from winning the giveaway
- * @property {string} [bonusEntries] The array of BonusEntry objects for the giveaway
- * @property {Discord.ColorResolvable} [embedColor] The color of the giveaway embed
- * @property {Discord.ColorResolvable} [embedColorEnd] The color of the giveaway ended when it's ended
- * @property {string?} [hostedBy] Mention of user who hosts the giveaway
- * @property {any} [extraData] The extra data value for this giveaway
- * @property {LastChanceOptions} [lastChance] The last chance system options
+ * @property {number} startAt The start date of the giveaway.
+ * @property {number} endAt The end date of the giveaway.
+ * @property {number} winnerCount The number of winners of the giveaway.
+ * @property {Discord.Snowflake[]} winnerIDs winnerIDs The winner IDs of the giveaway after it ended.
+ * @property {GiveawayMessages} messages The giveaway messages.
+ * @property {boolean} ended Whether the giveaway is ended.
+ * @property {string} prize The prize of the giveaway.
+ * @property {Discord.Snowflake} channelID The ID of the channel.
+ * @property {Discord.Snowflake} guildID The ID of the guild.
+ * @property {Discord.Snowflake?} [messageID] The ID of the message.
+ * @property {Discord.EmojiIdentifierResolvable} [reaction] The reaction of the giveaway.
+ * @property {boolean} [botsCanWin] Whether the bots can win the giveaway.
+ * @property {Discord.PermissionResolvable[]} [exemptPermissions] Members with any of these permissions won't be able to win the giveaway.
+ * @property {string?} [exemptMembers] Filter function to exempt members from winning the giveaway.
+ * @property {string} [bonusEntries] The array of BonusEntry objects for the giveaway.
+ * @property {Discord.ColorResolvable} [embedColor] The color of the giveaway embed.
+ * @property {Discord.ColorResolvable} [embedColorEnd] The color of the giveaway ended when it's ended.
+ * @property {string?} [hostedBy] Mention of user who hosts the giveaway.
+ * @property {any} [extraData] The extra data value for this giveaway.
+ * @property {LastChanceOptions} [lastChance] The last chance system options.
  */
 exports.GiveawayData = {};
