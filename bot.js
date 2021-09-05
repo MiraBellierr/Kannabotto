@@ -18,6 +18,7 @@ const fs = require('fs');
 const prefixes = require('./database/prefix.json');
 const topggVoteReward = require('./post/votereward/top.gg');
 const topgg = require('./post/top.gg');
+const radarbotdirectoryxyz = require('./post/radarbotdirectory.xyz');
 const discordbotlistcom = require('./post/discordbotlist.com');
 const Sequelize = require('sequelize');
 new Sequelize('database', 'user', 'password', {
@@ -78,6 +79,7 @@ client.categories = fs.readdirSync('./commands/');
 setInterval(function() {
 	topgg(client);
 	discordbotlistcom(client);
+	radarbotdirectoryxyz(client);
 }, 1.8e+6);
 
 topggVoteReward(client);
