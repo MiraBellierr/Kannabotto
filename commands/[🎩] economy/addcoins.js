@@ -25,8 +25,9 @@ module.exports = {
 		if (!args.length) return message.reply('`<ID> <amount>`');
 
 		const id = args[0];
+		const user = await client.users.fetch(id);
 
-		if (!client.users.cache.get(id)) return message.reply('There is no user with this id');
+		if (!user.id) return message.reply('There is no user with this id');
 
 		const amount = parseInt(args[1]);
 
