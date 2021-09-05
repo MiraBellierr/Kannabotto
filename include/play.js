@@ -19,7 +19,6 @@ const { createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlaye
 module.exports = {
 	async play(song, message) {
 		const queue = message.client.queue.get(message.guild.id);
-		console.log(message.channel.name, message.guild.name);
 
 		if (!song) {
 
