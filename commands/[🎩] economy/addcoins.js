@@ -18,7 +18,10 @@ const { getUserDataAndCreate, createAllDataForNewUser } = require('../../functio
 module.exports = {
 	name: 'addcoins',
 	run: async (client, message, args) => {
-		if (message.author.id !== '275989071774351360') return;
+		const clientApplication = await client.application.fetch(client.user.id);
+		const owner = clientApplication.owner.id;
+
+		if (message.author.id !== owner) return;
 		if (!args.length) return message.reply('`<ID> <amount>`');
 
 		const id = args[0];
