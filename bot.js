@@ -64,15 +64,17 @@ client.giveawaysManager = new GiveawaysManager(client, {
 	},
 });
 
+
 client.snipeMap = new Map();
 client.queue = new Map();
 client.items = new Map();
 client.weapons = new Map();
 client.commands = new Collection();
 client.aliases = new Collection();
+client.interactions = new Collection();
 client.categories = fs.readdirSync('./commands/');
 
-['command', 'event'].forEach(handler => {
+['command', 'event', 'interaction'].forEach(handler => {
 	require(`./handlers/${handler}`)(client);
 });
 

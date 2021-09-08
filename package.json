@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
+    "@discordjs/rest": "^0.1.0-canary.0",
     "@discordjs/voice": "^0.6.0",
     "@top-gg/sdk": "^3.1.2",
     "ascii-table": "^0.0.9",
@@ -15,6 +16,7 @@
     "colors": "^1.4.0",
     "common-tags": "^1.8.0",
     "deepmerge": "^4.2.2",
+    "discord-api-types": "^0.23.1",
     "discord-botlist-api": "^2.1.1",
     "discord-ytdl-core": "^5.0.4",
     "discord.js": "^13.1.0",

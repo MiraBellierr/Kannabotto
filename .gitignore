@@ -6,3 +6,4 @@ images
 ecosystem.config.js
 output.log
 error.log
+characters.json

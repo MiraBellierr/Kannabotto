@@ -14,12 +14,17 @@
 
 const { loadItems } = require('../handlers/item');
 const { loadWeapons } = require('../handlers/weapon');
+const registerInteraction = require('../handlers/registerCommand');
 
 module.exports = async client => {
 
 	client.user.setPresence({ activities: [{ name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for info about me!`, type: 'WATCHING' }], status: 'idle' });
 
 	console.log(`Hi, ${client.user.username} is now online!`);
+
+	client.guilds.cache.forEach((guild) => {
+		registerInteraction(client, guild.id);
+	});
 
 	loadItems(client);
 	loadWeapons(client);
