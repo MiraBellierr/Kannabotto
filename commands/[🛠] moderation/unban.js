@@ -22,24 +22,22 @@ module.exports = {
 	name: 'unban',
 	category: '[🛠] moderation',
 	description: 'unban a member',
-	example: `${bot_prefix}unban <mention | id> [reason]`,
+	example: `${bot_prefix}unban <id> [reason]`,
 	usage: '<mention | id> [reason]',
 	run: async (client, message, args) => {
 		if (!message.guild.me.permissions.has('BAN_MEMBERS')) return message.reply('I don\'t have ban permission. Please enable it for me to be able to unban users.');
 		if (!message.member.permissions.has('BAN_MEMBERS')) return message.reply('Sorry you don\'t have ban permission to use this command.');
 
-		const unbanned = message.mentions.users.first() || client.users.cache.get(args[0]);
-		const reason = args.slice(1).join(' ');
-
-		const member = await client.users.fetch(unbanned.id);
-		console.log(member);
-		const ban = await message.guild.fetchBans();
-
 		// MESSAGES
-		if (!args[0]) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}unban [reason]\`.`);
-		if (!unbanned) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}unban [reason]\`.`);
+		if (!args[0]) return message.reply(`The right syntax is \`${prefixes[message.guild.id]}unban <id> [reason]\`.`);
 
-		if (!ban.get(member.id)) return message.reply('This user is not banned.');
+		const reason = args.slice(1).join(' ');
+		const member = await client.users.fetch(args[0]);
+		if (!member) return message.reply('I couldn\'t find this user.');
+		const fetchBans = await message.guild.bans.fetch();
+		const ban = fetchBans.find(b => b.user.id === member.id);
+
+		if (!ban) return message.reply('This user is not banned.');
 
 		if (!logsetting[message.guild.id]) {
 			logsetting[message.guild.id] = {
