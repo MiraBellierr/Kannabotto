@@ -24,16 +24,14 @@ module.exports = {
 	usage: '<code to eval>',
 	run: async (client, message, args) => {
 		const clientApplication = await client.application.fetch(client.user.id);
-		const owner = clientApplication.owner.id;
+		const owner = clientApplication.owner.members.get(message.author.id);
 
-		if (message.author.id !== owner) {
-			return message.reply('You\'re not the owner of me!!')
-				.then(m => m.delete(5000));
+		if (!owner) {
+			return message.reply('You\'re not the owner of me!!');
 		}
 
 		if (!args[0]) {
-			message.reply('You need to evaluate _**SOMETHING**_, please?')
-				.then(m => m.delete(5000));
+			message.reply('You need to evaluate _**SOMETHING**_, please?');
 		}
 
 		const clean = text => {

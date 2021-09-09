@@ -19,9 +19,9 @@ module.exports = {
 	name: 'addcoins',
 	run: async (client, message, args) => {
 		const clientApplication = await client.application.fetch(client.user.id);
-		const owner = clientApplication.owner.id;
+		const owner = clientApplication.owner.members.get(message.author.id);
 
-		if (message.author.id !== owner) return;
+		if (!owner) return;
 		if (!args.length) return message.reply('`<ID> <amount>`');
 
 		const id = args[0];

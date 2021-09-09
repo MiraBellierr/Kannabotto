@@ -10,7 +10,10 @@ module.exports = {
 	example: `${bot_prefix}overwrite "<name>" "<image_url>" "<old_image_url>"`,
 	usage: '"<name>" "<image_url>" "<old_image_url>"',
 	run: async (client, message, args) => {
-		if (message.author.id !== '548050617889980426') return;
+		const clientApplication = await client.application.fetch(client.user.id);
+		const owner = clientApplication.owner.members.get(message.author.id);
+
+		if (!owner) return;
 		if (!args.length) return message.reply('"<name>" "<image_url>" "<old_image_url>"');
 		if (!args[1]) return message.reply('"<name>" "<image_url>" "<old_image_url>"');
 		const input = args.join(' ').split('"');
