@@ -21,7 +21,8 @@ module.exports = client => {
 		method: 'post',
 		url: `https://bladebotlist.xyz/api/bots/${client.user.id}/stats `,
 		headers: {
-			Authorization: bladebotlistxyz,
+			authorization: bladebotlistxyz,
+			'Content-Type': 'application/json',
 		},
 		data: {
 			servercount: client.guilds.cache.size,
