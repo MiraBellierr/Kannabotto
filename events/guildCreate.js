@@ -17,7 +17,7 @@ module.exports = (client, guild) => {
 
 	client.user.setPresence({ activities: [{ name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for an info about me!`, type: 'WATCHING' }], status: 'idle' });
 
-	registerInteraction(client, guild.id);
+	registerInteraction(client);
 
 	const logChannel = client.channels.cache.get('865525377458634762');
 

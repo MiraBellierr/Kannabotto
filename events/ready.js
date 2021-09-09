@@ -22,9 +22,7 @@ module.exports = async client => {
 
 	console.log(`Hi, ${client.user.username} is now online!`);
 
-	client.guilds.cache.forEach((guild) => {
-		registerInteraction(client, guild.id);
-	});
+	registerInteraction(client);
 
 	loadItems(client);
 	loadWeapons(client);

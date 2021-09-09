@@ -16,7 +16,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { TOKEN } = require('../config.json');
 
-module.exports = async function(client, guildId) {
+module.exports = async function(client) {
 	// eslint-disable-next-line no-unused-vars
 	const commands = client.interactions.map(({ run, category, ...data }) => data);
 
@@ -27,11 +27,11 @@ module.exports = async function(client, guildId) {
 			console.log('Started refreshing application (/) commands.');
 
 			await rest.put(
-				Routes.applicationGuildCommands(client.user.id, guildId),
+				Routes.applicationCommands(client.user.id),
 				{ body: commands },
 			);
 
-			console.log(`Successfully reloaded application (/) commands for ${guildId}`);
+			console.log('Successfully reloaded application (/) commands.');
 		}
 		catch (error) {
 			console.log(error);
