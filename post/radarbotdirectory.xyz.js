@@ -22,6 +22,8 @@ module.exports = client => {
 		url: `https://radarbotdirectory.xyz/api/bot/${client.user.id}/stats`,
 		headers: {
 			Authentication: radarbotdirectoryxyz,
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
 		},
 		data: {
 			shards: parseInt(client.shard.count),
