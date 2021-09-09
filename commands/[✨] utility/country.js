@@ -19,6 +19,7 @@ const axios = require('axios');
 
 module.exports = {
 	name: 'country',
+	description: 'Display country information',
 	aliases: ['countryinfo'],
 	category: '[✨] utility',
 	example: `${bot_prefix}country <country>`,
