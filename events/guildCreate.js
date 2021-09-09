@@ -11,10 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+const registerInteraction = require('../handlers/registerCommand');
 
 module.exports = (client, guild) => {
 
 	client.user.setPresence({ activities: [{ name: `${client.guilds.cache.size.toLocaleString()} servers ✨ | Ping me for an info about me!`, type: 'WATCHING' }], status: 'idle' });
+
+	registerInteraction(client, guild.id);
 
 	const logChannel = client.channels.cache.get('865525377458634762');
 
