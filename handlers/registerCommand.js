@@ -34,7 +34,7 @@ module.exports = async function(client, guildId) {
 			console.log(`Successfully reloaded application (/) commands for ${guildId}`);
 		}
 		catch (error) {
-			console.error(error);
+			console.log(error);
 		}
 	})();
 };
