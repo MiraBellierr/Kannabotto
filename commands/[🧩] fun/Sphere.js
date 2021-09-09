@@ -42,9 +42,9 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 				.setTitle(`Radius is ${args[0]}`)
-				.addField('Diameter:', diameter, true)
-				.addField('Volume Of Sphere:', volume, true)
-				.addField('Surface Area Of Sphere', area, true)
+				.addField('Diameter:', `${diameter}`, true)
+				.addField('Volume Of Sphere:', `${volume}`, true)
+				.addField('Surface Area Of Sphere', `${area}`, true)
 				.setTimestamp()
 				.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
 
