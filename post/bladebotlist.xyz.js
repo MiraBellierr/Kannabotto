@@ -13,22 +13,22 @@
 // limitations under the License.
 
 const axios = require('axios');
-const { radarbotdirectoryxyz } = require('../config.json');
+const { bladebotlistxyz } = require('../config.json');
 
 module.exports = client => {
 
 	axios({
 		method: 'post',
-		url: `https://radarbotdirectory.xyz/api/bot/${client.user.id}/stats`,
+		url: `https://bladebotlist.xyz/api/bots/${client.user.id}/stats `,
 		headers: {
-			Authentication: radarbotdirectoryxyz,
+			Authorization: bladebotlistxyz,
 		},
 		data: {
-			shards: parseInt(client.shard.count),
-			guilds: parseInt(client.guilds.cache.size),
+			servercount: client.guilds.cache.size,
+			shardcount: client.shard.count,
 		},
 	}).then(() => {
-		console.log('[LOG] radarbotdirectory.xyz stats posted.');
+		console.log('[LOG] bladebotlist.xyz stats posted.');
 	}).catch(err => {
 		console.error(err);
 	});

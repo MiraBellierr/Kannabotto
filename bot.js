@@ -20,6 +20,8 @@ const topggVoteReward = require('./post/votereward/top.gg');
 const topgg = require('./post/top.gg');
 const radarbotdirectoryxyz = require('./post/radarbotdirectory.xyz');
 const discordbotlistcom = require('./post/discordbotlist.com');
+const blistxyz = require('./post/blist.xyz');
+const bladebotlistxyz = require('./post/bladebotlist.xyz');
 const Sequelize = require('sequelize');
 new Sequelize('database', 'user', 'password', {
 	host: 'localhost',
@@ -82,6 +84,8 @@ setInterval(function() {
 	topgg(client);
 	discordbotlistcom(client);
 	radarbotdirectoryxyz(client);
+	blistxyz(client);
+	bladebotlistxyz(client);
 }, 1.8e+6);
 
 topggVoteReward(client);
