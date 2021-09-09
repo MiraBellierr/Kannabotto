@@ -21,7 +21,7 @@ Kanna is an Anime RPG and Economy Discord bot ⚔️ developed by Mirabellier fo
 * :heart: **anime**: `quote`, `anime`, `search`
 * :tophat: **economy**: `fish`, `rob`, `work`, `crime` and more..
 * :video_game: **games**: `hangman`, `scramble`, `roulette`, `rps` and more..
-* :video_game: **level**: `background`, `level`, `leaderboard`
+* :video_game: **level**: `background`, `level`
 * :notes: **music**: `play`, `loop`, `stop`, `queue` and more..
 * :japanese_ogre: **rpg**: `battle`, `train`, `profile`, `market` and more..
 * :books: **info**: `serverinfo`, `whois`, `avatar`, `servericon` and more..
