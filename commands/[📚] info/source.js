@@ -40,7 +40,7 @@ module.exports = {
 
 					const splitStringMap = splitString.map((str, index) => `Path: \`${source.path}\`\n\`\`\`js\n${beautify(str, { format: 'js' })}\n\`\`\`\nPage ${index + 1}/${splitString.length}`);
 
-					const paginated = new PaginateContent.DiscordJS(client, message, splitStringMap);
+					const paginated = new PaginateContent.DiscordJS.Paginate(client, message, splitStringMap);
 					await paginated.init();
 				}
 			});

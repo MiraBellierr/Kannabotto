@@ -66,7 +66,7 @@ module.exports = {
 			.setFooter('Page 1/2', client.user.avatarURL({ dynamic: true }));
 
 		const pages = [embed, embed2];
-		const paginated = new PaginateContent.DiscordJS(client, message, pages);
+		const paginated = new PaginateContent.DiscordJS.Paginate(client, message, pages);
 
 		m.delete();
 

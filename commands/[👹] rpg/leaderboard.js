@@ -69,7 +69,7 @@ module.exports = {
 			});
 
 			m.delete();
-			const paginated = new PaginateContent.DiscordJS(client, message, leaderboardPages);
+			const paginated = new PaginateContent.DiscordJS.Paginate(client, message, leaderboardPages);
 			paginated.init();
 
 		}
@@ -93,7 +93,7 @@ module.exports = {
 			});
 
 			m.delete();
-			const paginated = new PaginateContent.DiscordJS(client, message, leaderboardPages);
+			const paginated = new PaginateContent.DiscordJS.Paginate(client, message, leaderboardPages);
 			paginated.init();
 		}
 		// level leaderboard
@@ -134,7 +134,7 @@ module.exports = {
 			});
 
 			m.delete();
-			const paginated = new PaginateContent.DiscordJS(client, message, leaderboardPages);
+			const paginated = new PaginateContent.DiscordJS.Paginate(client, message, leaderboardPages);
 			paginated.init();
 		}
 		// economy leaderboard
@@ -169,7 +169,7 @@ module.exports = {
 			});
 
 			m.delete();
-			const paginated = new PaginateContent.DiscordJS(client, message, leaderboardPages);
+			const paginated = new PaginateContent.DiscordJS.Paginate(client, message, leaderboardPages);
 			paginated.init();
 		}
 		// other than above input

@@ -58,7 +58,7 @@ module.exports = {
 				pages.push(values);
 			}
 
-			const paginated = new PaginateContent.DiscordJS(client, message, pages);
+			const paginated = new PaginateContent.DiscordJS.Paginate(client, message, pages);
 
 			m.delete();
 
