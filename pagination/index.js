@@ -13,11 +13,17 @@
 // limitations under the License.
 
 const Paginate = require('./Paginate');
-const { Message } = require('discord.js');
+const InteractionPaginate = require('./InteractionPaginate');
+const { Message, Interaction } = require('discord.js');
 
 Message.prototype.paginate = async function(pages, options, emojis) {
 	const paginated = new Paginate(this.client, this, pages, options, emojis);
 	await paginated.init();
 };
 
-module.exports = Paginate;
+Interaction.prototype.paginate = async function(pages, options, emojis) {
+	const paginated = new Paginate(this.client, this, pages, options, emojis);
+	await paginated.init();
+};
+
+module.exports = { Paginate, InteractionPaginate };

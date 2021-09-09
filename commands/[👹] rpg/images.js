@@ -79,7 +79,7 @@ module.exports = {
 			paginatePage.push(new Discord.MessageEmbed().setAuthor('Your image collection', message.author.displayAvatarURL({ dynamic: true })).setDescription(img).setFooter(`Pages ${i + 1}/${page.length}`));
 		}
 
-		const paginated = new PaginateContent.DiscordJS(client, message, paginatePage);
+		const paginated = new PaginateContent.DiscordJS.Paginate(client, message, paginatePage);
 		await paginated.init();
 	},
 };

@@ -12,24 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const axios = require('axios');
-const { radarbotdirectoryxyz } = require('../config.json');
+module.exports = async (client, interaction) => {
+	if (!interaction.isCommand()) return;
 
-module.exports = client => {
+	const command = client.interactions.get(interaction.commandName);
 
-	axios({
-		method: 'post',
-		url: `https://radarbotdirectory.xyz/api/bot/${client.user.id}/stats`,
-		headers: {
-			Authentication: radarbotdirectoryxyz,
-		},
-		data: {
-			shards: parseInt(client.shard.count),
-			guilds: parseInt(client.guilds.cache.size),
-		},
-	}).then(() => {
-		console.log('[LOG] radarbotdirectory.xyz stats posted.');
-	}).catch(err => {
+	if (!command) return;
+
+	if (!client.interactions.has(interaction.commandName)) return;
+
+	try {
+		if (command) {
+			command.run(client, interaction);
+		}
+	}
+	catch (err) {
 		console.error(err);
-	});
+		interaction.reply('There was an error trying to interact with this command.');
+	}
 };
