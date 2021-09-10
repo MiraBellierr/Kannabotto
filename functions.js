@@ -1226,7 +1226,7 @@ module.exports = {
 
 		const itemObject = {};
 
-		itemObject[item] = inventory.get(item) + 1;
+		itemObject[item] = inventory.get(item) + amount;
 
 		if (economy.get('balance') < price * amount) return message.reply(`**${message.author.username}**, You don't have enough money in your pocket to buy this item!`);
 
