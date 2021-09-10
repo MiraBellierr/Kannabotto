@@ -15,6 +15,7 @@
 const { loadItems } = require('../handlers/item');
 const { loadWeapons } = require('../handlers/weapon');
 const registerInteraction = require('../handlers/registerCommand');
+const registerGuildCommand = require('../handlers/registerGuildCommand');
 
 module.exports = async client => {
 
@@ -23,6 +24,7 @@ module.exports = async client => {
 	console.log(`Hi, ${client.user.username} is now online!`);
 
 	registerInteraction(client);
+	registerGuildCommand(client, '873441703330185247');
 
 	loadItems(client);
 	loadWeapons(client);
