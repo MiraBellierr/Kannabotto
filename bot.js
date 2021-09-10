@@ -17,6 +17,7 @@ const { TOKEN, bot_prefix } = require('./config.json');
 const fs = require('fs');
 const prefixes = require('./database/prefix.json');
 const topggVoteReward = require('./post/votereward/top.gg');
+const blistxyzVoteReward = require('./post/votereward/blist.xyz');
 const topgg = require('./post/top.gg');
 const radarbotdirectoryxyz = require('./post/radarbotdirectory.xyz');
 const discordbotlistcom = require('./post/discordbotlist.com');
@@ -89,6 +90,7 @@ setInterval(function() {
 }, 1.8e+6);
 
 topggVoteReward(client);
+blistxyzVoteReward(client);
 
 // boss spawner
 client.on('messageCreate', async message => {
