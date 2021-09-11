@@ -19,7 +19,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'volume',
-	category: '[🎶] music - [BETA]',
+	category: '[🎶] music',
 	description: 'Change volume of currently playing music',
 	example: `${bot_prefix}volume [0-100]`,
 	run: async (client, message, args) => {
@@ -33,7 +33,7 @@ module.exports = {
 		if (parseInt(args[0]) > 100 || parseInt(args[0]) < 0) {return message.reply(`**${message.author.username}**, please use a number between 0-100.`).catch(console.error);}
 
 		queue.volume = args[0];
-		queue.connection._state.resource.volume.setVolume(args[0] / 100);
+		queue.resource.volume.setVolume(args[0] / 100);
 
 		return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`Volume set to: **${args[0]}%**`).setColor('RANDOM')] }).catch(console.error);
 	},

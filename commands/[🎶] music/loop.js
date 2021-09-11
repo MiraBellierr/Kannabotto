@@ -17,24 +17,19 @@ const { bot_prefix } = require('../../config.json');
 const Discord = require('discord.js');
 
 module.exports = {
-	name: 'resume',
-	aliases: ['r'],
-	category: '[🎶] music - [BETA]',
-	description: 'Resume currently playing music',
-	example: `${bot_prefix}resume`,
+	name: 'loop',
+	category: '[🎶] music',
+	description: 'Toggle music loop',
+	example: `${bot_prefix}loop`,
 	run: async (client, message) => {
 		const queue = client.queue.get(message.guild.id);
 
 		if (!queue) return message.reply(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
 		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
-		if (!queue.playing) {
-			queue.playing = true;
-			queue.connection._state.subscription.player.unpause();
-
-			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** resumed the music!`).setColor('RANDOM')] }).catch(console.error);
-		}
-
-		return message.reply(`**${message.author.username}**, the queue is not paused.`).catch(console.error);
+		queue.loop = !queue.loop;
+		return queue.textChannel
+			.send({ embeds: [new Discord.MessageEmbed().setDescription(`<a:bunnydance:886088325776146452> Loop is now ${queue.loop ? '**on**' : '**off**'}`).setColor('RANDOM')] })
+			.catch(console.error);
 	},
 };

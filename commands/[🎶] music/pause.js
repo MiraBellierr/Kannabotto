@@ -14,26 +14,23 @@
 
 const { canModifyQueue } = require('../../utils/util');
 const { bot_prefix } = require('../../config.json');
-const prefixes = require('../../database/prefix.json');
 const Discord = require('discord.js');
 
 module.exports = {
-	name: 'remove',
-	category: '[🎶] music - [BETA]',
-	description: 'Remove song from the queue',
-	example: `${bot_prefix}remove <queue number>`,
-	usage: '<queue number>',
-	run: async (client, message, args) => {
+	name: 'pause',
+	category: '[🎶] music',
+	description: 'Pause the currently playing music',
+	example: `${bot_prefix}pause`,
+	run: async (client, message) => {
 		const queue = client.queue.get(message.guild.id);
 
-		if (!queue) return message.reply('There is no queue.').catch(console.error);
+		if (!queue) return message.reply(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
 		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
-		if (!args.length) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}remove <Queue Number>\``);
-		if (isNaN(args[0])) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}remove <Queue Number>\``);
-
-		const song = queue.songs.splice(args[0] - 1, 1);
-
-		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** removed **${song[0].title}** from the queue.`).setColor('RANDOM')] });
+		if (queue.playing) {
+			queue.playing = false;
+			queue.player.pause();
+			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** paused the music.`).setColor('RANDOM')] }).catch(console.error);
+		}
 	},
 };

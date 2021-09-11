@@ -12,88 +12,98 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const { StreamType, AudioPlayerStatus, VoiceConnectionStatus, entersState, createAudioResource } = require('@discordjs/voice');
 const ytdlDiscord = require('discord-ytdl-core');
 const Discord = require('discord.js');
-const { createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 
 module.exports = {
 	async play(song, message) {
 		const queue = message.client.queue.get(message.guild.id);
 
 		if (!song) {
-
-			queue.connection.destroy();
+			if (!queue) {
+				queue.player.stop();
+				queue.connection.destroy();
+			}
 
 			message.client.queue.delete(message.guild.id);
 
-			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('RANDOM')] }).catch(console.error);
+			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('RANDOM')] });
 		}
 
 		let stream = null;
 
 		try {
-			if (song.url.includes('youtube.com')) {
-				stream = ytdlDiscord(song.url, { filter: 'audioonly', opusEncoded: true, encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200'] });
-			}
+			stream = ytdlDiscord(song.url, { filter: 'audioonly', opusEncoded: true, encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200'] });
 		}
-		catch (error) {
+		catch(e) {
 			if (queue) {
 				queue.songs.shift();
+				console.log(e);
+
 				return module.exports.play(queue.songs[0], message);
 			}
 
-			console.error(error);
+			queue.player.stop();
+			queue.connection.destroy();
+			console.log(e);
 
-			return message.reply(`Error: ${error.message ? error.message : error}`);
+			return message.reply(`${e.message}. Please report to the support server.`);
 		}
 
-		const type = song.url.includes('youtube.com') ? 'opus' : 'ogg/opus';
+		queue.resource = createAudioResource(stream, {
+			inputType: StreamType.Opus,
+			inlineVolume: true,
+		});
+		queue.resource.volume.setVolume(queue.volume / 100);
 
-		const resource = createAudioResource(stream, { inputType: type, inlineVolume: true });
+		queue.player.play(queue.resource);
+		queue.connection.subscribe(queue.player);
 
-		const player = createAudioPlayer({
-			behaviors: {
-				noSubscriber: NoSubscriberBehavior.Pause,
-			},
+		queue.connection.on(VoiceConnectionStatus.Disconnected, async () => {
+			try {
+				await Promise.race([
+					entersState(queue.connection, VoiceConnectionStatus.Signalling, 5_000),
+					entersState(queue.connection, VoiceConnectionStatus.Connecting, 5_000),
+				]);
+			}
+			catch (e) {
+				queue.player.stop();
+				queue.connection.destroy();
+				console.log(e);
+				return message.reply(`${e.message}`);
+			}
 		});
 
-		player.play(resource);
+		queue.player.on('error', e => {
+			queue.player.stop();
+			queue.connection.destroy();
+			console.log(e);
+			return message.reply(`${e.message}`);
+		});
 
-		let dispatcher = queue.connection.subscribe(player);
-
-		if (!dispatcher) return message.reply('Couldn\'t connect to the music player.');
-
-		dispatcher = dispatcher.player.on(AudioPlayerStatus.Idle, () => {
+		queue.player.on(AudioPlayerStatus.Idle, () => {
 			if (queue.loop) {
-				// if loop is on, push the song back at the end of the queue
-				// so it can repeat endlessly
 				const lastSong = queue.songs.shift();
+
 				queue.songs.push(lastSong);
+
 				module.exports.play(queue.songs[0], message);
 			}
 			else {
-				// Recursively play the next song
 				queue.songs.shift();
+
 				module.exports.play(queue.songs[0], message);
 			}
-		}).on('error', (err) => {
-			console.log(err);
-			queue.songs.shift();
-			module.exports.play(queue.songs[0], message);
 		});
 
-		dispatcher._state.resource.volume.setVolume(queue.volume / 100);
+		const description = Discord.Util.splitMessage(song.description, {
+			maxLength: 1024,
+			char: '',
+		});
 
-		try {
-			const description = Discord.Util.splitMessage(song.description, {
-				maxLength: 1024,
-				char: '',
-			});
+		console.log(queue);
 
-			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: `${song.title}`, inline: true }, { name: 'URL', value: `${song.url}`, inline: true }, { name: 'Description', value: `${description[0]}` }, { name: 'Duration', value: `${song.duration}` }, { name: 'Created', value: `${song.created}`, inline: true }).setColor('RANDOM').setImage(song.image)] });
-		}
-		catch (error) {
-			console.error(error);
-		}
+		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: `${song.title}`, inline: true }, { name: 'URL', value: `${song.url}`, inline: true }, { name: 'Description', value: `${description[0]}` }, { name: 'Duration', value: `${song.duration}` }, { name: 'Created', value: `${song.created}`, inline: true }).setColor('RANDOM').setImage(song.image)] });
 	},
 };

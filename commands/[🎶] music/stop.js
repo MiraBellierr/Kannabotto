@@ -19,7 +19,7 @@ const Discord = require('discord.js');
 module.exports = {
 	name: 'stop',
 	aliases: ['leave', 'quit'],
-	category: '[🎶] music - [BETA]',
+	category: '[🎶] music',
 	description: 'Stops the music',
 	example: `${bot_prefix}stop`,
 	run: async (client, message) => {

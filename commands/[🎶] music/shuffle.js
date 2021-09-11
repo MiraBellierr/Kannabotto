@@ -17,19 +17,27 @@ const { bot_prefix } = require('../../config.json');
 const Discord = require('discord.js');
 
 module.exports = {
-	name: 'loop',
-	category: '[🎶] music - [BETA]',
-	description: 'Toggle music loop',
-	example: `${bot_prefix}loop`,
+	name: 'shuffle',
+	category: '[🎶] music',
+	description: 'Shuffle queue',
+	example: `${bot_prefix}shuffle`,
 	run: async (client, message) => {
 		const queue = client.queue.get(message.guild.id);
 
-		if (!queue) return message.reply(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
+		if (!queue) return message.reply(`**${message.author.username}**, there is no queue.`).catch(console.error);
 		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
-		queue.loop = !queue.loop;
-		return queue.textChannel
-			.send({ embeds: [new Discord.MessageEmbed().setDescription(`<a:kitty_catch_love:719099040494518285> Loop is now ${queue.loop ? '**on**' : '**off**'}`).setColor('RANDOM')] })
-			.catch(console.error);
+		const songs = queue.songs;
+
+		for (let i = songs.length - 1; i > 1; i--) {
+			const j = 1 + Math.floor(Math.random() * i);
+			[songs[i], songs[j]] = [songs[j], songs[i]];
+		}
+
+		queue.songs = songs;
+
+		message.client.queue.set(message.guild.id, queue);
+
+		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** shuffled the queue`).setColor('RANDOM')] }).catch(console.error);
 	},
 };

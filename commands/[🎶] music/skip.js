@@ -18,7 +18,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'skip',
-	category: '[🎶] music - [BETA]',
+	category: '[🎶] music',
 	description: 'Skip the currently playing song',
 	example: `${bot_prefix}skip`,
 	run: async (client, message) => {
@@ -28,7 +28,7 @@ module.exports = {
 		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
 		queue.playing = true;
-		queue.connection._state.subscription.player.stop();
+		queue.player.stop();
 		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** skipped the song`).setColor('RANDOM')] }).catch(console.error);
 	},
 };

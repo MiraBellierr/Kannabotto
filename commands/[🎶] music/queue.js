@@ -18,7 +18,7 @@ const { bot_prefix } = require('../../config.json');
 module.exports = {
 	name: 'queue',
 	aliases: ['q'],
-	category: '[🎶] music - [BETA]',
+	category: '[🎶] music',
 	description: 'Show the music queue and now playing.',
 	example: `${bot_prefix}queue`,
 	run: (client, message) => {
