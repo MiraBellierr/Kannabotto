@@ -33,7 +33,8 @@ module.exports = {
 	run: async (client, message) => {
 		const m = await message.reply('*Loading...*');
 		const clientApplication = await client.application.fetch(client.user.id);
-		const owner = `${clientApplication.owner.username}#${clientApplication.owner.discriminator}`;
+		const ownerId = clientApplication.owner.ownerId;
+		const owner = `${clientApplication.owner.members.get(ownerId).user.username}#${clientApplication.owner.members.get(ownerId).user.discriminator}`;
 
 		const cpuCount = cpu.count();
 		let cpuUsagePercentage;
