@@ -869,7 +869,7 @@ module.exports = {
 	announceMessageCollector: async (client, message) => {
 		const channel = message.mentions.channels.first();
 
-		if (!message.guild.me.permissionsIn(channel).has('SEND_MESSAGES')) return message.reply({ content: 'I do not have a permission to send a message in that channel', allowedMentions: { repliedUser: true } });
+		if (!message.guild.me.permissionsIn(channel.id).has('SEND_MESSAGES')) return message.reply({ content: 'I do not have a permission to send a message in that channel', allowedMentions: { repliedUser: true } });
 		if (!channel || !message.guild.channels.cache.get(channel.id) || channel.type !== 'GUILD_TEXT') return message.reply({ content: 'Please mention a valid #channel.', allowedMentions: { repliedUser: true } });
 
 		const embed = new Discord.MessageEmbed();

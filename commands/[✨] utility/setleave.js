@@ -32,7 +32,13 @@ module.exports = {
 		if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.reply('Sorry you don\'t have manage channels permission to use this command.');
 
 		if (message.mentions.channels.first()) {
-			await welcomeAndLeaveMessageCollector(client, message, command, file);
+			try {
+				await welcomeAndLeaveMessageCollector(client, message, command, file);
+			}
+			catch (e) {
+				console.log(e);
+				message.reply(`Error: ${e.message}`);
+			}
 		}
 		else if (args[0] === 'on') {
 			if (!file[message.guild.id]) return message.reply('You haven\'t set up a leave message yet.');
