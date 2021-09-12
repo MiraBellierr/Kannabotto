@@ -29,7 +29,7 @@ module.exports = {
 		if (message.mentions.channels.size || message.mentions.everyone || message.mentions.roles.size || message.mentions.users.size) {
 			prefixes[message.guild.id] = bot_prefix;
 
-			return message.reply(`Prefix for this guild has been changed to **${prefixes[message.guild.id]}**!`);
+			return message.reply(`Your message contains a mention. Prefix for this guild has been changed to **${prefixes[message.guild.id]}**!`);
 		}
 		if (!args[0]) return message.reply(`My prefix for this guild is **${prefixes[message.guild.id]}**. To change a prefix, do \`${prefixes[message.guild.id]}prefix <new prefix>\``);
 		if (!message.member.permissions.has('MANAGE_GUILD')) return message.reply(`**${message.author.username}**, Sorry you don't have manage server permission to use this command.`);
