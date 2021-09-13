@@ -20,15 +20,17 @@ module.exports = {
 	async play(song, message) {
 		const queue = message.client.queue.get(message.guild.id);
 
-		if (!song) {
-			if (!queue) {
+		if (typeof song !== 'object') {
+			try {
 				queue.player.stop();
 				queue.connection.destroy();
 			}
+			catch (e) {
+				console.log(e);
+			}
 
-			message.client.queue.delete(message.guild.id);
-
-			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('RANDOM')] });
+			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('RANDOM')] });
+			return message.client.queue.delete(message.guild.id);
 		}
 
 		let stream = null;
@@ -76,8 +78,6 @@ module.exports = {
 		});
 
 		queue.player.on('error', e => {
-			queue.player.stop();
-			queue.connection.destroy();
 			console.log(e);
 			return message.reply(`${e.message}`);
 		});
@@ -97,13 +97,19 @@ module.exports = {
 			}
 		});
 
-		const description = Discord.Util.splitMessage(song.description, {
-			maxLength: 1024,
-			char: '',
-		});
+		try {
+			const description = Discord.Util.splitMessage(`${song.description}`, {
+				maxLength: 1024,
+				char: '',
+			});
+
+			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: `${song.title}`, inline: true }, { name: 'URL', value: `${song.url}`, inline: true }, { name: 'Description', value: `${description[0]}` }, { name: 'Duration', value: `${song.duration}` }, { name: 'Created', value: `${song.created}`, inline: true }).setColor('RANDOM').setImage(song.image)] });
+		}
+		catch (e) {
+			console.log(e);
+		}
 
 		console.log(queue);
 
-		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: `${song.title}`, inline: true }, { name: 'URL', value: `${song.url}`, inline: true }, { name: 'Description', value: `${description[0]}` }, { name: 'Duration', value: `${song.duration}` }, { name: 'Created', value: `${song.created}`, inline: true }).setColor('RANDOM').setImage(song.image)] });
 	},
 };
