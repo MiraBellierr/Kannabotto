@@ -29,7 +29,7 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.setTitle(`${member.user.username}'s Avatar`)
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setImage(member.user.displayAvatarURL({ dynamic: true, size: 4096 }))
 			.setTimestamp()
 			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));

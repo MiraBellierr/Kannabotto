@@ -30,9 +30,9 @@ module.exports = {
 		if (!args[0]) {
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`Hello ${message.author.username}`)
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`To begin play, please choose one of these class with the \`${prefixes[message.guild.id]}start <class>\`.`)
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.addFields(
 					{ name: 'Warrior', value: '```js\n• Level: 0\n• Health: 5\n• Physical Attack: 5\n• Magical Attack: 1\n• physical Resistance: 6\n• Magical Resistance: 3\n• Speed: 1```' },
 					{ name: 'Monk', value: '```js\n• Level: 0\n• Health: 2\n• Physical Attack: 10\n• Magical Attack: 1\n• physical Resistance: 5\n• Magical Resistance: 2\n• Speed: 1```' },

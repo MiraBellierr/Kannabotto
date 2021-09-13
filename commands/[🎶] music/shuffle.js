@@ -38,6 +38,6 @@ module.exports = {
 
 		message.client.queue.set(message.guild.id, queue);
 
-		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** shuffled the queue`).setColor('RANDOM')] }).catch(console.error);
+		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** shuffled the queue`).setColor('#CD1C6C')] }).catch(console.error);
 	},
 };

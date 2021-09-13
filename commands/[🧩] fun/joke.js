@@ -29,7 +29,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${res.data.type}'s joke`, client.user.avatarURL())
 				.setDescription(`${res.data.setup}\n${res.data.punchline}`)
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTimestamp();
 
 			message.reply({ embeds: [embed] });

@@ -39,7 +39,7 @@ module.exports = (client, channel) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Channel Deleted', channel.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`**Channel:** #${channel.name}`)
 			.setTimestamp()
 			.setFooter(`ID: ${channel.id}`);

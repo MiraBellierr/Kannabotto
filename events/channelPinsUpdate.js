@@ -39,7 +39,7 @@ module.exports = (client, channel, time) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Message Pinned', channel.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`Channel: <#${channel.id}>\nTIme: ${time}`)
 			.setTimestamp()
 			.setFooter(`ID: ${channel.id}`);

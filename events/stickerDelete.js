@@ -37,7 +37,7 @@ module.exports = (client, sticker) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Sticker Deleted', sticker.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`Sticker: ${sticker.name}`)
 			.setTimestamp()
 			.setFooter(`Uploaded By: ${sticker.user.username}`);

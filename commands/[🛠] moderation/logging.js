@@ -29,7 +29,7 @@ module.exports = {
 		if (!option) {
 			const embed1 = new Discord.MessageEmbed()
 				.setAuthor(`${client.user.username} Logging`, client.user.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`
 **Proper Usage:**
 • ${prefix}logging set \`#tagchannel\`
@@ -59,7 +59,7 @@ module.exports = {
 				});
 
 				const embed2 = new Discord.MessageEmbed()
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setDescription(`Logging channel set to: ${inputmessage}`)
 					.setTimestamp().setFooter('Logging channel', client.user.displayAvatarURL({ dynamic: true }));
 				message.reply({ embeds: [embed2] });
@@ -76,7 +76,7 @@ module.exports = {
 				console.error(err);
 			});
 			const embed3 = new Discord.MessageEmbed()
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription('Logging has been set **on**.')
 				.setTimestamp()
 				.setFooter('Logging enable', client.user.displayAvatarURL({ dynamic: true }));
@@ -94,7 +94,7 @@ module.exports = {
 				console.error(err);
 			});
 			const embed4 = new Discord.MessageEmbed()
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription('Logging has been set **off**.')
 				.setTimestamp()
 				.setFooter('Logging disable', client.user.displayAvatarURL({ dynamic: true }));

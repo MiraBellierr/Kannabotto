@@ -57,7 +57,7 @@ module.exports = {
 
 			const embed = new MessageEmbed()
 				.setAuthor(message.author.username, message.author.displayAvatarURL())
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setFooter(message.guild.me.displayName, client.user.displayAvatarURL())
 				.setDescription('Add a reaction to one of these emojis to play the game!')
 				.setTimestamp();

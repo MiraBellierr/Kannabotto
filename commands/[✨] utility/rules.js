@@ -25,7 +25,7 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.setTitle('Kanna Rules')
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setThumbnail(client.user.avatarURL({ dynamic: true }))
 			.setDescription(`By using Kanna, you agree to these rules. If you break any rules, we reserve the right to blacklist you from Kanna. Use \`${prefixes[message.guild.id]}report\` to report a user that you found is breaking these rules.`)
 			.addFields(

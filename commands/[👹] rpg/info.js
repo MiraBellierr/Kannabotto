@@ -39,7 +39,7 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Boss Info', message.author.displayAvatarURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setImage(character[0].image)
 			.setTitle(character[0].name)
 			.addField('General', `**• ID:** ${character[0].id}\n**• From:** ${character[0].from}`, true)

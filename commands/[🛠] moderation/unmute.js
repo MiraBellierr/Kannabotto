@@ -67,7 +67,7 @@ module.exports = {
 
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Member Unmuted', toMute.user.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`Member: ${toMute.user}`)
 				.addFields(
 					{ name: '**Unmuted By:**', value: message.author },

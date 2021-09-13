@@ -29,7 +29,7 @@ module.exports = {
 
 		queue.loop = !queue.loop;
 		return queue.textChannel
-			.send({ embeds: [new Discord.MessageEmbed().setDescription(`<a:bunnydance:886088325776146452> Loop is now ${queue.loop ? '**on**' : '**off**'}`).setColor('RANDOM')] })
+			.send({ embeds: [new Discord.MessageEmbed().setDescription(`<a:bunnydance:886088325776146452> Loop is now ${queue.loop ? '**on**' : '**off**'}`).setColor('#CD1C6C')] })
 			.catch(console.error);
 	},
 };

@@ -37,7 +37,7 @@ module.exports = (client, emoji) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Emoji Deleted', emoji.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`Emoji: ${emoji}`)
 			.setTimestamp()
 			.setFooter(`ID: ${emoji.id}`);

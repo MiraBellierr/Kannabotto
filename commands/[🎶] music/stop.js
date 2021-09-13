@@ -30,6 +30,6 @@ module.exports = {
 
 		queue.songs = [];
 		queue.connection.destroy();
-		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** stopped the music!`).setColor('RANDOM')] }).catch(console.error);
+		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** stopped the music!`).setColor('#CD1C6C')] }).catch(console.error);
 	},
 };

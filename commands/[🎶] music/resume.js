@@ -32,7 +32,7 @@ module.exports = {
 			queue.playing = true;
 			queue.player.unpause();
 
-			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** resumed the music!`).setColor('RANDOM')] }).catch(console.error);
+			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** resumed the music!`).setColor('#CD1C6C')] }).catch(console.error);
 		}
 
 		return message.reply(`**${message.author.username}**, the queue is not paused.`).catch(console.error);

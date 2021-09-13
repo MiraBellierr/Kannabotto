@@ -41,7 +41,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed();
 
 		embed.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }));
-		embed.setColor('RANDOM');
+		embed.setColor('#CD1C6C');
 		embed.setThumbnail(client.user.avatarURL());
 		embed.setDescription('Your Weapons');
 

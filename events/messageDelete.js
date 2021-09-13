@@ -68,7 +68,7 @@ module.exports = (client, message) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Message Deleted', message.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`User: <@${message.author.id}>\nChannel: <#${message.channel.id}>`)
 			.addField('Message:', message.content ? message.content : '[IMAGE WAS DELETED]')
 			.setTimestamp()

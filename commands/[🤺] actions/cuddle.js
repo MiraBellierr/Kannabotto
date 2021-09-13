@@ -45,7 +45,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(`${message.author.username} cuddles ${personcuddle.username}! ${quoter}!`, message.author.displayAvatarURL({ dynamic: true }))
 			.setImage(cuddleR)
-			.setColor('RANDOM');
+			.setColor('#CD1C6C');
 
 		message.reply({ embeds: [embed] });
 	},

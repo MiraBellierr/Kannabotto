@@ -29,7 +29,7 @@ module.exports = {
 function getAll(client, interaction) {
 	const embed = new MessageEmbed()
 		.setAuthor(interaction.user.username, interaction.user.displayAvatarURL({ dynamic: true }))
-		.setColor('RANDOM')
+		.setColor('#CD1C6C')
 		.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
 		.setTimestamp()
 		.setTitle(`${client.user.username} Help Command`);

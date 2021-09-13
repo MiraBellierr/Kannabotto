@@ -77,7 +77,7 @@ module.exports = {
 				queue.songs.push(song);
 
 				queue.textChannel
-					.send({ embeds: [new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('RANDOM').setImage(song.image)] })
+					.send({ embeds: [new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('#CD1C6C').setImage(song.image)] })
 					.catch(console.error);
 			}
 			else {

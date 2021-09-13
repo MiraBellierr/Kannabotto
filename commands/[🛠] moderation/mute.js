@@ -123,7 +123,7 @@ module.exports = {
 						{ name: '**Unmuted By**', value: client.user },
 						{ name: '**Reason**', value: 'Duration ended' },
 					)
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setTimestamp()
 					.setFooter(`ID: ${tomute.user.id}`);
 
@@ -147,7 +147,7 @@ module.exports = {
 					{ name: '**Duration**', value: ms(ms(mutetime)) },
 					{ name: '**Reason**', value: res },
 				)
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTimestamp()
 				.setFooter(`ID: ${tomute.user.id}`);
 

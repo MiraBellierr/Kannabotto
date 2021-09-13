@@ -46,7 +46,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(`${message.author.username} pats ${person.user.username}! ${quoter}!`, message.author.displayAvatarURL({ dynamic: true }))
 			.setImage(random)
-			.setColor('RANDOM');
+			.setColor('#CD1C6C');
 
 		message.reply({ embeds: [embed] });
 	},

@@ -37,7 +37,7 @@ module.exports = (client, oldEmoji, newEmoji) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Emoji Updated', oldEmoji.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.addField('Before', oldEmoji.name)
 			.addField('After', newEmoji.name)
 			.setTimestamp()

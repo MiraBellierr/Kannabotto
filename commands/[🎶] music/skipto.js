@@ -35,6 +35,6 @@ module.exports = {
 		queue.playing = true;
 		queue.songs = queue.songs.slice(args[0] - 2);
 		queue.player.stop();
-		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** skipped ${args[0] - 1} songs`).setColor('RANDOM')] }).catch(console.error);
+		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** skipped ${args[0] - 1} songs`).setColor('#CD1C6C')] }).catch(console.error);
 	},
 };

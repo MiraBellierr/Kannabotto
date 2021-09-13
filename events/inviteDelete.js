@@ -40,7 +40,7 @@ module.exports = (client, invite) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Invite Deleted', invite.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`Code: ${invite.code}`)
 			.setTimestamp();
 

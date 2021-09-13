@@ -148,7 +148,7 @@ client.on('messageCreate', async message => {
 
 			const embed = new MessageEmbed()
 				.setAuthor('A wild boss appears!', message.author.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTitle(`Level ${randomLevel} ${character.name}`)
 				.addField('__Character Stats__', `**• ${emojis.health} Health:** ${(character.health + randomLevel) * 100}\n**• ${emojis.pa} Physical Attack:** ${character.physical_attack + randomLevel}\n**• ${emojis.ma} Magical Attack:** ${character.magical_attack + randomLevel}\n**• ${emojis.pr} physical Resistance:** ${character.physical_resistance + randomLevel}\n**• ${emojis.mr} Magical Resistance:** ${character.magical_resistance + randomLevel}\n**• ${emojis.speed} Speed:** ${character.speed + randomLevel}`)
 				.setImage(character.image)

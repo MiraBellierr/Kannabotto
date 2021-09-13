@@ -49,7 +49,7 @@ module.exports = {
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.addField(`Kanna shop - Your balance: <a:jasminecoins:868105109748469780> ${(economy.get('balance')).toLocaleString()}`, `${items.join('\n')}`)
 			.setTimestamp()
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setThumbnail('https://cdn.discordapp.com/attachments/716107950032420897/723881420585697300/ezgif-3-b250403f94db.gif')
 			.setFooter(client.user.username, client.user.avatarURL({ dynamic: true }));
 

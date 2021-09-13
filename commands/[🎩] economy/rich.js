@@ -51,7 +51,7 @@ module.exports = {
 			const top = board.map((x, i) => `[${i + 1}] ${x.user.username} - Total: <a:jasminecoins:868105109748469780> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
 
 			const embed = new MessageEmbed()
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`**🆙 | Top 10 Global Rich**\n\n${top}`);
 
 			m.delete();
@@ -76,7 +76,7 @@ module.exports = {
 				const top = board.map((x, i) => `[${i + 1}] ${x.user} - Total: <a:jasminecoins:868105109748469780> **${(x.dataValues.balance + x.dataValues.bank).toLocaleString()}**`).join('\n');
 
 				const embed = new MessageEmbed()
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setDescription(`**🆙 | Top 10 Server Rich**\n\n${top}`);
 
 				m.delete();

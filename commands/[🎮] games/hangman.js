@@ -104,7 +104,7 @@ module.exports = {
 
 				while (word.length !== confirmation.length && points < 6) {
 					const embed = new Discord.MessageEmbed()
-						.setColor('RANDOM')
+						.setColor('#CD1C6C')
 						.setTitle(`Hangman game - Theme: ${theme}`)
 						.setDescription(stripIndents`
 					${displayText === null ? 'Here we go!' : displayText ? 'Good job!' : 'Nope!'}

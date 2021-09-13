@@ -51,7 +51,7 @@ module.exports = {
 			for (let i = 0; i < res.length; i++) {
 				const values = new Discord.MessageEmbed()
 					.setTitle(title)
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setImage(res[i].url)
 					.setFooter(`Page ${i + 1}/${res.length}`);
 

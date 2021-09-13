@@ -60,7 +60,7 @@ module.exports = {
 			chunks.forEach((e, i) => {
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${chunks.length}`)
 					.setDescription(`**⚔ | RPG leaderboard**\n\n${e.join('\n')}`);
@@ -84,7 +84,7 @@ module.exports = {
 			chunks.forEach((e, i) => {
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${chunks.length}`)
 					.setDescription(`**⭐ | Star leaderboard**\n\n${e.join('\n')}`);
@@ -125,7 +125,7 @@ module.exports = {
 			chunks.forEach((e, i) => {
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${chunks.length}`)
 					.setDescription(`**📝 | Kanna Usage leaderboard For This Server**\n\n${e.join('\n')}`);
@@ -160,7 +160,7 @@ module.exports = {
 			chunks.forEach((e, i) => {
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${chunks.length}`)
 					.setDescription(`**💰 | Economy leaderboard**\n\n${e.join('\n')}`);

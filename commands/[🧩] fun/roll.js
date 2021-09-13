@@ -48,7 +48,7 @@ module.exports = {
 				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 				.setTimestamp()
 				.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription('You rolled:  ' + newResults);
 
 			message.reply({ embeds: [embed] });

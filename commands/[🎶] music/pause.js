@@ -30,7 +30,7 @@ module.exports = {
 		if (queue.playing) {
 			queue.playing = false;
 			queue.player.pause();
-			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** paused the music.`).setColor('RANDOM')] }).catch(console.error);
+			return queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** paused the music.`).setColor('#CD1C6C')] }).catch(console.error);
 		}
 	},
 };

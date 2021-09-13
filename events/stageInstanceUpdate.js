@@ -38,7 +38,7 @@ module.exports = (client, oldStageInstance, newStageInstance) => {
 		if (newStageInstance.discoverableDisabled !== oldStageInstance.discoverableDisabled) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Stage Instance Discoverable updated', newStageInstance.guild.iconURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`Dicoverable: ${newStageInstance.discoverableDisabled}`)
 				.setTimestamp()
 				.setFooter(`ID: ${newStageInstance.channelId}`);
@@ -49,7 +49,7 @@ module.exports = (client, oldStageInstance, newStageInstance) => {
 		if (newStageInstance.privacyLevel !== oldStageInstance.privacyLevel) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Stage Instance Privacy Level updated', newStageInstance.guild.iconURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`Privacy Level: ${newStageInstance.privacyLevel}`)
 				.setTimestamp()
 				.setFooter(`ID: ${newStageInstance.channelId}`);
@@ -60,7 +60,7 @@ module.exports = (client, oldStageInstance, newStageInstance) => {
 		if (newStageInstance.topic !== oldStageInstance.topic) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Stage Instance Topic updated', newStageInstance.guild.iconURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.addField('Before', oldStageInstance.topic)
 				.addField('After', newStageInstance.topic)
 				.setTimestamp()

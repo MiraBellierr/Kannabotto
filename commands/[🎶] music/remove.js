@@ -34,6 +34,6 @@ module.exports = {
 
 		const song = queue.songs.splice(args[0] - 1, 1);
 
-		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** removed **${song[0].title}** from the queue.`).setColor('RANDOM')] });
+		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** removed **${song[0].title}** from the queue.`).setColor('#CD1C6C')] });
 	},
 };

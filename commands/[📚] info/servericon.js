@@ -25,7 +25,7 @@ module.exports = {
 		const embeduser = new Discord.MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.setTitle('Server Icon')
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setImage(message.guild.iconURL({ dynamic: true, size: 4096 }))
 			.setTimestamp()
 			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));

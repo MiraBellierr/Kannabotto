@@ -29,7 +29,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(`${message.author.username} is blushing!`, message.author.displayAvatarURL({ dynamic: true }))
 			.setImage(actionR)
-			.setColor('RANDOM');
+			.setColor('#CD1C6C');
 
 		message.reply({ embeds: [embed] });
 	},

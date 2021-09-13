@@ -42,7 +42,7 @@ module.exports = {
 				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 				.setTitle(`Top 10 ${type.toLowerCase()}`)
 				.setDescription(board)
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTimestamp();
 
 			m.delete();

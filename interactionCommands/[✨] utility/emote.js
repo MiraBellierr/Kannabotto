@@ -32,7 +32,7 @@ module.exports = {
 
 			const embed = new MessageEmbed()
 				.setAuthor(interaction.user.username, interaction.user.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTimestamp()
 				.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }));
 

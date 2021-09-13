@@ -37,7 +37,7 @@ module.exports = (client, stageInstance) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Stage Instance Deleted', stageInstance.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`**Channel:** #${stageInstance.channel.name}`)
 			.setTimestamp()
 			.setFooter(`ID: ${stageInstance.channelId}`);

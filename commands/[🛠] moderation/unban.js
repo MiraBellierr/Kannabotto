@@ -69,7 +69,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(member.username, member.displayAvatarURL({ dynamic: true }))
 				.setThumbnail(member.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTitle('Member Unbanned')
 				.setDescription(`Member: ${member.tag}`)
 				.addFields(

@@ -23,7 +23,7 @@ module.exports = (client, role) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Role Deleted', role.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`Role: ${role.name}`)
 			.setTimestamp()
 			.setFooter(`ID: ${role.id}`);

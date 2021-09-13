@@ -42,7 +42,7 @@ module.exports = {
 				return interaction.reply('An error occurred');
 			}
 			else {
-				const results = res.map((r, i) => new MessageEmbed().setTitle(search).setImage(r.url).setFooter(`Page ${i + 1}/${res.length}`).setColor('RANDOM').setAuthor(interaction.user.username, interaction.user.displayAvatarURL({ dynamic: true })).setTimestamp());
+				const results = res.map((r, i) => new MessageEmbed().setTitle(search).setImage(r.url).setFooter(`Page ${i + 1}/${res.length}`).setColor('#CD1C6C').setAuthor(interaction.user.username, interaction.user.displayAvatarURL({ dynamic: true })).setTimestamp());
 
 				const paginated = new PaginateContent.DiscordJS.InteractionPaginate(client, interaction, results);
 				await paginated.init();

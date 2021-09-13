@@ -35,7 +35,7 @@ const pollEmbed = async (msg, title, options, emojiList = defEmojiList.slice()) 
 
 const embedBuilder = (title, author, text) => {
 	return new MessageEmbed()
-		.setColor('RANDOM')
+		.setColor('#CD1C6C')
 		.setTitle(`Poll - ${title}`)
 		.setFooter(`Poll created by ${author}`)
 		.setDescription(text);

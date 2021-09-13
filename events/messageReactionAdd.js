@@ -59,7 +59,7 @@ module.exports = async (client, reaction) => {
 					if (reaction.emoji.reaction.count < starboard[message.guild.id].count) return;
 					if (image === '' && message.cleanContent.length < 1) return;
 					const embed = new Discord.MessageEmbed()
-						.setColor('RANDOM')
+						.setColor('#CD1C6C')
 						.setDescription(`**[Jump to message!](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id})**`)
 						.setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
 						.addField('Author', message.author.toString(), true)

@@ -32,7 +32,7 @@ module.exports = {
 		if (!args[0]) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${client.user.username} logging`, client.user.avatarURL())
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`**Proper Usage:**\n• ${prefix}giveaway start\n• ${prefix}giveaway end \`[message ID | prize]\`\n• ${prefix}giveaway reroll \`[message ID | prize]\``)
 				.setTimestamp();
 

@@ -61,7 +61,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(data.name, data.flag)
 				.setThumbnail(data.flag)
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.addField('Country Information', `**• Name:** ${data.name}\n**• Top Level Domain:** ${data.topLevelDomain.join(', ')}\n**• Alpha 2 Code:** ${data.alpha2Code}\n**• Alpha 3 Code:** ${data.alpha3Code}\n**• Calling Codes:** +${data.callingCodes.join(', +')}\n**• Capital:** ${data.capital}\n**• Alt Spellings:** ${data.altSpellings.join(', ')}\n**• Region:** ${data.region}\n**• Sub Region:** ${data.subregion}\n**• Population:** ${data.population.toLocaleString()}`, true)
 				.addField('Country Information 2', `**• Cioc:** ${data.cioc}\n**• Currencies:** ${currencies.join(', ')}\n**• Numeric Code:** ${data.numericCode}\n**• Native Name:** ${data.nativeName}\n**• Languages:** ${languages.join(', ')}\n**• Borders:** ${data.borders.join(', ')}\n**• Gini:** ${data.gini === null ? 'none' : data.gini}\n**• Area:** ${data.area.toLocaleString()}\n**• Demonym:** ${data.demonym}\n**• lat lng:** (${data.latlng.join(', ')})`, true)
 				.addField('Regional Blocs', regionalBlocs.join(',\n'))

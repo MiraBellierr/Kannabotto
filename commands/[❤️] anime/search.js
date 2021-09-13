@@ -76,7 +76,7 @@ module.exports = {
 							name: 'Rated', value: `${anime.rated}`, inline: true,
 						},
 					])
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setImage(anime.image_url)
 					.setTimestamp()
 					.setFooter(`ID: ${anime.mal_id}`);
@@ -108,7 +108,7 @@ module.exports = {
 							name: 'Manga', value: `${manga}`,
 						},
 					])
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setImage(character.image_url)
 					.setTimestamp()
 					.setFooter(`ID: ${character.mal_id}`);
@@ -152,7 +152,7 @@ module.exports = {
 							name: 'Members', value: `${manga.members.toLocaleString()}`, inline: true,
 						},
 					])
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setImage(manga.image_url)
 					.setTimestamp()
 					.setFooter(`ID: ${manga.mal_id}`);

@@ -40,7 +40,7 @@ module.exports = (client, invite) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Invite Created', invite.guild.iconURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setDescription(`inviter: ${invite.inviter}\nCode: ${invite.code}\nChannel: ${invite.channel}\nMax Uses: ${invite.maxUses}\nExpired After: ${invite.maxAge / 30} Minutes\nTemporary: ${invite.temporary ? 'On' : 'Off'}`)
 			.setTimestamp();
 

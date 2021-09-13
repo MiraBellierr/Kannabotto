@@ -57,7 +57,7 @@ module.exports = (client, oldMessage, newMessage) => {
 
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Message Edited', newMessage.guild.iconURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`User: <@${newMessage.author.id}>\nChannel: <#${newMessage.channel.id}>`)
 				.addField('Before:', oldContent[0])
 				.addField('After:', newContent[0])

@@ -77,7 +77,7 @@ module.exports = {
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.setTitle(`Level ${player.get('level')} ${player.get('name')}`)
 			.addField('__User Stats__', `**• 👑 Rank:** ${rank}\n**• <:hdstar:880340055619694632> Stars:** ${player.get('rank')}\n**• ⚔ Total Battles:** ${player.get('battle')}\n**• 🤺 Win rate:** ${isNaN((player.get('won') / player.get('battle')) * 100) ? '0.00%' : `${((player.get('won') / player.get('battle')) * 100).toFixed(2)}%`}\n**• 💀 Boss Captured:** ${totalImages}/${characters.length}`, true)
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.addField('__Character Stats__', `**• <:class:880658124246237254> Class:** ${player.get('class')}\n**• <:xp:880655736261206036> XP:** ${player.get('xp')}/${player.get('totalXp')}\n**• <:health:880655864523014155> Health:** ${(100 * player.get('health')).toLocaleString()}\n**• <:pa:880665943959797811> Physical Attack:** ${player.get('physicalAttack')}\n**• <:ma:880664129487138826> Magical Attack:** ${player.get('magicalAttack')}\n**• <:pr:880665272535642162> Physical Resistance:** ${player.get('physicalResistance')}\n**• <:mr:880667328671518731> Magical Resistance:** ${player.get('magicalResistance')}\n**• <:speed:880668456066891826> Speed:** ${player.get('speed')}\n**• <:weapon:880669056024317963> Weapon:** ${bag.get('weapon')}`, true)
 			.setImage(player.get('image'))
 			.setTimestamp();

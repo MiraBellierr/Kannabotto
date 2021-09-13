@@ -31,7 +31,7 @@ module.exports = {
 		const queueEmbed = new MessageEmbed()
 			.setTitle(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
 			.setDescription(`__Queue List:__\n${description}`)
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setTimestamp()
 			.setFooter(client.user.username, client.user.avatarURL({ dynamic: true }));
 

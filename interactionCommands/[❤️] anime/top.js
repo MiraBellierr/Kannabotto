@@ -54,7 +54,7 @@ module.exports = {
 				.setAuthor(interaction.user.username, interaction.user.displayAvatarURL({ dynamic: true }))
 				.setTitle(`Top 10 ${type.toLowerCase()}`)
 				.setDescription(board)
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTimestamp();
 
 			return interaction.reply({ embeds: [embed] });

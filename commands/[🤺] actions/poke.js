@@ -44,7 +44,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(`${message.author.username} pokes ${personPoke.user.username}!`, message.author.displayAvatarURL({ dynamic: true }))
 			.setImage(pokesR)
-			.setColor('RANDOM');
+			.setColor('#CD1C6C');
 
 		message.reply({ embeds: [embed] });
 	},

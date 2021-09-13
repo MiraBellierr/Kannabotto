@@ -40,7 +40,7 @@ module.exports = {
 		if (!option) {
 			const embed1 = new Discord.MessageEmbed()
 				.setAuthor(`${client.user.username} Starboard`, client.user.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`**Proper Usage:**\n• ${prefix}starboard set \`#tagchannel\`\n• ${prefix}starboard star \`number\` (stars needed for the message to be posted in the starboard channel, default = 1)\n• ${prefix}starboard on\n• ${prefix}starboard off\n**Example:**\n• ${prefix}starboard set \`#hall-of-fame\`\n**After do that, do again:**\n• ${prefix}starboard on`)
 				.setFooter('Starboard Channel')
 				.setTimestamp();
@@ -62,7 +62,7 @@ module.exports = {
 				});
 
 				const embed2 = new Discord.MessageEmbed()
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setDescription(`Starboard channel set to: ${inputmessage}`)
 					.setTimestamp().setFooter('Starboard channel', client.user.displayAvatarURL({ dynamic: true }));
 
@@ -85,7 +85,7 @@ module.exports = {
 				});
 
 				const embed2 = new Discord.MessageEmbed()
-					.setColor('RANDOM')
+					.setColor('#CD1C6C')
 					.setDescription(`Starboard star set to: ${inputmessage}`)
 					.setTimestamp().setFooter('Starboard star', client.user.displayAvatarURL({ dynamic: true }));
 
@@ -104,7 +104,7 @@ module.exports = {
 			});
 
 			const embed3 = new Discord.MessageEmbed()
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription('Starboard has been set **on**.')
 				.setTimestamp()
 				.setFooter('Starboard enable', client.user.displayAvatarURL({ dynamic: true }));
@@ -121,7 +121,7 @@ module.exports = {
 			});
 
 			const embed4 = new Discord.MessageEmbed()
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription('Starboard has been set **off**.')
 				.setTimestamp()
 				.setFooter('Starboard disable', client.user.displayAvatarURL({ dynamic: true }));

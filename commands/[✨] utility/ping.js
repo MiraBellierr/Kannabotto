@@ -25,7 +25,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-			.setColor('RANDOM')
+			.setColor('#CD1C6C')
 			.setTitle('🏓 Pong')
 			.addField('Latency', `${Math.floor(msg.createdTimestamp - message.createdTimestamp)}ms`)
 			.addField('API Latency', `${Math.round(client.ws.ping)}ms`)

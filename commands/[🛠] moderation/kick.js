@@ -72,7 +72,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Member Kicked', member.user.displayAvatarURL({ dynamic: true }))
 				.setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setDescription(`Member: ${member.user.tag}`)
 				.addFields(
 					{ name: '**Kicked By**', value: message.author },

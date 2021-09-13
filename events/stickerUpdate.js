@@ -38,7 +38,7 @@ module.exports = (client, oldSticker, newSticker) => {
 		if (newSticker.description !== oldSticker.description) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Sticker Description Updated', newSticker.guild.iconURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.addField('Before', oldSticker.description)
 				.addField('After', newSticker.description)
 				.setTimestamp()
@@ -50,7 +50,7 @@ module.exports = (client, oldSticker, newSticker) => {
 		if (newSticker.name !== oldSticker.name) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Sticker Name Updated', newSticker.guild.iconURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.addField('Before', oldSticker.name)
 				.addField('After', newSticker.name)
 				.setTimestamp()
@@ -61,7 +61,7 @@ module.exports = (client, oldSticker, newSticker) => {
 		if (newSticker.tags !== oldSticker.tags) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Sticker Tags Updated', newSticker.guild.iconURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.addField('Before', oldSticker.tags.join(', '))
 				.addField('After', newSticker.tags.join(', '))
 				.setTimestamp()

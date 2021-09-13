@@ -37,7 +37,7 @@ module.exports = {
 function getAll(client, message) {
 	const embed = new MessageEmbed()
 		.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-		.setColor('RANDOM')
+		.setColor('#CD1C6C')
 		.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
 		.setTimestamp()
 		.setFooter(`Type "${prefixes[message.guild.id]}help [command]" for more info on a command!`, client.user.avatarURL({ dynamic: true }))

@@ -49,7 +49,7 @@ module.exports = {
 
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${user.username}'s active item`, user.displayAvatarURL({ dynamic: true }))
-				.setColor('RANDOM')
+				.setColor('#CD1C6C')
 				.setTitle('Active item:')
 				.setTimestamp()
 				.setDescription(`${(guard === null && guardTime < 1) && (bear === null && bearTime < 1) ? 'You have no active item' : ''}${guard !== null && guardTime > 0 ? `**• <:bearguard:868105110289543188> Guard** - ${guardObj.hours}h${guardObj.minutes}m${guardObj.seconds}s left` : ''}${bear !== null && bearTime > 0 ? `\n**• <a:angrybear:868105109853327370> Bear** -- ${bearObj.minutes}m${bearObj.seconds}s left` : ''}`);
