@@ -53,7 +53,7 @@ function getAll(client, message) {
 		.map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
 		.reduce((string, category) => string + '\n' + category);
 
-	return message.reply({ embeds: [embed.setDescription(info).setTimestamp()] });
+	return message.reply({ embeds: [embed.setDescription(`<:discord:885340297733746798> [Invite Kanna](https://discord.com/api/oauth2/authorize?client_id=867048396358549544&permissions=0&scope=bot)\n<:kanna:885340978834198608> [Kanna's Kawaii Klubhouse](https://discord.gg/NcPeGuNEdc)\n\n${info}`).setTimestamp()] });
 }
 
 function getCMD(client, message, input) {
