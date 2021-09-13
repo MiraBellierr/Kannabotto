@@ -34,9 +34,9 @@ module.exports = {
 				.setDescription(`To begin play, please choose one of these class with the \`${prefixes[message.guild.id]}start <class>\`.`)
 				.setColor('RANDOM')
 				.addFields(
-					{ name: 'Warrior', value: '```js\n• Level: 1\n• Health: 5\n• Physical Attack: 5\n• Magical Attack: 1\n• physical Resistance: 6\n• Magical Resistance: 3\n• Speed: 1```' },
-					{ name: 'Monk', value: '```js\n• Level: 1\n• Health: 2\n• Physical Attack: 10\n• Magical Attack: 1\n• physical Resistance: 5\n• Magical Resistance: 2\n• Speed: 1```' },
-					{ name: 'Mage', value: '```js\n• Level: 1\n• Health: 2\n• Physical Attack: 1\n• Magical Attack: 10\n• physical Resistance: 2\n• Magical Resistance: 5\n• Speed: 1```' },
+					{ name: 'Warrior', value: '```js\n• Level: 0\n• Health: 5\n• Physical Attack: 5\n• Magical Attack: 1\n• physical Resistance: 6\n• Magical Resistance: 3\n• Speed: 1```' },
+					{ name: 'Monk', value: '```js\n• Level: 0\n• Health: 2\n• Physical Attack: 10\n• Magical Attack: 1\n• physical Resistance: 5\n• Magical Resistance: 2\n• Speed: 1```' },
+					{ name: 'Mage', value: '```js\n• Level: 0\n• Health: 2\n• Physical Attack: 1\n• Magical Attack: 10\n• physical Resistance: 2\n• Magical Resistance: 5\n• Speed: 1```' },
 				)
 				.setTimestamp()
 				.setImage('https://cdn.discordapp.com/attachments/716107950032420897/726607719653703780/rpg.png');
