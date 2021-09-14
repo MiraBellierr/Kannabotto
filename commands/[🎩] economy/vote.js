@@ -26,7 +26,7 @@ module.exports = {
 			.setTitle('Vote For Kanna')
 			.setColor('#CD1C6C')
 			.setDescription('Voting helps Kanna becomes popular :p')
-			.addField('Links:', '- [top.gg](https://top.gg/bot/867048396358549544/vote) - gives you <a:jasminecoins:868105109748469780> 500\n- [blist.xyz](https://blist.xyz/bot/867048396358549544/) - gives you <a:jasminecoins:868105109748469780> 500')
+			.addField('Links:', '- [top.gg](https://top.gg/bot/867048396358549544/vote) - gives you <a:jasminecoins:868105109748469780> 500\n- [blist.xyz](https://blist.xyz/bot/867048396358549544/) - gives you <a:jasminecoins:868105109748469780> 300\n- [bladebotlist.xyz](https://bladebotlist.xyz/bot/867048396358549544/vote) - gives you <a:jasminecoins:868105109748469780> 300\n- [botlist.me](https://botlist.me/bots/867048396358549544/vote) - gives you <a:jasminecoins:868105109748469780> 100')
 			.setTimestamp()
 			.setFooter(client.user.username, client.user.avatarURL({ dynamic: true }));
 

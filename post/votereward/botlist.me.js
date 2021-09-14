@@ -1,19 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { blistxyzAuthorization } = require('../../config.json');
+const { webhookpassword } = require('../../config.json');
 const { createAllDataForNewUser, getUserDataAndCreate } = require('../../functions');
 const Models = require('../../create-model');
 const { MessageEmbed } = require('discord.js');
-const { blist } = require('../../routes.json');
-const { PORT11 } = require('../../port.json');
+const { botlist } = require('../../routes.json');
+const { PORT3 } = require('../../port.json');
 
 module.exports = async (client) => {
 	const app = express();
 
 	app.use(bodyParser.json());
 
-	app.post(blist, async function(req, res) {
-		if (!req.headers.authorization || req.headers.authorization !== blistxyzAuthorization) return res.sendStatus(403);
+	app.post(botlist, async function(req, res) {
+		if (!req.headers.authorization || req.headers.authorization !== webhookpassword) return res.sendStatus(403);
 
 		const user = await client.users.fetch(req.body.user);
 
@@ -25,7 +25,7 @@ module.exports = async (client) => {
 
 		const economy = await getUserDataAndCreate(Economy, user.id);
 
-		let reward = 300;
+		let reward = 100;
 		let weekend = false;
 
 		const dayToday = new Date(Date.now()).getDay();
@@ -45,7 +45,7 @@ module.exports = async (client) => {
 			.setTitle('Thank you for voting!')
 			.setColor('#ff1493')
 			.setThumbnail('https://cdn.discordapp.com/attachments/710732218254753842/845169239979589651/1383_bunny_holding_hearts.png')
-			.setDescription(`\`${user.tag} (${user.id})\` just voted!\n${user.tag} received <a:jasminecoins:868105109748469780> ${reward} ${weekend === true ? '(doubled on weekend)' : ''}\n\nYou can vote on blist.xyz [here](https://blist.xyz/bot/867048396358549544/) every 12 hours!`)
+			.setDescription(`\`${user.tag} (${user.id})\` just voted!\n${user.tag} received <a:jasminecoins:868105109748469780> ${reward} ${weekend === true ? '(doubled on weekend)' : ''}\n\nYou can vote on botlist.me [here](https://botlist.me/bots/867048396358549544/vote) every 12 hours!`)
 			.setFooter('Thank you for your support!');
 
 		channel.send({ embeds: [embed] });
@@ -55,5 +55,5 @@ module.exports = async (client) => {
 		res.sendStatus(200);
 	});
 
-	app.listen(PORT11, () => { console.log(`[LOG] Webhook server running at ::${PORT11}/${blist}`); });
+	app.listen(PORT3, () => { console.log(`[LOG] Webhook server running at ::${PORT3}/${botlist}`); });
 };
