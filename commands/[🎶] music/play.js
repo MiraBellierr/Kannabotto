@@ -32,7 +32,7 @@ module.exports = {
 		const queue = client.queue.get(message.guild.id);
 
 		if (!channel) return message.reply('You need to join a voice channel first.');
-		if (queue && channel !== message.guild.me.voice.channel) return message.reply('You must be in the same channel as me.');
+		if (channel !== message.guild.me.voice.channel) return message.reply('You must be in the same channel as me.');
 		if (!channel.permissionsFor(client.user).has('CONNECT') || !channel.permissionsFor(client.user).has('SPEAK')) return message.reply('I don\'t have enough permission to speak or connect to that channel.');
 
 
