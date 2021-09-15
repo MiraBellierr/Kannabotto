@@ -17,7 +17,7 @@ const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const yts = require('yt-search');
 const Discord = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior } = require('@discordjs/voice');
+const { joinVoiceChannel } = require('@discordjs/voice');
 
 module.exports = {
 	name: 'play',
@@ -32,7 +32,7 @@ module.exports = {
 		const queue = client.queue.get(message.guild.id);
 
 		if (!channel) return message.reply('You need to join a voice channel first.');
-		if (channel !== message.guild.me.voice.channel) return message.reply('You must be in the same channel as me.');
+		if (queue && channel !== message.guild.me.voice.channel) return message.reply('You must be in the same channel as me.');
 		if (!channel.permissionsFor(client.user).has('CONNECT') || !channel.permissionsFor(client.user).has('SPEAK')) return message.reply('I don\'t have enough permission to speak or connect to that channel.');
 
 
@@ -50,6 +50,7 @@ module.exports = {
 				resource: null,
 				player: null,
 				songs: [],
+				position: 0,
 				loop: false,
 				volume: 100,
 				playing: true,
@@ -76,7 +77,8 @@ module.exports = {
 			if (queue) {
 				queue.songs.push(song);
 
-				queue.textChannel
+				m.delete();
+				return queue.textChannel
 					.send({ embeds: [new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('#CD1C6C').setImage(song.image)] })
 					.catch(console.error);
 			}
@@ -87,23 +89,18 @@ module.exports = {
 					guildId: channel.guild.id,
 					adapterCreator: channel.guild.voiceAdapterCreator,
 				});
-				queueConstruct.player = createAudioPlayer({
-					behaviors: {
-						noSubscriber: NoSubscriberBehavior.Pause,
-					},
-				});
 
 				client.queue.set(message.guild.id, queueConstruct);
 
 				try {
 					m.delete();
-					play(queueConstruct.songs[0], message);
+					play(queueConstruct.songs[queueConstruct.position], message);
 				}
 				catch (e) {
 					const postQueue = client.queue.get(message.guild.id);
 
-					postQueue.player.stop();
 					postQueue.connection.destroy();
+					client.queue.delete(message.guild.id);
 
 					console.log(e);
 

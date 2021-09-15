@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { StreamType, AudioPlayerStatus, VoiceConnectionStatus, entersState, createAudioResource } = require('@discordjs/voice');
+const { StreamType, AudioPlayerStatus, createAudioResource, createAudioPlayer, NoSubscriberBehavior } = require('@discordjs/voice');
 const ytdlDiscord = require('discord-ytdl-core');
 const Discord = require('discord.js');
 
@@ -20,9 +20,8 @@ module.exports = {
 	async play(song, message) {
 		const queue = message.client.queue.get(message.guild.id);
 
-		if (typeof song !== 'object') {
+		if (!song) {
 			try {
-				queue.player.stop();
 				queue.connection.destroy();
 			}
 			catch (e) {
@@ -39,15 +38,6 @@ module.exports = {
 			stream = ytdlDiscord(song.url, { filter: 'audioonly', opusEncoded: true, encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200'] });
 		}
 		catch(e) {
-			if (queue) {
-				queue.songs.shift();
-				console.log(e);
-
-				return module.exports.play(queue.songs[0], message);
-			}
-
-			queue.player.stop();
-			queue.connection.destroy();
 			console.log(e);
 
 			return message.reply(`${e.message}. Please report to the support server.`);
@@ -59,41 +49,25 @@ module.exports = {
 		});
 		queue.resource.volume.setVolume(queue.volume / 100);
 
+		queue.player = createAudioPlayer({
+			behaviors: {
+				noSubscriber: NoSubscriberBehavior.Pause,
+			},
+		});
+
 		queue.player.play(queue.resource);
 		queue.connection.subscribe(queue.player);
 
-		queue.connection.on(VoiceConnectionStatus.Disconnected, async () => {
-			try {
-				await Promise.race([
-					entersState(queue.connection, VoiceConnectionStatus.Signalling, 5_000),
-					entersState(queue.connection, VoiceConnectionStatus.Connecting, 5_000),
-				]);
-			}
-			catch (e) {
-				queue.player.stop();
-				queue.connection.destroy();
-				console.log(e);
-				return message.reply(`${e.message}`);
-			}
-		});
-
-		queue.player.on('error', e => {
-			console.log(e);
-			return message.reply(`${e.message}`);
-		});
-
 		queue.player.on(AudioPlayerStatus.Idle, () => {
+			console.log(queue);
 			if (queue.loop) {
-				const lastSong = queue.songs.shift();
+				const lastSong = queue.songs[queue.position];
 
-				queue.songs.push(lastSong);
-
-				module.exports.play(queue.songs[0], message);
+				module.exports.play(lastSong, message);
 			}
 			else {
-				queue.songs.shift();
-
-				module.exports.play(queue.songs[0], message);
+				queue.position++;
+				module.exports.play(queue.songs[queue.position], message);
 			}
 		});
 
@@ -108,8 +82,5 @@ module.exports = {
 		catch (e) {
 			console.log(e);
 		}
-
-		console.log(queue);
-
 	},
 };

@@ -28,7 +28,7 @@ module.exports = {
 		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
 		queue.playing = true;
-		queue.player.stop();
+		queue.player.stop(true);
 		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** skipped the song`).setColor('#CD1C6C')] }).catch(console.error);
 	},
 };

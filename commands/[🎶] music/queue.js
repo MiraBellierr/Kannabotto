@@ -26,7 +26,7 @@ module.exports = {
 
 		if (!queue) return message.reply(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
 
-		const description = queue.songs.map((song, index) => `${index + 1}. ${Util.escapeMarkdown(`${song.title}`)} - ${song.duration}`);
+		const description = queue.songs.map((song, index) => `${index + 1}. ${Util.escapeMarkdown(`${song.title}`)} - ${song.duration} ${queue.position === index ? '<-- __Now Playing__' : ''}`).join('\n');
 
 		const queueEmbed = new MessageEmbed()
 			.setTitle(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
