@@ -31,6 +31,7 @@ module.exports = {
 
 		for (let i = songs.length - 1; i > 1; i--) {
 			const j = 1 + Math.floor(Math.random() * i);
+			if (i === queue.position || j === queue.position) continue;
 			[songs[i], songs[j]] = [songs[j], songs[i]];
 		}
 
