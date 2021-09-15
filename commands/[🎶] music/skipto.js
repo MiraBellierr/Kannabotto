@@ -36,10 +36,10 @@ module.exports = {
 		if (!queue) return message.reply(`**${message.author.username}**, there is no queue.`).catch(console.error);
 		if (!canModifyQueue(message.member)) return message.reply('You need to join the voice channel first');
 
+		if (!queue.songs[parseInt(args[0]) - 1]) return message.reply(`There is no song with the queue of #${args[0]}`);
+
 		queue.playing = true;
 		queue.position = parseInt(args[0]) - 2;
-
-		if (!queue.songs[queue.position]) return message.reply(`There is no song with the queue of #${args[0]}`);
 
 		queue.player.stop(true);
 		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** playing queue song #${args[0]}`).setColor('#CD1C6C')] }).catch(console.error);
