@@ -59,15 +59,27 @@ module.exports = {
 		queue.connection.subscribe(queue.player);
 
 		queue.player.on(AudioPlayerStatus.Idle, () => {
-			console.log(queue);
 			if (queue.loop) {
 				const lastSong = queue.songs[queue.position];
 
-				module.exports.play(lastSong, message);
+				return module.exports.play(lastSong, message);
 			}
 			else {
 				queue.position++;
-				module.exports.play(queue.songs[queue.position], message);
+				return module.exports.play(queue.songs[queue.position], message);
+			}
+		});
+
+		queue.player.on('error', error => {
+			console.log(error);
+			if (queue.loop) {
+				const lastSong = queue.songs[queue.position];
+
+				return module.exports.play(lastSong, message);
+			}
+			else {
+				queue.position++;
+				return module.exports.play(queue.songs[queue.position], message);
 			}
 		});
 
