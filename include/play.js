@@ -23,12 +23,13 @@ module.exports = {
 		if (!song) {
 			try {
 				queue.connection.destroy();
+				queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('#CD1C6C')] });
+
 			}
 			catch (e) {
 				console.log(e);
 			}
 
-			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Music queue ended', 'https://cdn.discordapp.com/emojis/683860864624885811.gif').setDescription('I have left the voice channel').setColor('#CD1C6C')] });
 			return message.client.queue.delete(message.guild.id);
 		}
 
