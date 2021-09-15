@@ -32,7 +32,12 @@ module.exports = {
 		if (!args.length) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}remove <Queue Number>\``);
 		if (isNaN(args[0])) return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}remove <Queue Number>\``);
 
-		const song = queue.songs.splice(args[0] - 1, 1);
+		if (!queue.songs[parseInt(args[0]) - 1]) return message.reply(`There is no song with a queue of #${args[0]}`);
+		if (parseInt(args[0]) - 1 === queue.position) return message.reply('Cannot remove the current playing song.');
+
+		if (parseInt(args[0]) - 1 < queue.position) queue.position--;
+
+		const song = queue.songs.splice(parseInt(args[0]) - 1, 1);
 
 		queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setDescription(`**${message.author.username}** removed **${song[0].title}** from the queue.`).setColor('#CD1C6C')] });
 	},
