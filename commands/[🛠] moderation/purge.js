@@ -22,13 +22,13 @@ module.exports = {
 	example: `${bot_prefix}purge <number of messages>`,
 	usage: '<number of messages>',
 	run: async (client, message, args) => {
-		if (message.deletable) {
-			await message.delete();
-		}
-
 		// Member doesn't have permissions
 		if (!message.member.permissions.has('MANAGE_MESSAGES')) {
 			return message.reply('Sorry you don\'t have manage messages permission to use this command.');
+		}
+
+		if (message.deletable) {
+			await message.delete();
 		}
 
 		// Check if args[0] is a number
