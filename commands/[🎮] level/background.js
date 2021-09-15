@@ -25,6 +25,13 @@ module.exports = {
 	description: 'Set your level card background',
 	usage: '<attachment>',
 	run: async (client, message, args) => {
+
+		if(!bg[message.author.id]) {
+			bg[message.author.id] = {
+				background: 'https://cdn.discordapp.com/attachments/710732218254753842/717194057516056576/3430.jpg',
+			};
+		}
+
 		if (args[0] === 'default') {
 			bg[message.author.id].background = 'https://cdn.discordapp.com/attachments/710732218254753842/717194057516056576/3430.jpg';
 
@@ -39,12 +46,6 @@ module.exports = {
 				}
 			});
 			return;
-		}
-
-		if(!bg[message.author.id]) {
-			bg[message.author.id] = {
-				background: 'https://cdn.discordapp.com/attachments/710732218254753842/717194057516056576/3430.jpg',
-			};
 		}
 
 		const newBg = message.attachments.first();
