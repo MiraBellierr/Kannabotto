@@ -40,6 +40,7 @@ module.exports = {
 
 		let amount = 1000;
 
+		// tier 1
 		if (message.member.roles.cache.has('867067634785058816')) amount = 2000;
 
 		const timer = await cooldown('daily', user, 8.64e+7);
