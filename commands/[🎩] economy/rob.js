@@ -53,7 +53,8 @@ module.exports = {
 		const economyVictim = await getUserDataAndCreate(Economy, user.id);
 		const achievement = await getUserDataAndCreate(Achievement, message.author.id);
 
-		const successChance = 0.4;
+		let successChance = 0.4;
+
 		const success = Math.random() < successChance;
 		const timer = await cooldown('rob', message.author.id, 3.6e+6);
 
@@ -61,6 +62,12 @@ module.exports = {
 		if (!args[0]) return message.reply(`**${message.author.username}**, please make sure you mention someone after this`);
 		if (user.id === message.author.id) return message.reply(`**${message.author.username}**, nope, you can't rob yourself or you entered an invalid user`);
 		if (economyVictim.get('balance') < 1) return message.reply(`**${message.author.username}**, ${user.username} does not have anything you can rob`);
+
+		if (member.roles.cache.has('867067538215272448')) successChance = 0.36;
+		if (member.roles.cache.has('867067600378920990')) successChance = 0.32;
+		if (member.roles.cache.has('867067634785058816')) successChance = 0.28;
+		if (member.roles.cache.has('867067671501078529')) successChance = 0.24;
+		if (member.roles.cache.has('867067706641088542')) successChance = 0.2;
 
 		if (timer.bool) {
 			message.reply(`**${message.author.username}**, Please wait **${timer.minutes}m ${timer.seconds}s** until you can rob again.`);
