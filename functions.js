@@ -1320,10 +1320,10 @@ module.exports = {
 
 		if (timer !== null && timeOut - (Date.now() - timer) > 0) {
 			const timeObj = ms.default(timeOut - (Date.now() - timer));
-			return { bool: true, seconds: timeObj.seconds, minutes: timeObj.minutes, hours: timeObj.hours, days: timeObj.days };
+			return { bool: true, miliseconds: timeObj.milliseconds, seconds: timeObj.seconds, minutes: timeObj.minutes, hours: timeObj.hours, days: timeObj.days };
 		}
 		else {
-			return false;
+			return { bool: false, miliseconds: null, seconds: null, minutes: null, hours: null, days: null };
 		}
 	},
 	checkPlayerExist: async (userId) => {
