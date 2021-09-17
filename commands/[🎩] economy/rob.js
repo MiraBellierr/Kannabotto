@@ -65,7 +65,8 @@ module.exports = {
 		if (economyVictim.get('balance') < 1) return message.reply(`**${message.author.username}**, ${user.username} does not have anything you can rob`);
 
 		for (let i = 0; i < 5; i++) {
-			if (member.roles.cache.has(patrons[`tier ${i + 1}`])) successChance = 0.4 - (4 * (i + 1));
+			const chance = 0.04 * (i + 1);
+			if (message.member.roles.cache.has(patrons[`tier ${i + 1}`])) successChance = 0.4 - chance;
 		}
 
 		if (timer.bool) {
