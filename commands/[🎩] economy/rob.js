@@ -15,6 +15,7 @@
 const { bot_prefix } = require('../../config.json');
 const { getMember, checkGuildDisable, guildDisableMessage, blacklistMessage, checkBlacklist, createAllDataForNewUser, getUserDataAndCreate, cooldown } = require('../../functions');
 const Models = require('../../create-model.js');
+const patrons = require('../../database/patrons.json');
 
 module.exports = {
 	name: 'rob',
@@ -63,11 +64,9 @@ module.exports = {
 		if (user.id === message.author.id) return message.reply(`**${message.author.username}**, nope, you can't rob yourself or you entered an invalid user`);
 		if (economyVictim.get('balance') < 1) return message.reply(`**${message.author.username}**, ${user.username} does not have anything you can rob`);
 
-		if (member.roles.cache.has('867067538215272448')) successChance = 0.36;
-		if (member.roles.cache.has('867067600378920990')) successChance = 0.32;
-		if (member.roles.cache.has('867067634785058816')) successChance = 0.28;
-		if (member.roles.cache.has('867067671501078529')) successChance = 0.24;
-		if (member.roles.cache.has('867067706641088542')) successChance = 0.2;
+		for (let i = 0; i < 5; i++) {
+			if (member.roles.cache.has(patrons[`tier ${i + 1}`])) successChance = 0.4 - (4 * (i + 1));
+		}
 
 		if (timer.bool) {
 			message.reply(`**${message.author.username}**, Please wait **${timer.minutes}m ${timer.seconds}s** until you can rob again.`);

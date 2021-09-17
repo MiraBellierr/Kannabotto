@@ -15,6 +15,7 @@
 const { bot_prefix } = require('../../config.json');
 const Models = require('../../create-model');
 const { checkGuildDisable, guildDisableMessage, blacklistMessage, checkBlacklist, createAllDataForNewUser, getUserDataAndCreate, cooldown } = require('../../functions');
+const patrons = require('../../database/patrons.json');
 
 module.exports = {
 	name: 'daily',
@@ -40,8 +41,8 @@ module.exports = {
 
 		let amount = 1000;
 
-		// tier 1
-		if (message.member.roles.cache.has('867067634785058816')) amount = 2000;
+		// tier III
+		if (message.member.roles.cache.has(patrons['tier 3'])) amount = 2000;
 
 		const timer = await cooldown('daily', user, 8.64e+7);
 

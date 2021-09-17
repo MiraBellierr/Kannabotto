@@ -15,6 +15,7 @@
 const { bot_prefix } = require('../../config.json');
 const Models = require('../../create-model.js');
 const { checkGuildDisable, guildDisableMessage, blacklistMessage, checkBlacklist, createAllDataForNewUser, getUserDataAndCreate, cooldown } = require('../../functions');
+const patrons = require('../../database/patrons.json');
 
 module.exports = {
 	name: 'weekly',
@@ -37,7 +38,7 @@ module.exports = {
 		const patron = guild.members.cache.get(message.author.id);
 
 		if (!patron) return message.reply(`**${message.author.username}**, This command is accessible for Tier 1 Supporter only and must join our support server.`);
-		if (!patron.roles.cache.get('867067538215272448')) return message.reply(`**${message.author.username}**, This command is accessible for Tier 1 Patreon only.`);
+		if (!patron.roles.cache.get(patrons['tier 1'])) return message.reply(`**${message.author.username}**, This command is accessible for Tier 1 Patreon only.`);
 
 		const economy = await getUserDataAndCreate(Economy, user);
 		const achievement = await getUserDataAndCreate(Achievement, user);
