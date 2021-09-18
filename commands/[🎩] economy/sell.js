@@ -37,6 +37,7 @@ module.exports = {
 
 		if (!amount) amount = 1;
 		if (isNaN(amount)) return message.reply(`**${message.author.username}**, please provide a real amount of item you want to sell.`);
+		if (amount < 1) amount = 1;
 
 		if (client.items.has(content)) {
 			const item = client.items.get(content);
