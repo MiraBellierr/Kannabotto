@@ -27,7 +27,6 @@ module.exports = async (client, message) => {
 	}
 
 	if (!message.guild.me.permissions.has('SEND_MESSAGES') || !message.guild.me.permissionsIn(message.channel).has('SEND_MESSAGES')) return;
-	if (!message.guild.me.permissions.has('READ_MESSAGE_HISTORY') || !message.guild.me.permissionsIn(message.channel).has('READ_MESSAGE_HISTORY')) return message.channel.send('I need a read message history permission for me to be able to reply to the past messages.');
 
 	if (message.mentions.users.first() === client.user) message.reply(`My prefix for this guild is \`${prefixes[message.guild.id]}\`. Type \`${prefixes[message.guild.id]}help\` for more info about me. `).catch(e => console.log(e));
 
@@ -35,6 +34,7 @@ module.exports = async (client, message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 	if (message.author.bot) return;
 	if (!message.member) message.member = await message.guild.fetchMember(message);
+	if (!message.guild.me.permissions.has('READ_MESSAGE_HISTORY') || !message.guild.me.permissionsIn(message.channel).has('READ_MESSAGE_HISTORY')) return message.channel.send('I need a read message history permission for me to be able to reply to the past messages.');
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
 	const cmd = args.shift().toLowerCase();
