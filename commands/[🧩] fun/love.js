@@ -15,6 +15,8 @@
 const { MessageEmbed } = require('discord.js');
 const { getMember } = require('../../functions.js');
 const { bot_prefix } = require('../../config.json');
+const love = require('../../database/love.json');
+const fs = require('fs');
 
 module.exports = {
 	name: 'love',
@@ -32,15 +34,36 @@ module.exports = {
 				.filter(m => m.id !== message.author.id)
 				.random();
 		}
-		const id = parseInt(message.author.id);
-		const id2 = parseInt(person.user.id);
-		const idPlusid2 = (id + id2).toString();
-		const idPlusid2Array = idPlusid2.split('0');
-		const multi = '0'.repeat(idPlusid2Array[0].length);
-		const plus = '1' + multi;
-		const plusint = parseInt(plus);
-		const love = (idPlusid2Array[0] / plusint) * 100;
-		const loveIndex = Math.floor(love / 10);
+
+		if (!love[message.author.id]) {
+			love[message.author.id] = {};
+		}
+
+		if (!love[message.author.id][person.user.id]) {
+			const loveMeter = Math.floor(Math.random() * 100);
+			const loveIndex = Math.floor(loveMeter / 10);
+			const loveLevel = '💖'.repeat(loveIndex) + '🖤'.repeat(10 - loveIndex);
+
+
+			love[message.author.id][person.user.id] = loveMeter;
+
+			fs.writeFile('./database/love.json', JSON.stringify(love, null, 2), (err) => {
+				if (err) console.log(err);
+			});
+
+			const embed = new MessageEmbed()
+				.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+				.setTimestamp()
+				.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }))
+				.setColor('#ffb6c1')
+				.addField(`☁ **${person.displayName}** loves **${message.member.displayName}** this much:`,
+					`💟 ${Math.floor(loveMeter)}%\n\n${loveLevel}`);
+
+			return message.reply({ embeds: [embed] });
+		}
+
+		const loveMeter = love[message.author.id][person.user.id];
+		const loveIndex = Math.floor(loveMeter / 10);
 		const loveLevel = '💖'.repeat(loveIndex) + '🖤'.repeat(10 - loveIndex);
 
 		const embed = new MessageEmbed()
@@ -49,7 +72,7 @@ module.exports = {
 			.setFooter(client.user.tag, client.user.avatarURL({ dynamic: true }))
 			.setColor('#ffb6c1')
 			.addField(`☁ **${person.displayName}** loves **${message.member.displayName}** this much:`,
-				`💟 ${Math.floor(love)}%\n\n${loveLevel}`);
+				`💟 ${Math.floor(loveMeter)}%\n\n${loveLevel}`);
 
 		message.reply({ embeds: [embed] });
 	},
