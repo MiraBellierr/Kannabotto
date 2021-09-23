@@ -85,12 +85,7 @@ module.exports = {
 		});
 
 		try {
-			const description = Discord.Util.splitMessage(`${song.description}`, {
-				maxLength: 1024,
-				char: '',
-			});
-
-			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setURL(song.url).addFields({ name: 'Title', value: `${song.title}`, inline: true }, { name: 'URL', value: `${song.url}`, inline: true }, { name: 'Description', value: `${description[0]}` }, { name: 'Duration', value: `${song.duration}` }, { name: 'Created', value: `${song.created}`, inline: true }).setColor('#CD1C6C').setImage(song.image)] });
+			queue.textChannel.send({ embeds: [new Discord.MessageEmbed().setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/733017035658756187.gif').setDescription(song.title).setColor('#CD1C6C')] });
 		}
 		catch (e) {
 			console.log(e);

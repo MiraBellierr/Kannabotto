@@ -27,7 +27,6 @@ module.exports = {
 	example: `${bot_prefix}play <YouTube URL>`,
 	usage: '<YouTube URL>',
 	run: async (client, message, args) => {
-		const m = await message.reply('*Please wait...*');
 		const { channel } = message.member.voice;
 		const queue = client.queue.get(message.guild.id);
 
@@ -39,6 +38,8 @@ module.exports = {
 		if (!args.length) {
 			return message.reply(`**${message.author.username}**, the right syntax is \`${prefixes[message.guild.id]}play <YouTube URL>\``);
 		}
+
+		const m = await message.reply('*Please wait...*');
 
 		yts(args.join(' '), async (err, res) => {
 			if (err) return message.reply('No song found.');
@@ -79,7 +80,7 @@ module.exports = {
 
 				m.delete();
 				return queue.textChannel
-					.send({ embeds: [new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('#CD1C6C').setImage(song.image)] })
+					.send({ embeds: [new Discord.MessageEmbed().setAuthor('Added To Queue', 'https://cdn.discordapp.com/emojis/679796248819138561.gif').setDescription(song.title).setColor('#CD1C6C')] })
 					.catch(console.error);
 			}
 			else {
