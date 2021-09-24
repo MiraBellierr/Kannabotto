@@ -776,9 +776,11 @@ module.exports = {
 			return message.reply('skipped');
 		}
 		else {
-			embed.setColor(color.first().content.toUpperCase());
-
 			colorCode = color.first().content.toUpperCase();
+
+			if (!Discord.Util.resolveColor(colorCode)) return message.channel.send('I couldn\'t resolve this color. Please try again later.');
+
+			embed.setColor(color.first().content.toUpperCase());
 		}
 
 		await message.reply({ embeds: [embed] });
