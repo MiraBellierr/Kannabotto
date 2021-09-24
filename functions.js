@@ -778,7 +778,12 @@ module.exports = {
 		else {
 			colorCode = color.first().content.toUpperCase();
 
-			if (!Discord.Util.resolveColor(colorCode)) return message.channel.send('I couldn\'t resolve this color. Please try again later.');
+			try {
+				Discord.Util.resolveColor(colorCode);
+			}
+			catch (err) {
+				return message.channel.send('I couldn\'t resolve this color. Please try again later.');
+			}
 
 			embed.setColor(color.first().content.toUpperCase());
 		}
