@@ -55,7 +55,7 @@ module.exports = async (client, member) => {
 
 		const colorCode = file[member.guild.id].colorCode;
 
-		if (colorCode !== null) {
+		if (colorCode !== null && colorCode !== 'skip') {
 			embed.setColor(colorCode);
 		}
 
