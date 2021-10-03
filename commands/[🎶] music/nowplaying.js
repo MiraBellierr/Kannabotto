@@ -26,7 +26,7 @@ module.exports = {
 
 		if (!queue) return message.reply(`**${message.author.username}**, there is nothing playing.`).catch(console.error);
 
-		const song = queue.songs[0];
+		const song = queue.songs[queue.position];
 
 		const description = Util.splitMessage(song.description, {
 			maxLength: 1024,
