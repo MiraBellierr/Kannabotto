@@ -14,7 +14,7 @@
 
 const { create, all } = require('mathjs');
 const math = create(all);
-
+const { Util } = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 
 module.exports = {
@@ -29,15 +29,28 @@ module.exports = {
 		const limitedEvaluate = math.evaluate;
 		math.import({
 			createUnit: function() { throw new Error('Function createUnit is disabled'); },
-			parse: function() { throw new Error('Function parse is disabled'); },
-			simplify: function() { throw new Error('Function simplify is disabled'); },
-			derivative: function() { throw new Error('Function derivative is disabled'); } },
+			parse: function() { throw new Error('Function parse is disabled'); } },
 		{ override: true });
 
 		const argument = args.join(' ');
+
+		if (argument.split('').includes(':')) {
+			const split = argument.split(':');
+			if (parseInt(split[0]) > 99 || parseInt(split[1]) > 99) return message.reply('Error: Ineffective mark-compacts near heap limit Allocation failed');
+			if (split[2]) {
+				if (parseInt(split[2]) > 99) return message.reply('Error: Ineffective mark-compacts near heap limit Allocation failed');
+			}
+		}
+
 		try {
 			const result = limitedEvaluate(argument);
-			return message.reply(`📝 ${argument} = **${result}**`).catch(err => console.log(err));
+
+			const description = Util.splitMessage(`${result}`, {
+				maxLength: 1024,
+				char: '',
+			});
+
+			return message.reply(`📝 ${argument} = **${description[0]}**`).catch(() => message.reply('Sorry, I couldn\'t calculate it for you'));
 
 		}
 		catch(e) {
