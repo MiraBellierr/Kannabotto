@@ -4,9 +4,7 @@
   "description": "A discord bot",
   "main": "index.js",
   "dependencies": {
-    "@discordjs/opus": "^0.5.3",
     "@discordjs/rest": "^0.1.0-canary.0",
-    "@discordjs/voice": "^0.6.0",
     "@top-gg/sdk": "^3.1.2",
     "ascii-table": "^0.0.9",
     "axios": "^0.21.1",
@@ -18,7 +16,6 @@
     "deepmerge": "^4.2.2",
     "discord-api-types": "^0.23.1",
     "discord-botlist-api": "^2.1.1",
-    "discord-ytdl-core": "^5.0.4",
     "discord.js": "^13.1.0",
     "express": "^4.17.1",
     "ffmpeg-static": "^4.4.0",
@@ -31,14 +28,12 @@
     "sequelize": "^6.6.5",
     "serialize-javascript": "^6.0.0",
     "skia-canvas": "^0.9.23",
-    "sodium": "^3.0.2",
     "sqlite3": "^5.0.2",
     "systeminformation": "^5.8.0",
     "urban": "^0.3.2",
     "urban-dictionary": "^3.0.2",
     "weather-js2": "^2.0.2",
-    "yt-search": "^2.10.0",
-    "ytdl-core": "^4.9.1"
+    "yt-search": "^2.10.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
