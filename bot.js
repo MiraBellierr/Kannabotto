@@ -72,7 +72,6 @@ client.giveawaysManager = new GiveawaysManager(client, {
 
 
 client.snipeMap = new Map();
-client.queue = new Map();
 client.items = new Map();
 client.weapons = new Map();
 client.commands = new Collection();
