@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+require('dotenv').config();
 const { Client, Collection, MessageEmbed } = require('discord.js');
 const { TOKEN, bot_prefix } = require('./config.json');
 const fs = require('fs');
@@ -22,7 +23,6 @@ const bladebotlistxyzVoteReward = require('./post/votereward/bladebotlist.xyz');
 const botlistmeVoteReward = require('./post/votereward/botlist.me');
 const botlistme = require('./post/botlist.me');
 const topgg = require('./post/top.gg');
-const radarbotdirectoryxyz = require('./post/radarbotdirectory.xyz');
 const discordbotlistcom = require('./post/discordbotlist.com');
 const blistxyz = require('./post/blist.xyz');
 const bladebotlistxyz = require('./post/bladebotlist.xyz');
@@ -86,7 +86,6 @@ client.categories = fs.readdirSync('./commands/');
 setInterval(function() {
 	topgg(client);
 	discordbotlistcom(client);
-	radarbotdirectoryxyz(client);
 	blistxyz(client);
 	bladebotlistxyz(client);
 	botlistme(client);
@@ -166,5 +165,47 @@ client.on('messageCreate', async message => {
 		}
 	}
 });
+
+
+require('./kannacoco.me/backend/src/strategies/discord');
+const session = require('express-session');
+const cors = require('cors');
+const passport = require('passport');
+const express = require('express');
+const app = express();
+const port = process.env.PORT;
+const routes = require('./kannacoco.me/backend/src/routes');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sequelize = new Sequelize('database', 'user', 'password', {
+	host: 'localhost',
+	dialect: 'sqlite',
+	logging: false,
+	storage: './database/database.sqlite',
+});
+
+app.use(cors({
+	origin: ['http://localhost:3005'],
+	credentials: true,
+}));
+
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	cookie: {
+		maxAge: 8.64e+7,
+	},
+	resave: false,
+	saveUninitialized: false,
+	store: new SequelizeStore({
+		db: sequelize,
+		checkExpirationInterval: 15 * 60 * 1000,
+		expiration: 24 * 60 * 60 * 1000,
+	}),
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/api', routes);
+
+
+app.listen(port, () => console.log(`Running on port ${port}`));
 
 client.login(TOKEN);
