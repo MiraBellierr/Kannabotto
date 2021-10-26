@@ -21,6 +21,40 @@ const sequelize = new Sequelize('database', 'user', 'password', {
 });
 
 module.exports = {
+	Session: function() {
+		const Session = sequelize.define('Session', {
+			sid: {
+				type: Sequelize.STRING,
+				primaryKey: true,
+			},
+			userId: Sequelize.STRING,
+			expires: Sequelize.DATE,
+			data: Sequelize.TEXT,
+		});
+		Session.sync();
+
+		return Session;
+	},
+	UserSchema: function() {
+		const UserSchema = sequelize.define('User', {
+			discordId: {
+				type: Sequelize.STRING,
+				unique: true,
+			},
+			discordTag: {
+				type: Sequelize.STRING,
+			},
+			avatar: {
+				type: Sequelize.STRING,
+			},
+			guilds: {
+				type: Sequelize.ARRAY(Sequelize.JSON),
+			},
+		});
+		UserSchema.sync();
+
+		return UserSchema;
+	},
 	Disable: function() {
 		const Disable = sequelize.define('disable', {
 			guildId: {
