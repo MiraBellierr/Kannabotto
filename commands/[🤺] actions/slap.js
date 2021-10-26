@@ -39,7 +39,12 @@ module.exports = {
 
 		if (personslap.user.id === message.author.id) {
 
-			message.reply(`*slaps ${message.author.username}*`);
+			const embed = new Discord.MessageEmbed()
+				.setAuthor(`${client.user.username} slaps ${personslap.user.username}! ${quoter}!`, message.author.displayAvatarURL({ dynamic: true }))
+				.setImage(slapR)
+				.setColor('#CD1C6C');
+
+			message.reply({ embeds: [embed] });
 			return;
 		}
 		const embed = new Discord.MessageEmbed()

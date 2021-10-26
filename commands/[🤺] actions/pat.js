@@ -39,7 +39,12 @@ module.exports = {
 
 		if (person.user.id === message.author.id) {
 
-			message.reply(`*pats ${message.author.username}*`);
+			const embed = new Discord.MessageEmbed()
+				.setAuthor(`${client.user.username} pats ${person.user.username}! ${quoter}!`, message.author.displayAvatarURL({ dynamic: true }))
+				.setImage(random)
+				.setColor('#CD1C6C');
+
+			message.reply({ embeds: [embed] });
 			return;
 		}
 

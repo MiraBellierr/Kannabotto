@@ -39,7 +39,12 @@ module.exports = {
 
 		if (personhug.user.id === message.author.id) {
 
-			message.reply(`*hugs ${message.author.username}*`);
+			const embed = new Discord.MessageEmbed()
+				.setAuthor(`${client.user.username} hugs ${personhug.user.username}! ${quoter}!`, message.author.displayAvatarURL({ dynamic: true }))
+				.setImage(hugR)
+				.setColor('#CD1C6C');
+
+			message.reply({ embeds: [embed] });
 			return;
 		}
 		const embed = new Discord.MessageEmbed()

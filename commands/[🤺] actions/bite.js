@@ -29,14 +29,17 @@ module.exports = {
 		const person = await getMember(message, args.join(' '));
 
 		if (!args[0]) {
-
 			message.reply(`Use this command to your friend! The syntax is \`${prefixes[message.guild.id]}bite <mention | id | username>\`.`);
 			return;
 		}
 
 		if (person.user.id === message.author.id) {
+			const embed = new Discord.MessageEmbed()
+				.setAuthor(`${client.user.username} bites ${person.user.username}!`, message.author.displayAvatarURL({ dynamic: true }))
+				.setImage(random)
+				.setColor('#CD1C6C');
 
-			message.reply(`*bites ${message.author.username}*`);
+			message.reply({ embeds: [embed] });
 			return;
 		}
 

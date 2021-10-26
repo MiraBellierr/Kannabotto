@@ -37,7 +37,12 @@ module.exports = {
 
 		if (personPoke.user.id === message.author.id) {
 
-			message.reply(`*pokes ${message.author.username}*`);
+			const embed = new Discord.MessageEmbed()
+				.setAuthor(`${client.user.username} pokes ${personPoke.user.username}!`, message.author.displayAvatarURL({ dynamic: true }))
+				.setImage(pokesR)
+				.setColor('#CD1C6C');
+
+			message.reply({ embeds: [embed] });
 			return;
 		}
 
