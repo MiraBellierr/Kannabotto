@@ -16,7 +16,7 @@ const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
 const Models = require('../../create-model.js');
-const { createAllDataForNewUser, getUserDataAndCreate, checkPlayerExist, cooldown } = require('../../functions');
+const { createAllDataForNewUser, getUserDataAndCreate, checkPlayerExist, cooldown, levelUp } = require('../../functions');
 
 module.exports = {
 	name: 'train',
@@ -25,6 +25,8 @@ module.exports = {
 	example: `${bot_prefix}train`,
 	run: async (client, message) => {
 		const user = message.author.id;
+
+		if (client.battle.get(user)) return message.reply('Please wait till the battle finished');
 
 		const result = new Discord.MessageEmbed()
 			.setDescription('No profile found 😓')
@@ -66,18 +68,6 @@ module.exports = {
 			message.reply(`🛡 | **${message.author.username}**, You spent <a:jasminecoins:868105109748469780> 20 to train ${player.get('name')} and ${player.get('name')} gained **${xpAdd}** xp.`);
 		}
 
-		const player1 = await Player.findOne({ where: { userId: user } });
-
-		if (player1.get('totalXp') < player1.get('xp')) {
-			await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: message.author.id } });
-			await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
-			message.reply(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
-		}
+		levelUp(player, user, message);
 	},
 };

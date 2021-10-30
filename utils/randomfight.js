@@ -1,5 +1,5 @@
 const Models = require('../create-model');
-const { getUserDataAndCreate, xpGain, chance, cooldown, getProgbar } = require('../functions');
+const { getUserDataAndCreate, xpGain, chance, cooldown, getProgbar, levelUp } = require('../functions');
 const Player = Models.Player();
 const Bag = Models.Bag();
 const Economy = Models.Economy();
@@ -448,6 +448,10 @@ module.exports = async (message, userId) => {
 			battle4.setFooter(`Round ${i + 1}/10000. No winner. ${player.get('name')} gained 10 xp`);
 		}
 
-		setTimeout(() => thisMes.edit({ embeds: [battle4] }), 2000);
+		setTimeout(() => {
+			thisMes.edit({ embeds: [battle4] });
+			message.client.battle.delete(userId);
+			levelUp(player, userId, message);
+		}, 2000);
 	}, 2000);
 };

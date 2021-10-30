@@ -299,7 +299,7 @@ module.exports = {
 			class: Sequelize.STRING,
 			level: {
 				type: Sequelize.BIGINT,
-				defaultValue: 0,
+				defaultValue: 1,
 				allowNull: false,
 			},
 			xp: {

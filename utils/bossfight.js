@@ -3,7 +3,7 @@ const redirect = require('../database/redirect.json');
 const randomcharacter = require('../database/randomCharacter.json');
 const prefixes = require('../database/prefix.json');
 const Models = require('../create-model');
-const { getUserDataAndCreate, chance, cooldown, xpGain, getProgbar } = require('../functions');
+const { getUserDataAndCreate, chance, cooldown, xpGain, getProgbar, levelUp } = require('../functions');
 const Player = Models.Player();
 const Bag = Models.Bag();
 const Economy = Models.Economy();
@@ -383,23 +383,31 @@ module.exports = async (message, userId) => {
 			battle3.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 			battle3.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 			battle3.setFooter(`Round ${i + 1}/${i + 1}. Tie. ${player.get('name')} gained 10 xp`);
+			message.client.battle.delete(userId);
 		}
 		else if (enemyHealth < 1) {
 			battle3.addField(`__${player.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 			battle3.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 			battle3.setFooter(`Round ${i + 1}. You won. ${player.get('name')} gained 100 xp and ${gainedcoins} coins`);
+			message.client.battle.delete(userId);
 		}
 		else if (playerHealth < 1) {
 			battle3.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 			battle3.addField(`__${enemy[0].name}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 			battle3.setFooter(`Round ${i + 1}/${i + 1}. You lost. ${player.get('name')} gained 10 xp`);
+			message.client.battle.delete(userId);
 		}
 		else if (i === 999) {
 			battle3.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${playerLevel}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 			battle3.addField(`__${enemy[0].name}__`, `**• ${emojis.xp} Level:** ${enemyLevel}\n**• ${emojis.weapon} Weapon:** None\n**• ${emojis.health} Health:** ${enemyHealth}/${(enemy[0].health + enemyLevel) * 100}\n${getProgbar(enemyHealth, (enemy[0].health + enemyLevel) * 100, 20)}`);
 			battle3.setFooter(`Round ${i + 1}/10000. No winner. ${player.get('name')} gained 10 xp`);
+			message.client.battle.delete(userId);
 		}
 
-		setTimeout(() => thisMes.edit({ embeds: [battle3] }), 2000);
+		setTimeout(() => {
+			thisMes.edit({ embeds: [battle3] });
+			message.client.battle.delete(userId);
+			levelUp(player, userId, message);
+		}, 2000);
 	}, 2000);
 };

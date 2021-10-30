@@ -1,4 +1,4 @@
-const { getMember, getUserDataAndCreate, createAllDataForNewUser, checkPlayerExist, promptMessage, chance, getProgbar } = require('../functions');
+const { getMember, getUserDataAndCreate, createAllDataForNewUser, checkPlayerExist, promptMessage, chance, getProgbar, levelUp } = require('../functions');
 const Models = require('../create-model');
 const Bag = Models.Bag();
 const Player = Models.Player();
@@ -379,23 +379,31 @@ module.exports = async (userId, message, args) => {
 				battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 				battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 				battle4.setFooter(`Round ${i + 1}/${i + 1}. Tie`);
+				message.client.battle.delete(userId);
 			}
 			else if (playerHealth < 1) {
 				battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 				battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__ - :trophy: Winner' : `__${playerEnemy.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 				battle4.setFooter(`Round ${i + 1}/${i + 1}. ${playerEnemy.get('name')} won`);
+				message.client.battle.delete(userId);
 			}
 			else if (enemyHealth < 1) {
 				battle4.addField(`__${player.get('name')}__ - :trophy: Winner`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 				battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 				battle4.setFooter(`Round ${i + 1}/${i + 1}. ${player.get('name')} won`);
+				message.client.battle.delete(userId);
 			}
 			else if (i === 999) {
 				battle4.addField(`__${player.get('name')}__`, `**• ${emojis.xp} Level:** ${player.get('level')}\n**• ${emojis.weapon} Weapon:** ${emoji} ${bag.get('weapon')}\n**• ${emojis.health} Health:** ${playerHealth}/${playerFullHealth}\n${getProgbar(playerHealth, playerFullHealth, 20)}`);
 				battle4.addField(playerEnemy.get('name') === 'Your Character' ? '__Enemy Character__' : `__${playerEnemy.get('name')}__`, `**• ${emojis.xp} Level:** ${playerEnemy.get('level')}\n**• ${emojis.weapon} Weapon:** ${enemyWeaponEmoji} ${bagEnemy.get('weapon')}\n**• ${emojis.health} Health:** ${enemyHealth}/${playerEnemy.get('health') * 100}\n${getProgbar(enemyHealth, playerEnemy.get('health') * 100, 20)}`);
 				battle4.setFooter(`Round ${i + 1}/10000. No winner`);
+				message.client.battle.delete(userId);
 			}
-			setTimeout(() => thisMes.edit({ embeds: [battle4] }), 2000);
+			setTimeout(() => {
+				thisMes.edit({ embeds: [battle4] });
+				message.client.battle.delete(userId);
+				levelUp(player, userId, message);
+			}, 2000);
 		}, 2000);
 		return;
 	}

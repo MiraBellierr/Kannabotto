@@ -1412,4 +1412,19 @@ module.exports = {
 		}
 		return str;
 	},
+	levelUp: async (player, userId, message) => {
+		const player1 = await Player.findOne({ where: { userId } });
+
+		if (player1.get('totalXp') < player1.get('xp')) {
+			await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId } });
+			await Player.update({ level: player.get('level') + 1 }, { where: { userId } });
+			await Player.update({ health: player.get('health') + 1 }, { where: { userId } });
+			await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId } });
+			await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId } });
+			await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId } });
+			await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId } });
+			await Player.update({ speed: player.get('speed') + 1 }, { where: { userId } });
+			message.reply(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
+		}
+	},
 };

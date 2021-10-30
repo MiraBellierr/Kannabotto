@@ -16,7 +16,7 @@
 const Discord = require('discord.js');
 const { bot_prefix } = require('../../config.json');
 const prefixes = require('../../database/prefix.json');
-const { checkPlayerExist, cooldown, createAllDataForNewUser, getUserDataAndCreate } = require('../../functions');
+const { checkPlayerExist, cooldown, createAllDataForNewUser } = require('../../functions');
 const Models = require('../../create-model.js');
 const bossFight = require('../../utils/bossfight');
 const challengeFight = require('../../utils/challengefight');
@@ -39,7 +39,6 @@ module.exports = {
 		if (!await checkPlayerExist(user)) return message.reply({ embeds: [result] });
 
 		const Cooldown = Models.Cooldown();
-		const Player = Models.Player();
 
 		await createAllDataForNewUser(user);
 
@@ -49,6 +48,8 @@ module.exports = {
 			message.reply(`**${message.author.username}**, please wait **${timer.seconds}s** till you can battle again.`);
 		}
 		else {
+			client.battle.set(user, true);
+
 			await Cooldown.update({ battle: Date.now() }, { where: { userId: user } });
 
 			if (args.length > 0) {
@@ -62,22 +63,7 @@ module.exports = {
 			else {
 				randomFight(message, user);
 			}
-		}
 
-		const player = await getUserDataAndCreate(Player, user);
-
-		if (player.get('totalXp') < player.get('xp')) {
-			await Player.update({ totalXp: 100 * Math.pow(player.get('level') + 1, 3) }, { where: { userId: message.author.id } });
-			await Player.update({ level: player.get('level') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ health: player.get('health') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ physicalAttack: player.get('physicalAttack') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ magicalAttack: player.get('magicalAttack') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ physicalResistance: player.get('physicalResistance') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ magicalResistance: player.get('magicalResistance') + 1 }, { where: { userId: message.author.id } });
-			await Player.update({ speed: player.get('speed') + 1 }, { where: { userId: message.author.id } });
-			setTimeout(async function() {
-				message.reply(`🆙 | **${message.author.username}**, ${player.get('name')} has leveled up to level **${player.get('level') + 1}**`);
-			}, 4000);
 		}
 	},
 };
